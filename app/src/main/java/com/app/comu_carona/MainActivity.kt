@@ -1,4 +1,4 @@
-package com.example.comu_carona
+package com.app.comu_carona
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.comu_carona.ui.theme.ComuCaronaTheme
+import com.app.comu_carona.theme.ComuCaronaTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

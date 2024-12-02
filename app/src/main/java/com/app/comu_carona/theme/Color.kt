@@ -1,4 +1,4 @@
-package com.example.comu_carona.ui.theme
+package com.app.comu_carona.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.comu_carona"
+    namespace = "com.app.comu_carona"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.comu_carona"
+        applicationId = "com.app.comu_carona"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
