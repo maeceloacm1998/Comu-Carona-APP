@@ -9,7 +9,10 @@ sealed interface CheckCodeViewModelUiState {
      * Represents the state when the chat is loading.
      */
     data class Code(
-        val code: String
+        val code: List<String>,
+        val isLoading: Boolean,
+        val isError: Boolean,
+        val isSuccess: Boolean,
     ) : CheckCodeViewModelUiState
 }
 
@@ -17,14 +20,19 @@ sealed interface CheckCodeViewModelUiState {
  * Represents the state of the chat screen.
  */
 data class CheckCodeViewModelState(
-    val messageList: String = "",
+    val code: List<String> = List(5) { "" },
     val isLoading: Boolean = false,
+    val isError: Boolean = false,
+    val isSuccess: Boolean = false,
 ) {
 
     /**
      * Converts the state to a UI state.
      */
     fun toUiState(): CheckCodeViewModelUiState = CheckCodeViewModelUiState.Code(
-        code = messageList
+        code = code,
+        isLoading = isLoading,
+        isError = isError,
+        isSuccess = isSuccess,
     )
 }

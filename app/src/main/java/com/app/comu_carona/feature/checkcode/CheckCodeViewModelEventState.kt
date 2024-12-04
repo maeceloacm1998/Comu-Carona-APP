@@ -9,7 +9,7 @@ sealed class CheckCodeViewModelEventState {
      *
      * @param code The new code.
      */
-    data class OnChangedCode(val code: String) : CheckCodeViewModelEventState()
+    data class OnChangedCode(val code: List<String>) : CheckCodeViewModelEventState()
 
     /**
      * Represents the event when the check code button is clicked.

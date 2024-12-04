@@ -39,7 +39,7 @@ fun CCButton(
     title: String,
     titleColor: Color = White,
     containerColor: Color = Primary,
-    loading: Boolean = false,
+    isLoading: Boolean = false,
     isSuccess: Boolean = false,
     isEnable: Boolean = true,
     onButtonListener: () -> Unit = { },
@@ -64,7 +64,7 @@ fun CCButton(
     ) {
 
         AnimatedVisibility(
-            visible = isSuccess && !loading,
+            visible = isSuccess && !isLoading,
             enter = fadeIn(),
             exit = fadeOut()
         ) {
@@ -77,7 +77,7 @@ fun CCButton(
         }
 
         AnimatedVisibility(
-            visible = loading && !isSuccess,
+            visible = isLoading && !isSuccess,
             enter = fadeIn(),
             exit = fadeOut()
         ) {
@@ -92,14 +92,14 @@ fun CCButton(
         }
 
         AnimatedVisibility(
-            visible = !loading && !isSuccess,
+            visible = !isLoading && !isSuccess,
             enter = fadeIn(),
             exit = fadeOut()
         ) {
             Text(
                 text = title,
                 color = titleColor,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodySmall,
                 fontWeight = FontWeight.Bold
             )
         }
@@ -119,7 +119,7 @@ fun CCButtonPreview() {
 fun CCButtonLoadingPreview() {
     CCButton(
         title = "Button",
-        loading = true
+        isLoading = true
     )
 }
 

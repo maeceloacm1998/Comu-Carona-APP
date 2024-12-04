@@ -11,16 +11,19 @@ fun CheckCodeRoute() {
     val uiState by chatViewModel.uiState.collectAsStateWithLifecycle()
 
     CheckCodeRoute(
-        uiState = uiState
+        uiState = uiState,
+        onEvent = chatViewModel::onEvent
     )
 }
 
 @Composable
 fun CheckCodeRoute(
-    uiState: CheckCodeViewModelUiState
+    uiState: CheckCodeViewModelUiState,
+    onEvent: (CheckCodeViewModelEventState) -> Unit
 ) {
     check(uiState is CheckCodeViewModelUiState.Code)
     CheckCodeScreen(
-        uiState = uiState
+        uiState = uiState,
+        onEvent = onEvent
     )
 }
