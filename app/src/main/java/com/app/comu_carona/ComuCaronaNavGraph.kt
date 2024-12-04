@@ -21,7 +21,9 @@ fun ComuCaronaNavGraph(
         modifier = modifier,
     ) {
         composable(route = Routes.CheckCode.route) {
-            CheckCodeRoute()
+            CheckCodeRoute(
+                navController = navController
+            )
         }
     }
 }
