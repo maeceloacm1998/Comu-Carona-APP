@@ -33,7 +33,9 @@ class CheckCodeViewModel : ViewModel() {
     }
 
     private fun onClickCheckCode() {
-        viewModelState.update { it.copy(isLoading = true) }
+        val isEnabled = viewModelState.value.code.all { it.isNotEmpty() }
+        if (isEnabled) {
+            viewModelState.update { it.copy(isLoading = true) }
+        }
     }
-
 }

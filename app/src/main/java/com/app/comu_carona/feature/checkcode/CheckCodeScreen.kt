@@ -27,12 +27,14 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.app.comu_carona.R
 import com.app.comu_carona.components.button.CCButton
 import com.app.comu_carona.theme.Error
 import com.app.comu_carona.theme.GrayLight
@@ -62,13 +64,13 @@ fun CheckCodeScreen(
         verticalArrangement = Center
     ) {
         Text(
-            text = "Código de entrada",
+            text = stringResource(R.string.check_code_title),
             style = MaterialTheme.typography.titleMedium,
         )
 
         Text(
             modifier = Modifier.padding(top = 16.dp),
-            text = "Digite o código disponibilizado nas \nreuniões e no grupo do whatsapp para\n ter acesso ao aplicativo",
+            text = stringResource(R.string.check_code_message),
             style = MaterialTheme.typography.bodyMedium,
             color = TextColor,
             textAlign = TextAlign.Center,
@@ -114,9 +116,10 @@ fun CheckCodeScreen(
 
         CCButton(
             modifier = Modifier.padding(top = 39.dp, start = 20.dp, end = 20.dp),
-            title = "Verificar Código",
+            title = stringResource(R.string.check_code_button_title),
             isLoading = uiState.isLoading,
             isSuccess = uiState.isSuccess,
+            isEnable = uiState.code.all { it.isNotEmpty() },
             onButtonListener = { onEvent.invoke(CheckCodeViewModelEventState.OnClickCheckCode) }
         )
     }

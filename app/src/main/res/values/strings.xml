@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Comu-Carona</string>
+
+    <string name="check_code_title">Código de entrada</string>
+    <string name="check_code_message">Digite o código disponibilizado nas\n reuniões e no grupo do whatsapp para\n ter acesso ao aplicativo</string>
+    <string name="check_code_button_title">Verificar Código</string>
 </resources>
