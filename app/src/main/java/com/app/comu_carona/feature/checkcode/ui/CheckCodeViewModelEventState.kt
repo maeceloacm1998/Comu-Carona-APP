@@ -1,4 +1,4 @@
-package com.app.comu_carona.feature.checkcode
+package com.app.comu_carona.feature.checkcode.ui
 
 /**
  * Represents the events that can be triggered in the check code screen.

@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.app.comu_carona.feature.checkcode.CheckCodeRoute
+import com.app.comu_carona.feature.checkcode.ui.CheckCodeRoute
 import com.app.comu_carona.routes.Routes
 
 @Composable

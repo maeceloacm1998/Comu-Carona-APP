@@ -1,13 +1,13 @@
-package com.app.comu_carona.feature.checkcode
+package com.app.comu_carona.feature.checkcode.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun CheckCodeRoute() {
-    val chatViewModel: CheckCodeViewModel = viewModel()
+    val chatViewModel: CheckCodeViewModel = koinViewModel()
     val uiState by chatViewModel.uiState.collectAsStateWithLifecycle()
 
     CheckCodeRoute(

@@ -52,6 +52,7 @@ android {
 
 ksp {
     arg("KOIN_CONFIG_CHECK","true")
+    arg("koin.generateModule", "true")
 }
 
 dependencies {
@@ -65,8 +66,12 @@ dependencies {
 
     // Koin
     implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
     implementation(libs.koin.annotations)
     ksp(libs.koin.ksp)
+
+    // Play Services
+    implementation(libs.play.services.ads.identifier)
 
     // Compose ViewModel
     implementation(libs.androidx.lifecycle.viewmodel.compose)

@@ -1,4 +1,4 @@
-package com.app.comu_carona.feature.checkcode
+package com.app.comu_carona.feature.checkcode.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
