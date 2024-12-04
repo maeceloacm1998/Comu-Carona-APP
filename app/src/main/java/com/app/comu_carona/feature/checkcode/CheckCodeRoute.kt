@@ -1,15 +1,26 @@
 package com.app.comu_carona.feature.checkcode
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
-import com.app.comu_carona.components.button.CCButton
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun CheckCodeRoute() {
-    Column {
-        CCButton(
-            title = "Check Code",
-            isSuccess = true,
-        )
-    }
+    val chatViewModel: CheckCodeViewModel = viewModel()
+    val uiState by chatViewModel.uiState.collectAsStateWithLifecycle()
+
+    CheckCodeRoute(
+        uiState = uiState
+    )
+}
+
+@Composable
+fun CheckCodeRoute(
+    uiState: CheckCodeViewModelUiState
+) {
+    check(uiState is CheckCodeViewModelUiState.Code)
+    CheckCodeScreen(
+        uiState = uiState
+    )
 }

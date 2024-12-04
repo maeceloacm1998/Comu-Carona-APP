@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -49,6 +50,10 @@ android {
     }
 }
 
+ksp {
+    arg("KOIN_CONFIG_CHECK","true")
+}
+
 dependencies {
     // Coroutines
     implementation(libs.kotlinx.coroutines.core)
@@ -59,9 +64,9 @@ dependencies {
     implementation(libs.retrofit.converter.gson)
 
     // Koin
-    implementation(libs.koin.core)
     implementation(libs.koin.android)
-    implementation(libs.koin.androidx.compose)
+    implementation(libs.koin.annotations)
+    ksp(libs.koin.ksp)
 
     // Compose ViewModel
     implementation(libs.androidx.lifecycle.viewmodel.compose)
