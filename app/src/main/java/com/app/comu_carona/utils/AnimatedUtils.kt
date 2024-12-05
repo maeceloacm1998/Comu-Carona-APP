@@ -13,6 +13,10 @@ import androidx.navigation.NavBackStackEntry
 object AnimatedUtils {
     private const val ANIMATED_DELAY = 200
 
+    /**
+     * Returns a fade in transition with a slide from the left.
+     * @return the fade in transition with a slide from the left.
+     */
     fun animatedTransitionFadeIn(): (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition) {
         return {
             fadeIn(animationSpec = tween(ANIMATED_DELAY)) + slideIntoContainer(
@@ -22,6 +26,10 @@ object AnimatedUtils {
         }
     }
 
+    /**
+     * Returns a fade out transition with a slide to the right.
+     * @return the fade out transition with a slide to the right.
+     */
     fun animatedTransitionFadeOut(): (AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition) {
         return {
             fadeOut(animationSpec = tween(ANIMATED_DELAY)) + slideOutOfContainer(
@@ -31,6 +39,10 @@ object AnimatedUtils {
         }
     }
 
+    /**
+     * Returns a fade in transition with a slide from the left and a fade out transition with a slide to the right.
+     * @return the fade in transition with a slide from the left and a fade out transition with a slide to the right.
+     */
     fun <S> animatedTransitionPage(): AnimatedContentTransitionScope<S>.() -> ContentTransform = {
         slideIntoContainer(
             towards = AnimatedContentTransitionScope.SlideDirection.Left,

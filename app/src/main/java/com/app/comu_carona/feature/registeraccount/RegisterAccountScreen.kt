@@ -25,9 +25,11 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.app.comu_carona.R
 import com.app.comu_carona.components.button.CCButton
 import com.app.comu_carona.components.button.CCButtonBack
 import com.app.comu_carona.components.permissions.RequestGalleryPermission
@@ -70,7 +72,7 @@ fun StageOfFullNameScreen(
         Spacer(modifier = Modifier.height(90.dp))
 
         Text(
-            text = "Como podemos\nte chamar?",
+            text = stringResource(id = R.string.register_account_stage_of_full_name_title),
             style = MaterialTheme.typography.titleLarge,
             color = SoftBlack
         )
@@ -78,7 +80,7 @@ fun StageOfFullNameScreen(
         Spacer(modifier = Modifier.height(7.dp))
 
         Text(
-            text = "Esse nome será exibido para todas as pessoas que você solicitar carona.",
+            text = stringResource(id = R.string.register_account_stage_of_full_name_message),
             style = MaterialTheme.typography.bodyLarge,
             color = TextFieldColor
         )
@@ -89,7 +91,7 @@ fun StageOfFullNameScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .focusRequester(focusRequesters),
-            placeholder = "Nome completo",
+            placeholder = stringResource(id = R.string.register_account_stage_of_full_name_hint),
             value = uiState.fullName,
             onValueChange = { text ->
                 event(OnUpdateFullName(text))
@@ -105,7 +107,7 @@ fun StageOfFullNameScreen(
 
         CCButton(
             modifier = Modifier.fillMaxWidth(),
-            title = "Continuar",
+            title = stringResource(id = R.string.register_account_stage_of_full_name_button_title),
             isEnable = uiState.fullName.length >= FULL_NAME_LENGTH,
             onButtonListener = {
                 event(OnNextStep(FULL_NAME))
@@ -144,7 +146,7 @@ fun StageOfBirthDateScreen(
         Spacer(modifier = Modifier.height(27.dp))
 
         Text(
-            text = "Qual a sua idade?",
+            text = stringResource(id = R.string.register_account_stage_of_birth_date_title),
             style = MaterialTheme.typography.titleLarge,
             color = SoftBlack
         )
@@ -152,7 +154,7 @@ fun StageOfBirthDateScreen(
         Spacer(modifier = Modifier.height(7.dp))
 
         Text(
-            text = "Saber sua idade é importânte para o motorista da carona ter mais detalhes sobre você!",
+            text = stringResource(id = R.string.register_account_stage_of_birth_date_message),
             style = MaterialTheme.typography.bodyLarge,
             color = TextFieldColor
         )
@@ -163,7 +165,7 @@ fun StageOfBirthDateScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .focusRequester(focusRequesters),
-            placeholder = "Digite sua data de nascimento",
+            placeholder = stringResource(id = R.string.register_account_stage_of_birth_date_hint),
             value = uiState.birthDate.formatBirthDate(),
             onValueChange = { text ->
                 event(OnUpdateBirthDate(text))
@@ -180,7 +182,7 @@ fun StageOfBirthDateScreen(
 
         CCButton(
             modifier = Modifier.fillMaxWidth(),
-            title = "Continuar",
+            title = stringResource(id = R.string.register_account_stage_of_birth_date_button_title),
             isEnable = uiState.birthDate.formatBirthDate().length == BIRTH_DATE_LENGTH,
             onButtonListener = {
                 event(OnNextStep(BIRTH_DATE))
@@ -218,7 +220,7 @@ fun StageOfPhoneNumberScreen(
         Spacer(modifier = Modifier.height(27.dp))
 
         Text(
-            text = "Informe seu telefone",
+            text = stringResource(id = R.string.register_account_stage_of_phone_number_title),
             style = MaterialTheme.typography.titleLarge,
             color = SoftBlack
         )
@@ -226,7 +228,7 @@ fun StageOfPhoneNumberScreen(
         Spacer(modifier = Modifier.height(7.dp))
 
         Text(
-            text = "Seu número de contato é importânte para caso o motorista da carona precise entrar em contato. \uD83D\uDE01",
+            text = stringResource(id = R.string.register_account_stage_of_phone_number_message),
             style = MaterialTheme.typography.bodyLarge,
             color = TextFieldColor
         )
@@ -237,7 +239,7 @@ fun StageOfPhoneNumberScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .focusRequester(focusRequesters),
-            placeholder = "Ex: 31999999999",
+            placeholder = stringResource(id = R.string.register_account_stage_of_phone_number_hint),
             value = uiState.phoneNumber.formatPhoneNumber(),
             onValueChange = { text ->
                 event(OnUpdatePhoneNumber(text))
@@ -254,7 +256,7 @@ fun StageOfPhoneNumberScreen(
 
         CCButton(
             modifier = Modifier.fillMaxWidth(),
-            title = "Continuar",
+            title = stringResource(id = R.string.register_account_stage_of_phone_number_button_title),
             isEnable = uiState.phoneNumber.formatPhoneNumber().length == PHONE_NUMBER_LENGTH,
             onButtonListener = {
                 event(OnNextStep(PHONE_NUMBER))
@@ -289,7 +291,7 @@ fun StageOfPhotoScreen(
         Spacer(modifier = Modifier.height(27.dp))
 
         Text(
-            text = "Estamos no final",
+            text = stringResource(id = R.string.register_account_stage_of_photo_title),
             style = MaterialTheme.typography.titleLarge,
             color = SoftBlack
         )
@@ -297,7 +299,7 @@ fun StageOfPhotoScreen(
         Spacer(modifier = Modifier.height(7.dp))
 
         Text(
-            text = "Por último, coloque uma foto que seu rosto esteja visível, assim fica mais fácil de te indentificar! \uD83E\uDD78",
+            text = stringResource(id = R.string.register_account_stage_of_photo_message),
             style = MaterialTheme.typography.bodyLarge,
             color = TextFieldColor
         )
@@ -316,7 +318,7 @@ fun StageOfPhotoScreen(
 
         CCButton(
             modifier = Modifier.fillMaxWidth(),
-            title = "Finalizar",
+            title = stringResource(id = R.string.register_account_stage_of_photo_button_title),
             onButtonListener = {
                 event(OnNextStep(PHOTO))
             }
@@ -345,7 +347,7 @@ fun PhotoComponent(
         )
 
         Text(
-            text = "Selecionar foto",
+            text = stringResource(id = R.string.register_account_stage_of_photo_button_title),
             style = MaterialTheme.typography.bodyLarge,
             color = TextFieldColor
         )

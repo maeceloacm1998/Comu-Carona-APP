@@ -5,6 +5,10 @@ object StringUtils {
     const val BIRTH_DATE_LENGTH = 10
     const val FULL_NAME_LENGTH = 5
 
+    /**
+     * Formats a phone number to the pattern (XX)XXXXX-XXXX.
+     * @return the formatted phone number.
+     */
     fun String.formatPhoneNumber(): String {
         val cleaned = this.filter { it.isDigit() }
 
@@ -20,6 +24,10 @@ object StringUtils {
         return formatted.toString()
     }
 
+    /**
+     * Formats a birth date to the pattern XX/XX/XXXX.
+     * @return the formatted birth date.
+     */
     fun String.formatBirthDate(): String {
         val cleaned = this.filter { it.isDigit() }
 

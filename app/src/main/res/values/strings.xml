@@ -5,4 +5,24 @@
     <string name="check_code_message">Digite o código disponibilizado nas\n reuniões e no grupo do whatsapp para\n ter acesso ao aplicativo</string>
     <string name="check_code_error_message">Código inválido</string>
     <string name="check_code_button_title">Verificar Código</string>
+
+    <string name="register_account_stage_of_full_name_title">Como podemos\nte chamar?</string>
+    <string name="register_account_stage_of_full_name_message">Esse nome será exibido para todas as pessoas que você solicitar carona.</string>
+    <string name="register_account_stage_of_full_name_hint">Nome completo</string>
+    <string name="register_account_stage_of_full_name_button_title">Próximo</string>
+
+    <string name="register_account_stage_of_birth_date_title">Qual a sua idade?</string>
+    <string name="register_account_stage_of_birth_date_message">Saber sua idade é importânte para o motorista da carona ter mais detalhes sobre você!</string>
+    <string name="register_account_stage_of_birth_date_hint">Ex: 02/04/1998</string>
+    <string name="register_account_stage_of_birth_date_button_title">Próximo</string>
+
+    <string name="register_account_stage_of_phone_number_title">Informe seu telefone</string>
+    <string name="register_account_stage_of_phone_number_message">Seu número de contato é importânte para caso o motorista da carona precise entrar em contato. 😁</string>
+    <string name="register_account_stage_of_phone_number_hint">Ex: (99) 99999-9999</string>
+    <string name="register_account_stage_of_phone_number_button_title">Próximo</string>
+
+    <string name="register_account_stage_of_photo_title">Estamos no final</string>
+    <string name="register_account_stage_of_photo_message">Por último, adicione uma foto sua para que o motorista da carona possa te reconhecer. 😁</string>
+    <string name="register_account_stage_of_photo_circular_button_title">Adicionar foto</string>
+    <string name="register_account_stage_of_photo_button_title">Próximo</string>
 </resources>
