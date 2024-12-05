@@ -1,5 +1,6 @@
 package com.app.comu_carona.feature.registeraccount
 
+import android.net.Uri
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountSteps
 
 /**
@@ -12,9 +13,10 @@ sealed interface RegisterAccountViewModelUiState {
      */
     data class Register(
         val steps: RegisterAccountSteps,
-        val fullName:String,
-        val birthDate:String,
-        val phoneNumber:String,
+        val fullName: String,
+        val birthDate: String,
+        val phoneNumber: String,
+        val photoUri: Uri,
         val isLoading: Boolean,
         val isError: Boolean,
         val isSuccess: Boolean,
@@ -26,9 +28,10 @@ sealed interface RegisterAccountViewModelUiState {
  */
 data class RegisterAccountViewModelState(
     val steps: RegisterAccountSteps = RegisterAccountSteps.FULL_NAME,
-    val fullName:String = "",
-    val birthDate:String = "",
-    val phoneNumber:String = "",
+    val fullName: String = "",
+    val birthDate: String = "",
+    val phoneNumber: String = "",
+    val photoUri: Uri = Uri.EMPTY,
     val isGrantedPermission: Boolean = false,
     val isLoading: Boolean = false,
     val isError: Boolean = false,
@@ -43,6 +46,7 @@ data class RegisterAccountViewModelState(
         fullName = fullName,
         birthDate = birthDate,
         phoneNumber = phoneNumber,
+        photoUri = photoUri,
         isLoading = isLoading,
         isError = isError,
         isSuccess = isSuccess,

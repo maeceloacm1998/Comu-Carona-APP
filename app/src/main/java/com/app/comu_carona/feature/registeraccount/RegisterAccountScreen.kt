@@ -1,5 +1,12 @@
 package com.app.comu_carona.feature.registeraccount
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -11,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.Person
@@ -19,16 +27,23 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.layout.ContentScale.Companion.FillBounds
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.app.comu_carona.R
 import com.app.comu_carona.components.button.CCButton
 import com.app.comu_carona.components.button.CCButtonBack
@@ -267,7 +282,7 @@ fun StageOfPhoneNumberScreen(
 
 @Composable
 fun StageOfPhotoScreen(
-    uiState: RegisterAccountViewModelUiState,
+    uiState: RegisterAccountViewModelUiState.Register,
     event: (RegisterAccountViewModelEventState) -> Unit
 ) {
     RequestGalleryPermission(
@@ -311,7 +326,14 @@ fun StageOfPhotoScreen(
                 .fillMaxWidth(),
             horizontalAlignment = CenterHorizontally
         ) {
-            PhotoComponent()
+            PhotoComponent(
+                uiState = uiState,
+                onPhotoSelected = { uri ->
+                    if (uri != null) {
+                        event(OnOpenPhoto(uri))
+                    }
+                }
+            )
         }
 
         Spacer(modifier = Modifier.height(30.dp))
@@ -319,6 +341,9 @@ fun StageOfPhotoScreen(
         CCButton(
             modifier = Modifier.fillMaxWidth(),
             title = stringResource(id = R.string.register_account_stage_of_photo_button_title),
+            isEnable = uiState.photoUri != Uri.EMPTY,
+            isLoading = uiState.isLoading,
+            isSuccess = uiState.isSuccess,
             onButtonListener = {
                 event(OnNextStep(PHOTO))
             }
@@ -328,29 +353,68 @@ fun StageOfPhotoScreen(
 
 @Composable
 fun PhotoComponent(
-    onClickPhoto: () -> Unit = {}
+    uiState: RegisterAccountViewModelUiState.Register,
+    onPhotoSelected: (Uri?) -> Unit
 ) {
+    var photoUri by remember { mutableStateOf<Uri?>(null) }
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            photoUri = result.data?.data
+            onPhotoSelected(photoUri)
+        }
+    }
+
     Column(
         modifier = Modifier
             .size(300.dp)
             .background(GrayLight, shape = RoundedCornerShape(500.dp))
-            .clickable { onClickPhoto() }
+            .clickable {
+                val intent = Intent(Intent.ACTION_PICK).apply {
+                    type = "image/*"
+                }
+                launcher.launch(intent)
+            }
             .border(1.dp, TextFieldLineColor, shape = RoundedCornerShape(500.dp)),
         verticalArrangement = Center,
         horizontalAlignment = CenterHorizontally
     ) {
-        Icon(
-            modifier = Modifier.size(70.dp),
-            imageVector = Icons.TwoTone.Person,
-            contentDescription = null,
-            tint = TextFieldColor
-        )
+        AnimatedVisibility(
+            uiState.photoUri != Uri.EMPTY
+        ) {
+            Image(
+                painter = rememberAsyncImagePainter(model = uiState.photoUri),
+                contentScale = FillBounds,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(300.dp)
+                    .clip(CircleShape)
+            )
+        }
 
-        Text(
-            text = stringResource(id = R.string.register_account_stage_of_photo_circular_button_title),
-            style = MaterialTheme.typography.bodyLarge,
-            color = TextFieldColor
-        )
+        AnimatedVisibility(
+            uiState.photoUri == Uri.EMPTY,
+        ) {
+            Column(
+                verticalArrangement = Center,
+                horizontalAlignment = CenterHorizontally
+            ) {
+                Icon(
+                    modifier = Modifier.size(70.dp),
+                    imageVector = Icons.TwoTone.Person,
+                    contentDescription = null,
+                    tint = TextFieldColor
+                )
+
+                Text(
+                    text = stringResource(id = R.string.register_account_stage_of_photo_circular_button_title),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = TextFieldColor
+                )
+            }
+        }
     }
 }
 
@@ -363,6 +427,7 @@ fun StageOfFullNameScreenPreview() {
             fullName = "John Doe",
             birthDate = "01/01/2000",
             phoneNumber = "31999999999",
+            photoUri = Uri.EMPTY,
             isLoading = false,
             isError = false,
             isSuccess = false
@@ -380,6 +445,7 @@ fun StageOfBirthDateScreenPreview() {
             fullName = "John Doe",
             birthDate = "01/01/2000",
             phoneNumber = "31999999999",
+            photoUri = Uri.EMPTY,
             isLoading = false,
             isError = false,
             isSuccess = false
@@ -397,6 +463,7 @@ fun StageOfPhoneNumberScreenPreview() {
             fullName = "John Doe",
             birthDate = "01/01/2000",
             phoneNumber = "31999999999",
+            photoUri = Uri.EMPTY,
             isLoading = false,
             isError = false,
             isSuccess = false
@@ -414,6 +481,7 @@ fun StageOfPhotoScreenPreview() {
             fullName = "John Doe",
             birthDate = "01/01/2000",
             phoneNumber = "31999999999",
+            photoUri = Uri.EMPTY,
             isLoading = false,
             isError = false,
             isSuccess = false

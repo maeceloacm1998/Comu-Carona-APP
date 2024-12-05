@@ -24,5 +24,5 @@
     <string name="register_account_stage_of_photo_title">Estamos no final</string>
     <string name="register_account_stage_of_photo_message">Por último, adicione uma foto sua para que o motorista da carona possa te reconhecer. 😁</string>
     <string name="register_account_stage_of_photo_circular_button_title">Adicionar foto</string>
-    <string name="register_account_stage_of_photo_button_title">Próximo</string>
+    <string name="register_account_stage_of_photo_button_title">Finalizar</string>
 </resources>

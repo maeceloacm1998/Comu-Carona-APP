@@ -15,14 +15,14 @@ class AuthInterceptor(private val authPreferences: AuthPreferences) : Intercepto
 
         // Log the request
         val request = requestBuilder.build()
-        Log.d("AuthInterceptor", "Request: Method - ${request.method()}, URL - ${request.url()}")
+        Log.d("AuthInterceptor", "Request: Method - ${request.method}, URL - ${request.url}")
 
         val response = chain.proceed(request)
-        val responseBody = response.body()
+        val responseBody = response.body
         val responseBodyString = responseBody?.string()
 
         // Log the response
-        Log.d("AuthInterceptor", "Response: ${response.code()} - $responseBodyString")
+        Log.d("AuthInterceptor", "Response: ${response.code} - $responseBodyString")
 
         return response.newBuilder()
             .body(ResponseBody.create(responseBody?.contentType(), responseBodyString ?: ""))

@@ -1,5 +1,6 @@
 package com.app.comu_carona.feature.registeraccount
 
+import android.net.Uri
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountSteps
 
 /**
@@ -44,10 +45,8 @@ sealed class RegisterAccountViewModelEventState {
 
     /**
      * Represents the event when the photo is updated.
-     *
-     * @param photo The new photo.
      */
-    data class OnUpdatePhoto(val photo: String) : RegisterAccountViewModelEventState()
+    data class OnOpenPhoto(val uri: Uri) : RegisterAccountViewModelEventState()
 
     /**
      * Represents the event when the permission is granted.

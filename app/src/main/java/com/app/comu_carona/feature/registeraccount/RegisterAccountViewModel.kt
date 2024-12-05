@@ -1,5 +1,6 @@
 package com.app.comu_carona.feature.registeraccount
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
@@ -35,8 +36,7 @@ class RegisterAccountViewModel(
             is RegisterAccountViewModelEventState.OnUpdateFullName -> onUpdateFullName(event.fullName)
             is RegisterAccountViewModelEventState.OnUpdateBirthDate -> onUpdateBirthDate(event.birthDate)
             is RegisterAccountViewModelEventState.OnUpdatePhoneNumber -> onUpdatePhoneNumber(event.phoneNumber)
-            is RegisterAccountViewModelEventState.OnUpdatePhoto -> {}
-            else -> {}
+            is RegisterAccountViewModelEventState.OnOpenPhoto -> onOpenGallery(event.uri)
         }
     }
 
@@ -58,7 +58,11 @@ class RegisterAccountViewModel(
     }
 
     private fun onRegisterUser() {
+        val state = viewModelState.value
+    }
 
+    private fun onOpenGallery(uri: Uri) {
+        viewModelState.update { it.copy(photoUri = uri) }
     }
 
     private fun onUpdateStep(step: RegisterAccountSteps) {

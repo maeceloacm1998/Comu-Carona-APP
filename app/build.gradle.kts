@@ -73,6 +73,9 @@ dependencies {
     // Play Services
     implementation(libs.play.services.ads.identifier)
 
+    // Coil
+    implementation(libs.coil.compose)
+
     // Gallery permissions
     implementation(libs.accompanist.permissions)
 

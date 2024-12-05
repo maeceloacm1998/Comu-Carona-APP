@@ -47,7 +47,7 @@ fun RegisterAccountRoute(
             transitionSpec = animatedTransitionPage()
         ) { targetState ->
             when (targetState) {
-                FULL_NAME -> StageOfFullNameScreen(
+                FULL_NAME -> StageOfPhotoScreen(
                     uiState = uiState,
                     event = event
                 )
