@@ -347,7 +347,7 @@ fun PhotoComponent(
         )
 
         Text(
-            text = stringResource(id = R.string.register_account_stage_of_photo_button_title),
+            text = stringResource(id = R.string.register_account_stage_of_photo_circular_button_title),
             style = MaterialTheme.typography.bodyLarge,
             color = TextFieldColor
         )
