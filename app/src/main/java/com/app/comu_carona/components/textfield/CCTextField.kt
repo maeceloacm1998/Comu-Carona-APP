@@ -8,11 +8,18 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.app.comu_carona.theme.Error
@@ -28,6 +35,7 @@ fun CCTextField(
     onValueChange: (String) -> Unit,
     keyboardType: KeyboardType = KeyboardType.Number,
     maxLines: Int = 1,
+    maxLength: Int = 100,
     isSingleLine: Boolean = true,
     isErrorMessage: Boolean = false,
     onImeAction: () -> Unit
@@ -43,10 +51,26 @@ fun CCTextField(
     }
 
     val keyboardController = LocalSoftwareKeyboardController.current
+    var textFieldValue by remember { mutableStateOf(TextFieldValue(text = value)) }
+
+    LaunchedEffect(value) {
+        textFieldValue = textFieldValue.copy(
+            text = value,
+            selection = TextRange(value.length)
+        )
+    }
 
     OutlinedTextField(
-        value = value,
-        onValueChange = onValueChange,
+        value = textFieldValue,
+        onValueChange = {
+            if (it.text.length <= maxLength) {
+                textFieldValue = TextFieldValue(
+                    text = it.text,
+                    selection = TextRange(it.text.length)
+                )
+                onValueChange(it.text)
+            }
+        },
         modifier = modifier,
         placeholder = {
             Text(
@@ -78,7 +102,8 @@ fun CCTextField(
         textStyle = MaterialTheme.typography.bodyMedium,
         singleLine = isSingleLine,
         maxLines = maxLines,
-        shape = RoundedCornerShape(10.dp)
+        shape = RoundedCornerShape(10.dp),
+
     )
 }
 

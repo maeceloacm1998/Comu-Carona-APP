@@ -73,6 +73,9 @@ dependencies {
     // Play Services
     implementation(libs.play.services.ads.identifier)
 
+    // Gallery permissions
+    implementation(libs.accompanist.permissions)
+
     // Compose ViewModel
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 

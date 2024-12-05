@@ -22,7 +22,9 @@ fun ComuCaronaNavGraph(
         modifier = modifier,
     ) {
         composable(route = Routes.RegisterAccount.route) {
-            RegisterAccountRoute()
+            RegisterAccountRoute(
+                navController = navController
+            )
         }
 
         composable(route = Routes.CheckCode.route) {
