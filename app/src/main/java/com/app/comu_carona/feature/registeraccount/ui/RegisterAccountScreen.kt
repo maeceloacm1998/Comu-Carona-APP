@@ -1,4 +1,4 @@
-package com.app.comu_carona.feature.registeraccount
+package com.app.comu_carona.feature.registeraccount.ui
 
 import android.app.Activity
 import android.content.Intent
@@ -49,7 +49,7 @@ import com.app.comu_carona.components.button.CCButton
 import com.app.comu_carona.components.button.CCButtonBack
 import com.app.comu_carona.components.permissions.RequestGalleryPermission
 import com.app.comu_carona.components.textfield.CCTextField
-import com.app.comu_carona.feature.registeraccount.RegisterAccountViewModelEventState.*
+import com.app.comu_carona.feature.registeraccount.ui.RegisterAccountViewModelEventState.*
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountSteps.BIRTH_DATE
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountSteps.FULL_NAME
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountSteps.PHONE_NUMBER

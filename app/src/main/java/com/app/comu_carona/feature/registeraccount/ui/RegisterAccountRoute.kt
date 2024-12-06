@@ -1,4 +1,4 @@
-package com.app.comu_carona.feature.registeraccount
+package com.app.comu_carona.feature.registeraccount.ui
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Column

@@ -1,4 +1,4 @@
-package com.app.comu_carona.feature.registeraccount
+package com.app.comu_carona.feature.registeraccount.ui
 
 import android.net.Uri
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountSteps

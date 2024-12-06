@@ -9,7 +9,7 @@ import retrofit2.http.POST
 
 interface CheckCodeAPI {
     @POST("auth/signin")
-    suspend fun checkCode(@Body checkCodeRequest: CheckCodeRequest): Result<CheckCodeResponse>
+    suspend fun checkCode(@Body checkCodeRequest: CheckCodeRequest): CheckCodeResponse
 }
 
 @Single(binds = [CheckCodeAPI::class])
@@ -18,6 +18,6 @@ class CheckCodeAPIImpl(
 ) : CheckCodeAPI {
     private val checkCodeAPI = retrofit.create(CheckCodeAPI::class.java)
 
-    override suspend fun checkCode(checkCodeRequest: CheckCodeRequest): Result<CheckCodeResponse> =
+    override suspend fun checkCode(checkCodeRequest: CheckCodeRequest): CheckCodeResponse =
         checkCodeAPI.checkCode(checkCodeRequest)
 }
