@@ -5,12 +5,16 @@ import android.util.Log
 import com.app.comu_carona.feature.checkcode.data.CheckCodeRepository
 import com.app.comu_carona.feature.checkcode.data.model.CheckCodeRequest
 import com.app.comu_carona.feature.checkcode.data.model.CheckCodeResponse
+import com.app.comu_carona.service.retrofit.AuthPreferences
 import com.app.comu_carona.utils.DeviceUtils
 import org.koin.core.annotation.Factory
 import retrofit2.HttpException
 
 @Factory
-class CheckCodeUseCase(private val repository: CheckCodeRepository) {
+class CheckCodeUseCase(
+    private val repository: CheckCodeRepository,
+    private val authPreferences: AuthPreferences
+) {
     suspend operator fun invoke(code: String, context: Context): Result<CheckCodeResponse> {
         val userIdentifier = DeviceUtils.getAdvertisingId(context)
 
@@ -19,6 +23,10 @@ class CheckCodeUseCase(private val repository: CheckCodeRepository) {
                 val request = CheckCodeRequest(code = code, username = userIdentifier)
                 return repository.checkCode(request).fold(
                     onSuccess = { checkCodeResponse ->
+                        authPreferences.saveTokens(
+                            accessToken = checkCodeResponse.accessToken,
+                            refreshToken = checkCodeResponse.refreshToken
+                        )
                         Result.success(checkCodeResponse)
                     },
                     onFailure = { throwable ->

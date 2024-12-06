@@ -1,9 +1,9 @@
 package com.app.comu_carona.service.retrofit
 
 import com.app.comu_carona.service.sharedpreferences.SharedPreferencesBuilder
-import org.koin.core.annotation.Single
+import org.koin.core.annotation.Factory
 
-@Single
+@Factory
 class AuthPreferences(
     private val sharedPreferences: SharedPreferencesBuilder
 ) {

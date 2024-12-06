@@ -6,16 +6,19 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountSteps
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountSteps.PHOTO
+import com.app.comu_carona.feature.registeraccount.domain.RegisterAccountUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
 
 @KoinViewModel
 class RegisterAccountViewModel(
-    private val navigation: NavController
+    private val navigation: NavController,
+    private val registerAccountUseCase: RegisterAccountUseCase
 ): ViewModel() {
     private val viewModelState = MutableStateFlow(RegisterAccountViewModelState())
     private val stepsOrder: List<RegisterAccountSteps> = RegisterAccountSteps.entries.toTypedArray().toList()
@@ -59,6 +62,24 @@ class RegisterAccountViewModel(
 
     private fun onRegisterUser() {
         val state = viewModelState.value
+        onUpdateLoading(true)
+
+        viewModelScope.launch {
+            registerAccountUseCase(
+                context = navigation.context,
+                fullName = state.fullName,
+                birthDate = state.birthDate,
+                phoneNumber = state.phoneNumber,
+                photoUri = state.photoUri
+            ).onSuccess {
+                onGoToHome()
+                onUpdateLoading(false)
+                onUpdateSuccess(true)
+            }.onFailure {
+                onUpdateLoading(false)
+                // Colocar Snackbar de erro
+            }
+        }
     }
 
     private fun onOpenGallery(uri: Uri) {
@@ -83,6 +104,14 @@ class RegisterAccountViewModel(
 
     private fun onUpdatePhoneNumber(phoneNumber: String) {
         viewModelState.update { it.copy(phoneNumber = phoneNumber) }
+    }
+
+    private fun onUpdateLoading(isLoading: Boolean) {
+        viewModelState.update { it.copy(isLoading = isLoading) }
+    }
+
+    private fun onUpdateSuccess(isSuccess: Boolean) {
+        viewModelState.update { it.copy(isSuccess = isSuccess) }
     }
 
     private fun onGoToHome() {
