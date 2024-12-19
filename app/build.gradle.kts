@@ -88,6 +88,9 @@ dependencies {
     // Lottie
     implementation(libs.lottie.compose)
 
+    // Swipe Refresh
+    implementation(libs.google.accompanist.swiperefresh)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
