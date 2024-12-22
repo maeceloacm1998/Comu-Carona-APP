@@ -26,5 +26,6 @@
     <string name="register_account_stage_of_photo_circular_button_title">Adicionar foto</string>
     <string name="register_account_stage_of_photo_button_title">Finalizar</string>
 
+    <string name="home_available_car_ride_title">Caronas disponíveis</string>
     <string name="home_username_title">Olá %s 👋</string>
 </resources>

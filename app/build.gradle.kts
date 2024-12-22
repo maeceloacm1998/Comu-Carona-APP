@@ -91,6 +91,9 @@ dependencies {
     // Swipe Refresh
     implementation(libs.google.accompanist.swiperefresh)
 
+    // Constraint Layout
+    implementation(libs.androidx.constraintlayout.compose)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

@@ -1,0 +1,120 @@
+package com.app.comu_carona.components.carridecard
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.layout.ContentScale.Companion.FillBounds
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.FontWeight.Companion.Bold
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
+import com.app.comu_carona.R
+import com.app.comu_carona.theme.Primary
+import com.app.comu_carona.theme.TextColor
+import com.app.comu_carona.theme.TextFieldColor
+import com.app.comu_carona.theme.TextFieldLightColor
+import com.app.comu_carona.theme.UrbanistFontFamily
+
+@Composable
+fun UserSelectionBox(
+    modifier: Modifier = Modifier,
+    userImageUrl: String,
+    userName: String,
+    userDescription: String
+) {
+    Card(
+        modifier = modifier
+            .fillMaxWidth(),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = White
+        )
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                modifier = Modifier
+                    .size(30.dp)
+                    .weight(0.1f)
+                    .padding(end = 10.dp),
+                painter = painterResource(R.drawable.ic_car_ride),
+                contentDescription = "Car_Ride_Icon",
+            )
+
+            Row(
+                modifier = Modifier
+                    .weight(0.9f),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start
+            ) {
+                Image(
+                    painter = rememberAsyncImagePainter(model = userImageUrl),
+                    contentScale = FillBounds,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(35.dp)
+                        .clip(CircleShape)
+                )
+
+                Column(
+                    modifier = Modifier.padding(start = 10.dp),
+                ) {
+                    Text(
+                        text = userName,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Primary,
+                        fontWeight = Bold
+                    )
+
+                    Text(
+                        text = userDescription,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = TextFieldLightColor,
+                        fontFamily = UrbanistFontFamily,
+                        fontWeight = Bold
+                    )
+
+                }
+            }
+
+            Icon(
+                painter = rememberVectorPainter(image = Icons.Default.ArrowForward),
+                contentDescription = "Arrow_Forward",
+                tint = Primary
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun UserSelectionBoxPreview() {
+    UserSelectionBox(
+        userImageUrl = "https://i.pin",
+        userName = "Teste",
+        userDescription = "Teste"
+    )
+}

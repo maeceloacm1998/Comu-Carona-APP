@@ -3,13 +3,16 @@ package com.app.comu_carona.feature.home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
-fun HomeRoute() {
+fun HomeRoute(
+    navController: NavController
+) {
     val viewModel: HomeViewModel = koinViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -24,7 +27,6 @@ fun HomeScreen(
     uiState: HomeViewModelUiState,
     onEvent: (HomeViewModelEventState) -> Unit
 ) {
-
     HomeLoadingContent(
         isLoading = uiState.isLoading,
         isRefresh = uiState.isRefresh,
@@ -32,7 +34,7 @@ fun HomeScreen(
         onRefresh = { onEvent(HomeViewModelEventState.OnLoadAvailableCarRide) },
         loadingContent = { },
         errorContent = {  },
-        content = { }
+        content = { HomeScreen() }
     )
 }
 
