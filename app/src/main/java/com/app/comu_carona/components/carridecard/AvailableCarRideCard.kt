@@ -1,5 +1,6 @@
 package com.app.comu_carona.components.carridecard
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.app.comu_carona.components.horizontalline.HorizontalLine
 import com.app.comu_carona.feature.home.data.models.AvailableCarRide
 import com.app.comu_carona.theme.GrayLine
+import com.app.comu_carona.theme.TextFieldLineColor
 
 @Composable
 fun AvailableCarRideCard(
@@ -21,12 +23,16 @@ fun AvailableCarRideCard(
 ) {
     Card(
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .border(
+                width = 2.dp,
+                color = TextFieldLineColor,
+                shape = CardDefaults.shape
+            ),
         colors = CardDefaults.elevatedCardColors(
             containerColor = White
         ),
         onClick = {},
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column {
             AddressBox(
@@ -39,7 +45,8 @@ fun AvailableCarRideCard(
             )
 
             HorizontalLine(
-                color = GrayLine,
+                modifier = Modifier.padding(top = 10.dp),
+                color = TextFieldLineColor,
                 thickness = 1f
             )
 
