@@ -8,6 +8,5 @@ data class AvailableCarRide(
     val destinationHour: String,
     val riderPhotoUrl: String,
     val riderUserName: String,
-    val carModel: String,
-    val carColor: String
+    val riderDescription: String
 )

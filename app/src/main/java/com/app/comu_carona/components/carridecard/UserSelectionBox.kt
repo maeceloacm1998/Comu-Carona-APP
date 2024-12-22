@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -23,25 +24,21 @@ import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale.Companion.FillBounds
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.app.comu_carona.R
 import com.app.comu_carona.theme.Primary
-import com.app.comu_carona.theme.TextColor
-import com.app.comu_carona.theme.TextFieldColor
 import com.app.comu_carona.theme.TextFieldLightColor
 import com.app.comu_carona.theme.UrbanistFontFamily
 
 @Composable
 fun UserSelectionBox(
     modifier: Modifier = Modifier,
-    userImageUrl: String,
-    userName: String,
-    userDescription: String
+    riderPhotoUrl: String,
+    riderUserName: String,
+    riderDescription: String
 ) {
     Card(
         modifier = modifier
@@ -66,12 +63,13 @@ fun UserSelectionBox(
 
             Row(
                 modifier = Modifier
-                    .weight(0.9f),
+                    .weight(0.7f)
+                    .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start
             ) {
                 Image(
-                    painter = rememberAsyncImagePainter(model = userImageUrl),
+                    painter = rememberAsyncImagePainter(model = riderPhotoUrl),
                     contentScale = FillBounds,
                     contentDescription = null,
                     modifier = Modifier
@@ -83,24 +81,29 @@ fun UserSelectionBox(
                     modifier = Modifier.padding(start = 10.dp),
                 ) {
                     Text(
-                        text = userName,
+                        text = riderUserName,
                         style = MaterialTheme.typography.bodyMedium,
                         color = Primary,
                         fontWeight = Bold
                     )
 
+                    Spacer(modifier = Modifier.size(5.dp))
+
                     Text(
-                        text = userDescription,
+                        text = riderDescription,
                         style = MaterialTheme.typography.bodySmall,
                         color = TextFieldLightColor,
                         fontFamily = UrbanistFontFamily,
                         fontWeight = Bold
                     )
-
                 }
             }
 
             Icon(
+                modifier = Modifier
+                    .size(30.dp)
+                    .padding(start = 10.dp)
+                    .weight(0.1f),
                 painter = rememberVectorPainter(image = Icons.Default.ArrowForward),
                 contentDescription = "Arrow_Forward",
                 tint = Primary
@@ -113,8 +116,8 @@ fun UserSelectionBox(
 @Composable
 fun UserSelectionBoxPreview() {
     UserSelectionBox(
-        userImageUrl = "https://i.pin",
-        userName = "Teste",
-        userDescription = "Teste"
+        riderPhotoUrl = "https://i.pin",
+        riderUserName = "Teste",
+        riderDescription = "Teste"
     )
 }

@@ -46,4 +46,15 @@ class AuthPreferences(
             putString("refresh_token", refreshToken)
         }
     }
+
+    /**
+     * clearTokens this method is used to clear access token and refresh token in shared preferences
+     * @return Unit this is return nothing
+     */
+    fun clearTokens() {
+        sharedPreferences.apply {
+            putString("access_token", "")
+            putString("refresh_token", "")
+        }
+    }
 }

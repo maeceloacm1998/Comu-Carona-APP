@@ -32,10 +32,10 @@ import com.app.comu_carona.theme.UrbanistFontFamily
 @Composable
 fun AddressBox(
     modifier: Modifier = Modifier,
-    initHourProp: String,
-    finishHourProp: String,
-    initAddressProp: String,
-    finishAddressProp: String
+    waitingHour: String,
+    destinationHour: String,
+    waitingAddress: String,
+    destinationAddress: String
 ) {
     var addressHeight by remember { mutableStateOf(0.dp) }
 
@@ -53,7 +53,7 @@ fun AddressBox(
         ) = createRefs()
 
         Text(
-            text = initHourProp,
+            text = waitingHour,
             style = MaterialTheme.typography.bodySmall,
             color = TextFieldColor,
             fontWeight = Bold,
@@ -65,7 +65,7 @@ fun AddressBox(
         )
 
         Text(
-            text = finishHourProp,
+            text = destinationHour,
             style = MaterialTheme.typography.bodySmall,
             color = TextFieldColor,
             fontWeight = Bold,
@@ -114,7 +114,7 @@ fun AddressBox(
         )
 
         Text(
-            text = initAddressProp,
+            text = waitingAddress,
             style = MaterialTheme.typography.bodySmall,
             fontFamily = UrbanistFontFamily,
             color = TextFieldColor,
@@ -132,7 +132,7 @@ fun AddressBox(
         )
 
         Text(
-            text = finishAddressProp,
+            text = destinationAddress,
             style = MaterialTheme.typography.bodySmall,
             fontFamily = UrbanistFontFamily,
             color = TextFieldColor,
@@ -152,9 +152,9 @@ fun AddressBox(
 @Composable
 fun AddressBoxPreview() {
     AddressBox(
-        initHourProp = "10:00",
-        finishHourProp = "12:00",
-        initAddressProp = "Rua pandia calógeras - praça da xxxxsadasdasdasdas",
-        finishAddressProp = "Rua pandia calógeras - praça"
+        waitingHour = "10:00",
+        destinationHour = "12:00",
+        waitingAddress = "Rua pandia calógeras - praça da xxxxsadasdasdasdas",
+        destinationAddress = "Rua pandia calógeras - praça"
     )
 }

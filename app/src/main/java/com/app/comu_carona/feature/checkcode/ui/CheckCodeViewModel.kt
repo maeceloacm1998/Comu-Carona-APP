@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.app.comu_carona.feature.checkcode.domain.CheckCodeUseCase
 import com.app.comu_carona.routes.Routes
+import com.app.comu_carona.service.retrofit.NetworkingHttpState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -56,30 +57,43 @@ class CheckCodeViewModel(
                     onSuccess = { response ->
                         onUpdateLoadingState(false)
                         onUpdateSuccessState(true)
-
-                        // Go to home screen
-                        navController.navigate(Routes.Home.route)
+                        onGoToHome()
                     },
                     onFailure = { throwable ->
                         val errorCode = (throwable as HttpException).code()
                         when (errorCode) {
-                            401 -> {
+                            NetworkingHttpState.UNAUTHORIZED.code -> {
                                 // enter when the code is incorrect
                                 onUpdateLoadingState(false)
                                 onUpdateErrorState(true)
                             }
-                            403 -> {
+
+                            NetworkingHttpState.FORBIDDEN.code -> {
                                 // enter when the user identifier is incorrect
                                 onUpdateLoadingState(false)
                                 onUpdateErrorState(false)
                                 onUpdateSuccessState(true)
-
-                                // Go to register screen
-                                navController.navigate(Routes.RegisterAccount.route)
+                                onGoToRegisterAccount()
                             }
                         }
                     }
                 )
+            }
+        }
+    }
+
+    private fun onGoToHome() {
+        navController.navigate(Routes.Home.route) {
+            popUpTo(Routes.CheckCode.route) {
+                inclusive = true
+            }
+        }
+    }
+
+    private fun onGoToRegisterAccount() {
+        navController.navigate(Routes.RegisterAccount.route) {
+            popUpTo(Routes.CheckCode.route) {
+                inclusive = true
             }
         }
     }

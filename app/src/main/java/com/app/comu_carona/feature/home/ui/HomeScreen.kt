@@ -1,4 +1,4 @@
-package com.app.comu_carona.feature.home
+package com.app.comu_carona.feature.home.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -31,11 +32,15 @@ import coil.compose.rememberAsyncImagePainter
 import com.app.comu_carona.R
 import com.app.comu_carona.components.carridecard.AvailableCarRideCard
 import com.app.comu_carona.components.horizontalline.HorizontalLine
+import com.app.comu_carona.feature.home.data.models.AvailableCarRide
 import com.app.comu_carona.theme.SoftBlack
 import com.app.comu_carona.theme.TextFieldLineColor
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    uiState: HomeViewModelUiState.HasAvailableCarRide,
+    onEvent: (HomeViewModelEventState) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -60,7 +65,6 @@ fun HomeScreen() {
             modifier = Modifier
                 .fillMaxSize(),
         ) {
-
             // Create Car Drive Banner
             item {
                 Image(
@@ -90,15 +94,28 @@ fun HomeScreen() {
                 )
             }
 
-            // Available Car Rides List
-            items(5) {
-                AvailableCarRideCard(
-                    modifier = Modifier.padding(
-                        start = 20.dp,
-                        end = 20.dp,
-                        bottom = 10.dp
+
+            if (uiState.availableCarRideList.isNotEmpty()) {
+                items(uiState.availableCarRideList) { availableCarRide ->
+                    AvailableCarRideCard(
+                        availableCarRide = availableCarRide,
+                        modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp)
                     )
-                )
+                }
+            } else {
+                item {
+                    Text(
+                        text = "Vazio",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = SoftBlack,
+                        fontWeight = SemiBold,
+                        modifier = Modifier.padding(
+                            start = 20.dp,
+                            end = 20.dp,
+                            bottom = 20.dp
+                        ),
+                    )
+                }
             }
         }
     }
@@ -136,5 +153,25 @@ fun HomeTopBar(
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen()
+    HomeScreen(
+        uiState = HomeViewModelUiState.HasAvailableCarRide(
+            availableCarRideList = listOf(
+                AvailableCarRide(
+                    id = "1",
+                    waitingHour = "10:00",
+                    destinationHour = "11:00",
+                    waitingAddress = "Rua Teste, 123",
+                    destinationAddress = "Rua Teste, 456",
+                    riderPhotoUrl = "https://firebasestorage.googleapis.com/v0/b/comu-carona.firebasestorage.app/o/uploads%2Fupload2233688854578175299.tmp?alt=media&token=486be14c-5708-4c8d-a1e6-650867480c0a",
+                    riderUserName = "Teste",
+                    riderDescription = "Descrição"
+                )
+            ),
+            isLoading = false,
+            isError = false,
+            isRefresh = false,
+            isSuccess = true
+        ),
+        onEvent = {}
+    )
 }

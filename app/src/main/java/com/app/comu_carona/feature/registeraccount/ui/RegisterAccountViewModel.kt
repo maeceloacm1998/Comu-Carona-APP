@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountSteps
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountSteps.PHOTO
 import com.app.comu_carona.feature.registeraccount.domain.RegisterAccountUseCase
+import com.app.comu_carona.routes.Routes
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -115,10 +116,10 @@ class RegisterAccountViewModel(
     }
 
     private fun onGoToHome() {
-//        navigation.navigate(Routes.Chat.route) {
-//            popUpTo(Routes.Onboarding.route) {
-//                inclusive = true
-//            }
-//        }
+        navigation.navigate(Routes.Home.route) {
+            popUpTo(Routes.RegisterAccount.route) {
+                inclusive = true
+            }
+        }
     }
 }

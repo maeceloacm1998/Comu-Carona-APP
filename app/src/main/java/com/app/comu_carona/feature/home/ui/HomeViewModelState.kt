@@ -1,7 +1,7 @@
-package com.app.comu_carona.feature.home
+package com.app.comu_carona.feature.home.ui
 
-import com.app.comu_carona.feature.home.HomeViewModelUiState.HasAvailableCarRide
-import com.app.comu_carona.feature.home.HomeViewModelUiState.NoHasAvailableCarRide
+import com.app.comu_carona.feature.home.ui.HomeViewModelUiState.HasAvailableCarRide
+import com.app.comu_carona.feature.home.ui.HomeViewModelUiState.NoHasAvailableCarRide
 import com.app.comu_carona.feature.home.data.models.AvailableCarRide
 
 /**
