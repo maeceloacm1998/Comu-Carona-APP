@@ -40,6 +40,7 @@ class HomeViewModel(
     fun onEvent(event: HomeViewModelEventState) {
         when (event) {
             is HomeViewModelEventState.OnLoadAvailableCarRide -> onLoadAvailableCarRide()
+            is HomeViewModelEventState.OnNavigateTo -> onNavigateTo(event.route)
         }
     }
 
@@ -71,6 +72,10 @@ class HomeViewModel(
                 }
             )
         }
+    }
+
+    private fun onNavigateTo(route: String) {
+        navController.navigate(route)
     }
 
     private fun onGoToCheckCode() {

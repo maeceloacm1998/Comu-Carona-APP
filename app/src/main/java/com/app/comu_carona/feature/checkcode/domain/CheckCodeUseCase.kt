@@ -32,7 +32,7 @@ class CheckCodeUseCase(
                     onFailure = { throwable ->
                         when (throwable) {
                             is HttpException -> Result.failure(Exception(throwable.code().toString()))
-                            else -> Result.failure(throwable)
+                            else -> Result.failure(Exception(throwable.cause))
                         }
                     }
                 )

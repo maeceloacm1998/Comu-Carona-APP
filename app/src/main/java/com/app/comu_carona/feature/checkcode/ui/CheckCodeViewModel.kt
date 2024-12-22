@@ -60,7 +60,7 @@ class CheckCodeViewModel(
                         onGoToHome()
                     },
                     onFailure = { throwable ->
-                        val errorCode = (throwable as HttpException).code()
+                        val errorCode = throwable.message?.toInt()
                         when (errorCode) {
                             NetworkingHttpState.UNAUTHORIZED.code -> {
                                 // enter when the code is incorrect

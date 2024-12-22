@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,81 +33,73 @@ import coil.compose.rememberAsyncImagePainter
 import com.app.comu_carona.R
 import com.app.comu_carona.components.carridecard.AvailableCarRideCard
 import com.app.comu_carona.components.horizontalline.HorizontalLine
+import com.app.comu_carona.feature.bottomnavigation.BottomNavBar
 import com.app.comu_carona.feature.home.data.models.AvailableCarRide
+import com.app.comu_carona.routes.Routes
 import com.app.comu_carona.theme.SoftBlack
 import com.app.comu_carona.theme.TextFieldLineColor
+import okhttp3.Route
 
 @Composable
 fun HomeScreen(
     uiState: HomeViewModelUiState.HasAvailableCarRide,
     onEvent: (HomeViewModelEventState) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(White)
-    ) {
-        HomeTopBar(
+    Scaffold(
+        topBar = {
+            HomeTopBar(
+                modifier = Modifier
+                    .background(White)
+                    .padding(vertical = 20.dp)
+            )
+        },
+        bottomBar = {
+            BottomNavBar(
+                currentRoute = Routes.Home.route,
+                onItemClick = {
+                    onEvent(HomeViewModelEventState.OnNavigateTo(it))
+                }
+            )
+        }
+    ) { innerPadding ->
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 20.dp)
-        )
-
-        HorizontalLine(
-            modifier = Modifier
-                .padding(
-                    horizontal = 10.dp,
-                ),
-            color = TextFieldLineColor,
-            thickness = 1f
-        )
-
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize(),
+                .padding(innerPadding)
+                .fillMaxSize()
+                .background(White)
         ) {
-            // Create Car Drive Banner
-            item {
-                Image(
-                    modifier = Modifier
-                        .padding(horizontal = 20.dp, vertical = 30.dp)
-                        .fillMaxWidth()
-                        .height(135.dp)
-                        .clickable { },
-                    painter = painterResource(R.drawable.ic_create_car_ride),
-                    contentDescription = "",
-                    contentScale = FillBounds,
-                )
-            }
-
-            // Available Car Rides Title
-            item {
-                Text(
-                    text = stringResource(R.string.home_available_car_ride_title),
-                    style = MaterialTheme.typography.titleSmall,
-                    color = SoftBlack,
-                    fontWeight = SemiBold,
-                    modifier = Modifier.padding(
-                        start = 20.dp,
-                        end = 20.dp,
-                        bottom = 20.dp
+            HorizontalLine(
+                modifier = Modifier
+                    .padding(
+                        horizontal = 10.dp,
                     ),
-                )
-            }
+                color = TextFieldLineColor,
+                thickness = 1f
+            )
 
-
-            if (uiState.availableCarRideList.isNotEmpty()) {
-                items(uiState.availableCarRideList) { availableCarRide ->
-                    AvailableCarRideCard(
-                        availableCarRide = availableCarRide,
-                        modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp)
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize(),
+            ) {
+                // Create Car Drive Banner
+                item {
+                    Image(
+                        modifier = Modifier
+                            .padding(horizontal = 20.dp, vertical = 30.dp)
+                            .fillMaxWidth()
+                            .height(135.dp)
+                            .clickable { },
+                        painter = painterResource(R.drawable.ic_create_car_ride),
+                        contentDescription = "",
+                        contentScale = FillBounds,
                     )
                 }
-            } else {
+
+                // Available Car Rides Title
                 item {
                     Text(
-                        text = "Vazio",
-                        style = MaterialTheme.typography.bodyMedium,
+                        text = stringResource(R.string.home_available_car_ride_title),
+                        style = MaterialTheme.typography.titleSmall,
                         color = SoftBlack,
                         fontWeight = SemiBold,
                         modifier = Modifier.padding(
@@ -116,9 +109,34 @@ fun HomeScreen(
                         ),
                     )
                 }
+
+
+                if (uiState.availableCarRideList.isNotEmpty()) {
+                    items(uiState.availableCarRideList) { availableCarRide ->
+                        AvailableCarRideCard(
+                            availableCarRide = availableCarRide,
+                            modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp)
+                        )
+                    }
+                } else {
+                    item {
+                        Text(
+                            text = "Vazio",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = SoftBlack,
+                            fontWeight = SemiBold,
+                            modifier = Modifier.padding(
+                                start = 20.dp,
+                                end = 20.dp,
+                                bottom = 20.dp
+                            ),
+                        )
+                    }
+                }
             }
         }
     }
+
 }
 
 @Composable
