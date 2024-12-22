@@ -54,11 +54,11 @@ class CheckCodeViewModel(
 
                 result.fold(
                     onSuccess = { response ->
-                        // enter when the code and user identifier are correct
                         onUpdateLoadingState(false)
                         onUpdateSuccessState(true)
 
                         // Go to home screen
+                        navController.navigate(Routes.Home.route)
                     },
                     onFailure = { throwable ->
                         val errorCode = (throwable as HttpException).code()
@@ -75,7 +75,7 @@ class CheckCodeViewModel(
                                 onUpdateSuccessState(true)
 
                                 // Go to register screen
-                                navController.navigate(Routes.CheckCode.route)
+                                navController.navigate(Routes.RegisterAccount.route)
                             }
                         }
                     }
