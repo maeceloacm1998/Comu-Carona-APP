@@ -1,7 +1,10 @@
 package com.app.comu_carona.feature.home.ui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -35,7 +38,7 @@ fun HomeScreen(
         isRefresh = uiState.isRefresh,
         isError = uiState.isError,
         onRefresh = { onEvent(HomeViewModelEventState.OnLoadAvailableCarRide) },
-        loadingContent = { },
+        loadingContent = { HomeScreenLoading() },
         errorContent = { },
         content = {
             check(uiState is HomeViewModelUiState.HasAvailableCarRide)
@@ -59,10 +62,25 @@ private fun HomeLoadingContent(
     content: @Composable () -> Unit
 ) {
 
-    when {
-        isLoading -> loadingContent()
-        isError -> errorContent()
-        else -> SwipeRefresh(
+    AnimatedVisibility(
+        visible = isLoading,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        loadingContent()
+    }
+
+    AnimatedVisibility(
+        visible = isError,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        errorContent()
+    }
+
+    AnimatedVisibility(
+        visible = !isLoading && !isError,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        SwipeRefresh(
             state = rememberSwipeRefreshState(isRefresh),
             onRefresh = onRefresh,
             content = content

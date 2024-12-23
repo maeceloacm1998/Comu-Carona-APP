@@ -12,6 +12,7 @@ val Pink40 = Color(0xFF7D5260)
 
 val Primary= Color(0xff340e71)
 val DisabledBackground= Color(0xffbdbdbd)
+val BackgroundSkeleton= Color(0xffd8d8d8)
 val TextFieldColor = Color(0xff8391a1)
 val TextFieldLightColor = Color(0xffa8a8a8)
 val TextFieldLineColor = Color(0xffe8ecf4)

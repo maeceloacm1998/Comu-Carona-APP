@@ -94,6 +94,9 @@ dependencies {
     // Constraint Layout
     implementation(libs.androidx.constraintlayout.compose)
 
+    // SHIMMER
+    implementation(libs.compose.shimmer)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
