@@ -16,7 +16,7 @@ fun provideRetrofit(authPreferences: AuthPreferences): Retrofit {
         .build()
 
     return Retrofit.Builder()
-        .baseUrl("https://0149-2804-14c-5bc5-855c-848f-e400-27ab-1b1c.ngrok-free.app")
+        .baseUrl(" https://baab-2804-14c-5bc5-855c-445e-bdd4-9af8-cd4d.ngrok-free.app")
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()

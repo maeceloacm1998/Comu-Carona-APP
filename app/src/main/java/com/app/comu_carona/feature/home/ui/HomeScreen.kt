@@ -18,10 +18,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.ContentScale.Companion.FillBounds
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -30,6 +32,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.app.comu_carona.R
 import com.app.comu_carona.components.carridecard.AvailableCarRideCard
 import com.app.comu_carona.components.horizontalline.HorizontalLine
@@ -37,6 +43,7 @@ import com.app.comu_carona.feature.bottomnavigation.BottomNavBar
 import com.app.comu_carona.feature.home.data.models.AvailableCarRide
 import com.app.comu_carona.routes.Routes
 import com.app.comu_carona.theme.SoftBlack
+import com.app.comu_carona.theme.TextColor
 import com.app.comu_carona.theme.TextFieldLineColor
 import okhttp3.Route
 
@@ -45,6 +52,10 @@ fun HomeScreen(
     uiState: HomeViewModelUiState.HasAvailableCarRide,
     onEvent: (HomeViewModelEventState) -> Unit
 ) {
+    val loadingLottieAnimation by rememberLottieComposition(
+        spec = LottieCompositionSpec.RawRes(R.raw.search_car_ride)
+    )
+
     Scaffold(
         topBar = {
             HomeTopBar(
@@ -95,22 +106,21 @@ fun HomeScreen(
                     )
                 }
 
-                // Available Car Rides Title
-                item {
-                    Text(
-                        text = stringResource(R.string.home_available_car_ride_title),
-                        style = MaterialTheme.typography.titleSmall,
-                        color = SoftBlack,
-                        fontWeight = SemiBold,
-                        modifier = Modifier.padding(
-                            start = 20.dp,
-                            end = 20.dp,
-                        ),
-                    )
-                }
-
-
                 if (uiState.availableCarRideList.isNotEmpty()) {
+                    // Available Car Rides Title
+                    item {
+                        Text(
+                            text = stringResource(R.string.home_available_car_ride_title),
+                            style = MaterialTheme.typography.titleSmall,
+                            color = SoftBlack,
+                            fontWeight = SemiBold,
+                            modifier = Modifier.padding(
+                                start = 20.dp,
+                                end = 20.dp,
+                            ),
+                        )
+                    }
+
                     items(uiState.availableCarRideList) { availableCarRide ->
                         AvailableCarRideCard(
                             availableCarRide = availableCarRide,
@@ -119,17 +129,32 @@ fun HomeScreen(
                     }
                 } else {
                     item {
-                        Text(
-                            text = "Vazio",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = SoftBlack,
-                            fontWeight = SemiBold,
-                            modifier = Modifier.padding(
-                                start = 20.dp,
-                                end = 20.dp,
-                                bottom = 20.dp
-                            ),
-                        )
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 60.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            LottieAnimation(
+                                composition = loadingLottieAnimation,
+                                modifier = Modifier
+                                    .size(120.dp),
+                                contentScale = ContentScale.Crop,
+                                iterations = LottieConstants.IterateForever // Makes the animation loop
+                            )
+
+                            Text(
+                                text = stringResource(R.string.home_not_available_car_ride_title),
+                                style = MaterialTheme.typography.titleSmall,
+                                color = TextColor,
+                                fontWeight = SemiBold,
+                                modifier = Modifier.padding(
+                                    horizontal = 20.dp,
+                                    vertical = 30.dp,
+                                ),
+                            )
+                        }
                     }
                 }
             }

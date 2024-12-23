@@ -1,36 +1,22 @@
 package com.app.comu_carona.feature.home.ui
 
 import com.app.comu_carona.feature.home.ui.HomeViewModelUiState.HasAvailableCarRide
-import com.app.comu_carona.feature.home.ui.HomeViewModelUiState.NoHasAvailableCarRide
 import com.app.comu_carona.feature.home.data.models.AvailableCarRide
 
 /**
  * Represents the UI state of the home screen.
  */
 sealed interface HomeViewModelUiState {
-    val isLoading: Boolean
-    val isError: Boolean
-    val isRefresh: Boolean
-    val isSuccess: Boolean
-
-    data class NoHasAvailableCarRide(
-        override val isLoading: Boolean,
-        override val isError: Boolean,
-        override val isRefresh: Boolean,
-        override val isSuccess: Boolean,
-    ) : HomeViewModelUiState
-
     /**
      * Represents the state when the home screen is loading.
      */
     data class HasAvailableCarRide(
         val availableCarRideList: List<AvailableCarRide>,
-        override val isLoading: Boolean,
-        override val isError: Boolean,
-        override val isRefresh: Boolean,
-        override val isSuccess: Boolean,
+        val isLoading: Boolean,
+        val isError: Boolean,
+        val isRefresh: Boolean,
+        val isSuccess: Boolean,
     ) : HomeViewModelUiState
-
 }
 
 /**
@@ -47,20 +33,11 @@ data class HomeViewModelState(
     /**
      * Converts the state to a UI state.
      */
-    fun toUiState(): HomeViewModelUiState = if (availableCarRideList.isEmpty()) {
-        NoHasAvailableCarRide(
-            isLoading = isLoading,
-            isError = isError,
-            isRefresh = isRefresh,
-            isSuccess = isSuccess,
-        )
-    } else {
-        HasAvailableCarRide(
-            availableCarRideList = availableCarRideList,
-            isLoading = isLoading,
-            isError = isError,
-            isRefresh = isRefresh,
-            isSuccess = isSuccess,
-        )
-    }
+    fun toUiState(): HomeViewModelUiState = HasAvailableCarRide(
+        availableCarRideList = availableCarRideList,
+        isLoading = isLoading,
+        isError = isError,
+        isRefresh = isRefresh,
+        isSuccess = isSuccess,
+    )
 }

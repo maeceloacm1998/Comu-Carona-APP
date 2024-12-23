@@ -33,6 +33,8 @@ fun HomeScreen(
     uiState: HomeViewModelUiState,
     onEvent: (HomeViewModelEventState) -> Unit
 ) {
+    check(uiState is HomeViewModelUiState.HasAvailableCarRide)
+
     HomeLoadingContent(
         isLoading = uiState.isLoading,
         isRefresh = uiState.isRefresh,
@@ -41,8 +43,6 @@ fun HomeScreen(
         loadingContent = { HomeScreenLoading() },
         errorContent = { },
         content = {
-            check(uiState is HomeViewModelUiState.HasAvailableCarRide)
-
             HomeScreen(
                 uiState = uiState,
                 onEvent = onEvent
