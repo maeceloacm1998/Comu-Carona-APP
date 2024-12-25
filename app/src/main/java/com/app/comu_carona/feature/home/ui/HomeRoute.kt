@@ -22,14 +22,14 @@ fun HomeRoute(
     })
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    HomeScreen(
+    HomeRoute(
         uiState = uiState,
         onEvent = viewModel::onEvent
     )
 }
 
 @Composable
-fun HomeScreen(
+fun HomeRoute(
     uiState: HomeViewModelUiState,
     onEvent: (HomeViewModelEventState) -> Unit
 ) {
@@ -40,7 +40,10 @@ fun HomeScreen(
         isRefresh = uiState.isRefresh,
         isError = uiState.isError,
         onRefresh = { onEvent(HomeViewModelEventState.OnLoadAvailableCarRide) },
-        loadingContent = { HomeScreenLoading() },
+        loadingContent = { HomeScreenLoading(
+            userName = uiState.userName,
+            photoUrl = uiState.photoUrl
+        ) },
         errorContent = { },
         content = {
             HomeScreen(

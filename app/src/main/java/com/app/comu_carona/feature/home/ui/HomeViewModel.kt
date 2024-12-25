@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import com.app.comu_carona.commons.usecase.LogoutUseCase
 import com.app.comu_carona.feature.home.data.models.AvailableCarRide
 import com.app.comu_carona.feature.home.domain.AvailableCarRidesUseCase
+import com.app.comu_carona.feature.home.domain.GetUserInformation
 import com.app.comu_carona.routes.Routes
 import com.app.comu_carona.service.retrofit.NetworkingHttpState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,11 +22,13 @@ import retrofit2.HttpException
 class HomeViewModel(
     private val availableCarRidesUseCase: AvailableCarRidesUseCase,
     private val navController: NavController,
-    private val logoutUseCase: LogoutUseCase
+    private val logoutUseCase: LogoutUseCase,
+    private val getUserInformation: GetUserInformation
 ) : ViewModel() {
     private val viewModelState = MutableStateFlow(HomeViewModelState())
 
     init {
+        onLoadUserInformation()
         onLoadAvailableCarRide()
     }
 
@@ -41,6 +44,30 @@ class HomeViewModel(
         when (event) {
             is HomeViewModelEventState.OnLoadAvailableCarRide -> onLoadAvailableCarRide()
             is HomeViewModelEventState.OnNavigateTo -> onNavigateTo(event.route)
+        }
+    }
+
+    private fun onLoadUserInformation() {
+        viewModelScope.launch {
+            val result = getUserInformation()
+
+            result.fold(
+                onSuccess = { userInformation ->
+                    viewModelState.update { it.copy(
+                        userName = userInformation.name,
+                        photoUrl = userInformation.photoUrl
+                    ) }
+                },
+                onFailure = { throwable ->
+                    val errorCode = (throwable as HttpException).code()
+
+                    when (errorCode) {
+                        NetworkingHttpState.UNAUTHORIZED.code -> {
+                            logoutUseCase(navController, Routes.Home.route)
+                        }
+                    }
+                }
+            )
         }
     }
 

@@ -12,6 +12,8 @@ sealed interface HomeViewModelUiState {
      */
     data class HasAvailableCarRide(
         val availableCarRideList: List<AvailableCarRide>,
+        val userName: String,
+        val photoUrl: String,
         val isLoading: Boolean,
         val isError: Boolean,
         val isRefresh: Boolean,
@@ -24,6 +26,8 @@ sealed interface HomeViewModelUiState {
  */
 data class HomeViewModelState(
     val availableCarRideList: List<AvailableCarRide> = emptyList(),
+    val userName: String = "",
+    val photoUrl: String = "",
     val isLoading: Boolean = false,
     val isError: Boolean = false,
     val isRefresh: Boolean = false,
@@ -35,6 +39,8 @@ data class HomeViewModelState(
      */
     fun toUiState(): HomeViewModelUiState = HasAvailableCarRide(
         availableCarRideList = availableCarRideList,
+        userName = userName,
+        photoUrl = photoUrl,
         isLoading = isLoading,
         isError = isError,
         isRefresh = isRefresh,

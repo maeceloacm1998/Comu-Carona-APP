@@ -7,6 +7,31 @@ import org.koin.core.annotation.Factory
 class AuthPreferences(
     private val sharedPreferences: SharedPreferencesBuilder
 ) {
+    /**
+     * userId this is user id of user
+     * @return Int this is return user id
+     * @param value this is value of user id
+     */
+    var userName: String?
+        get() = sharedPreferences.getString("username", null)
+        set(value) {
+            if (value != null) {
+                sharedPreferences.putString("username", value)
+            }
+        }
+
+    /**
+     * photoUrl this is photo url of user
+     * @return String this is return photo url
+     * @param value this is value of photo url
+     */
+    var photoUrl: String?
+        get() = sharedPreferences.getString("photo_url", null)
+        set(value) {
+            if (value != null) {
+                sharedPreferences.putString("photo_url", value)
+            }
+        }
 
     /**
      * accessToken this is access token of user

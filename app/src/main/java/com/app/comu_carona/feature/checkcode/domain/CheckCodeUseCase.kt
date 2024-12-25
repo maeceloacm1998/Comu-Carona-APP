@@ -27,6 +27,8 @@ class CheckCodeUseCase(
                             accessToken = checkCodeResponse.accessToken,
                             refreshToken = checkCodeResponse.refreshToken
                         )
+                        authPreferences.userName = checkCodeResponse.username
+                        authPreferences.photoUrl = checkCodeResponse.photoUrl
                         Result.success(checkCodeResponse)
                     },
                     onFailure = { throwable ->

@@ -2,6 +2,7 @@ package com.app.comu_carona.feature.checkcode.data.model
 
 data class CheckCodeResponse(
     val username: String,
+    val photoUrl: String,
     val authenticated: Boolean,
     val created: String,
     val expiration: String,

@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.app.comu_carona.feature.checkcode.data.model.CheckCodeResponse
 import com.app.comu_carona.feature.checkcode.domain.CheckCodeUseCase
 import com.app.comu_carona.routes.Routes
+import com.app.comu_carona.routes.withArgs
 import com.app.comu_carona.service.retrofit.NetworkingHttpState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -54,7 +56,7 @@ class CheckCodeViewModel(
                 )
 
                 result.fold(
-                    onSuccess = { response ->
+                    onSuccess = {
                         onUpdateLoadingState(false)
                         onUpdateSuccessState(true)
                         onGoToHome()

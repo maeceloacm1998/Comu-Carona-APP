@@ -61,7 +61,9 @@ fun HomeScreen(
             HomeTopBar(
                 modifier = Modifier
                     .background(White)
-                    .padding(vertical = 20.dp)
+                    .padding(vertical = 20.dp),
+                userName = uiState.userName,
+                photoUrl = uiState.photoUrl
             )
         },
         bottomBar = {
@@ -160,12 +162,13 @@ fun HomeScreen(
             }
         }
     }
-
 }
 
 @Composable
 fun HomeTopBar(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    userName: String,
+    photoUrl: String
 ) {
     Row(
         modifier = modifier
@@ -175,14 +178,14 @@ fun HomeTopBar(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = stringResource(R.string.home_username_title, "Teste"),
+            text = stringResource(R.string.home_username_title, userName),
             style = MaterialTheme.typography.titleMedium,
             color = SoftBlack,
             fontWeight = SemiBold,
             textAlign = TextAlign.Center,
         )
         Image(
-            painter = rememberAsyncImagePainter(model = "https://firebasestorage.googleapis.com/v0/b/comu-carona.firebasestorage.app/o/uploads%2Fupload2233688854578175299.tmp?alt=media&token=486be14c-5708-4c8d-a1e6-650867480c0a"),
+            painter = rememberAsyncImagePainter(model = photoUrl),
             contentScale = FillBounds,
             contentDescription = null,
             modifier = Modifier
@@ -209,11 +212,13 @@ fun HomeScreenPreview() {
                     riderDescription = "Descrição"
                 )
             ),
+            userName = "Teste",
+            photoUrl = "https://firebasestorage.googleapis.com/v0/b/comu-carona.firebasestorage.app/o/uploads%2Fupload2233688854578175299.tmp?alt=media&token=486be14c-5708-4c8d-a1e6-650867480c0a",
             isLoading = false,
             isError = false,
             isRefresh = false,
             isSuccess = true
         ),
-        onEvent = {}
+        onEvent = {},
     )
 }

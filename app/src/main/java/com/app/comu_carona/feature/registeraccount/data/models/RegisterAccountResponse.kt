@@ -2,6 +2,7 @@ package com.app.comu_carona.feature.registeraccount.data.models
 
 data class RegisterAccountResponse(
     val username: String,
+    val photoUrl: String,
     val authenticated: Boolean,
     val created: String,
     val expiration: String,

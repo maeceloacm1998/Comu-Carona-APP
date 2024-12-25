@@ -19,7 +19,10 @@ import com.app.comu_carona.components.horizontalline.HorizontalLine
 import com.app.comu_carona.theme.SoftBlack
 
 @Composable
-fun HomeScreenLoading() {
+fun HomeScreenLoading(
+    userName: String,
+    photoUrl: String
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -27,7 +30,9 @@ fun HomeScreenLoading() {
     ) {
         HomeTopBar(
             modifier = Modifier
-                .padding(vertical = 20.dp)
+                .padding(vertical = 20.dp),
+            userName = userName,
+            photoUrl = photoUrl
         )
         HorizontalLine()
         AvailableCarRideCardLoading(
@@ -70,5 +75,8 @@ fun HomeScreenLoading() {
 @Preview
 @Composable
 fun HomeScreenLoadingPreview() {
-    HomeScreenLoading()
+    HomeScreenLoading(
+        userName = "User Name",
+        photoUrl = ""
+    )
 }
