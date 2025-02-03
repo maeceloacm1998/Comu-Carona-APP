@@ -4,6 +4,7 @@ sealed class Routes(val route: String) {
     data object CheckCode : Routes("check_code/{userName}/{photoUrl}")
     data object Home : Routes("home")
     data object RegisterAccount : Routes("register_account/{userName}/{photoUrl}")
+    data object CreateCarRide : Routes("create_car_ride")
 }
 
 fun Routes.withArgs(vararg args: String): String {

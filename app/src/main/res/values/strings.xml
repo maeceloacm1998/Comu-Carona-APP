@@ -29,4 +29,14 @@
     <string name="home_available_car_ride_title">Caronas disponíveis</string>
     <string name="home_not_available_car_ride_title">Nenhuma corrida disponível</string>
     <string name="home_username_title">Olá %s 👋</string>
+
+    <string name="create_car_ride_car_model_title">Qual são os dados\ndo seu carro?</string>
+    <string name="create_car_ride_car_model_message">Para mais detalhes da sua carona, digite os detalhes do seu carro para melhor identificação.</string>
+    <string name="create_car_ride_car_model_hint">Modelo do Carro</string>
+    <string name="create_car_ride_car_model_plate_hint">Placa do Carro</string>
+    <string name="create_car_ride_car_model_color_hint">Cor do carro</string>
+    <string name="create_car_ride_car_model_button_title">Próximo</string>
+
+    <string name="create_car_ride_quantity_seats_title">Então, quantos\npassageiros você\npodera levar no carro?</string>
+
 </resources>
