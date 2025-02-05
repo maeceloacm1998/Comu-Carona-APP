@@ -114,7 +114,7 @@ fun CreateCarRideRoute(
                 WAITING_CREATE_RIDE -> StateOfWaitingCreateRideScreen(
                     event = event
                 )
-                FINISH -> {}
+                FINISH -> StateOfFinishCreateRideScreen()
             }
         }
     }

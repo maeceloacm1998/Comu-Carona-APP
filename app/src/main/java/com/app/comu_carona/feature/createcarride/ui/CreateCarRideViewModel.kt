@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.app.comu_carona.feature.createcarride.data.models.CreateCarRideSteps
+import com.app.comu_carona.feature.createcarride.data.models.CreateCarRideSteps.CAR_DESTINATION_HOUR
 import com.app.comu_carona.feature.createcarride.data.models.CreateCarRideSteps.FINISH
+import com.app.comu_carona.feature.createcarride.domain.CreateCarRideUseCase
 import com.app.comu_carona.feature.createcarride.domain.SearchAddressUseCase
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnCarColor
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnCarModel
@@ -30,8 +32,9 @@ import org.koin.android.annotation.KoinViewModel
 
 @KoinViewModel
 class CreateCarRideViewModel(
-    private val searchAddressUseCase: SearchAddressUseCase,
     private val navController: NavController,
+    private val searchAddressUseCase: SearchAddressUseCase,
+    private val createCarRideUseCase: CreateCarRideUseCase
 ) : ViewModel() {
     private val viewModelState = MutableStateFlow(CreateCarRideViewModelState())
     private val stepsOrder: List<CreateCarRideSteps> =
@@ -93,7 +96,23 @@ class CreateCarRideViewModel(
     }
 
     private fun onCreateCarRide() {
-
+        val state = viewModelState.value
+        viewModelScope.launch {
+            createCarRideUseCase(
+                carModel = state.carModel,
+                carPlate = state.carPlate,
+                carColor = state.carColor,
+                quantitySeats = state.quantitySeats,
+                waitingAddress = state.waitingAddress,
+                destinationAddress = state.destinationAddress,
+                waitingHour = state.waitingHour,
+                destinationHour = state.destinationHour
+            ).onSuccess {
+                onRemoveNewStep(FINISH)
+            }.onFailure {
+                onRemoveNewStep(CAR_DESTINATION_HOUR)
+            }
+        }
     }
 
     private fun onGoToHome() {

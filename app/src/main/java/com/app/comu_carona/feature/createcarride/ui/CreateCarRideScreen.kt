@@ -482,7 +482,7 @@ fun StageOfWaitingHourScreen(
                     }
                     firstTextField = text
                 },
-                keyboardType = KeyboardType.Text,
+                keyboardType = KeyboardType.Number,
                 isErrorMessage = false,
                 onImeAction = {}
             )
@@ -511,7 +511,7 @@ fun StageOfWaitingHourScreen(
                     }
                     secondTextField = text
                 },
-                keyboardType = KeyboardType.Text,
+                keyboardType = KeyboardType.Number,
                 isErrorMessage = false,
                 onImeAction = {
                     onValueChange("${firstTextField}:${secondTextField}")
@@ -587,9 +587,11 @@ fun StateOfFinishCreateRideScreen() {
         verticalArrangement = Arrangement.Center
     ) {
         Image(
+            modifier = Modifier
+                .size(120.dp)
+                .padding(bottom = 20.dp),
             painter = painterResource(id = R.drawable.ic_success),
-            contentDescription = "check",
-            modifier = Modifier.size(120.dp)
+            contentDescription = "check"
         )
         Text(
             text = stringResource(R.string.create_car_ride_success_title),
@@ -598,8 +600,7 @@ fun StateOfFinishCreateRideScreen() {
             fontWeight = SemiBold,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(
-                horizontal = 20.dp,
-                vertical = 30.dp,
+                horizontal = 20.dp
             ),
         )
         Text(
@@ -609,7 +610,6 @@ fun StateOfFinishCreateRideScreen() {
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(
                 horizontal = 20.dp,
-                vertical = 10.dp,
             ),
         )
 
@@ -617,7 +617,7 @@ fun StateOfFinishCreateRideScreen() {
 
         CCButton(
             modifier = Modifier.fillMaxWidth(),
-            title = stringResource(id = R.string.register_account_stage_of_birth_date_button_title),
+            title = stringResource(id = R.string.create_car_ride_success_button_title),
             isEnable = true,
             onButtonListener = {}
         )

@@ -1,6 +1,7 @@
 package com.app.comu_carona.feature.createcarride.data
 
 import com.app.comu_carona.feature.createcarride.data.external.CreateCarRideAPI
+import com.app.comu_carona.feature.createcarride.data.models.CreateCarRideRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.koin.core.annotation.Single
@@ -13,6 +14,17 @@ class CreateCarRideRepositoryImpl(
         return withContext(Dispatchers.IO) {
             try {
                 val response = createCarRideAPI.searchAddress(address)
+                Result.success(response)
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+        }
+    }
+
+    override suspend fun createCarRide(data: CreateCarRideRequest): Result<Unit> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = createCarRideAPI.createCarRide(data)
                 Result.success(response)
             } catch (e: Exception) {
                 Result.failure(e)

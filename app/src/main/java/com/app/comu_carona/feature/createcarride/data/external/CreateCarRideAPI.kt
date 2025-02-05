@@ -1,7 +1,9 @@
 package com.app.comu_carona.feature.createcarride.data.external
 
+import com.app.comu_carona.feature.createcarride.data.models.CreateCarRideRequest
 import org.koin.core.annotation.Factory
 import retrofit2.Retrofit
+import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Query
 
@@ -10,6 +12,11 @@ interface CreateCarRideAPI {
     suspend fun searchAddress(
         @Query("address") address: String
     ): List<String>
+
+    @POST("/api/car-ride/v1/create")
+    suspend fun createCarRide(
+        @Body data: CreateCarRideRequest
+    )
 }
 
 @Factory(binds = [CreateCarRideAPI::class])
@@ -20,4 +27,8 @@ class CreateCarRideAPIImpl(
 
     override suspend fun searchAddress(address: String): List<String> =
         createCarRideAPI.searchAddress(address)
+
+    override suspend fun createCarRide(data: CreateCarRideRequest) {
+        createCarRideAPI.createCarRide(data)
+    }
 }
