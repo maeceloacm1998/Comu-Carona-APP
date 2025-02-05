@@ -64,6 +64,7 @@ import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventS
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnCarModel
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnCarPlate
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnCreateCarRide
+import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnGoToHome
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnNextStep
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnQuantitySeats
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnRemoveNewStep
@@ -99,11 +100,11 @@ fun StageOfCarModelScreen(
             Spacer(modifier = Modifier.height(20.dp))
 
             CCButtonBack(onClick = {
-                // Aviso para voltar para tela inicial
+                event(OnGoToHome)
             })
 
             BackHandler {
-                // Aviso para voltar para tela inicial
+                event(OnGoToHome)
             }
 
             Spacer(modifier = Modifier.height(27.dp))
@@ -577,7 +578,9 @@ fun StateOfWaitingCreateRideScreen(
 }
 
 @Composable
-fun StateOfFinishCreateRideScreen() {
+fun StateOfFinishCreateRideScreen(
+    event: (CreateCarRideViewModelEventState) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -605,7 +608,7 @@ fun StateOfFinishCreateRideScreen() {
         )
         Text(
             text = stringResource(R.string.create_car_ride_success_message),
-            style = MaterialTheme.typography.bodySmall,
+            style = MaterialTheme.typography.bodyMedium,
             color = TextFieldColor,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(
@@ -619,7 +622,9 @@ fun StateOfFinishCreateRideScreen() {
             modifier = Modifier.fillMaxWidth(),
             title = stringResource(id = R.string.create_car_ride_success_button_title),
             isEnable = true,
-            onButtonListener = {}
+            onButtonListener = {
+                event(OnGoToHome)
+            }
         )
     }
 }
@@ -721,5 +726,7 @@ fun StageOfWaitingCreateRideScreenPreview() {
 @Preview
 @Composable
 fun StateOfFinishCreateRideScreenPreview() {
-    StateOfFinishCreateRideScreen()
+    StateOfFinishCreateRideScreen(
+        event = {}
+    )
 }
