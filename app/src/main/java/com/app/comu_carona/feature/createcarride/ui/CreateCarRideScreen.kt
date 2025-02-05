@@ -38,14 +38,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight.Companion.SemiBold
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.app.comu_carona.R
 import com.app.comu_carona.components.button.CCButton
 import com.app.comu_carona.components.button.CCButtonBack
@@ -57,11 +63,13 @@ import com.app.comu_carona.feature.createcarride.data.models.CreateCarRideSteps.
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnCarColor
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnCarModel
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnCarPlate
+import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnCreateCarRide
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnNextStep
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnQuantitySeats
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnRemoveNewStep
 import com.app.comu_carona.theme.Primary
 import com.app.comu_carona.theme.SoftBlack
+import com.app.comu_carona.theme.TextColor
 import com.app.comu_carona.theme.TextFieldColor
 import com.app.comu_carona.utils.StringUtils.CAR_PLATE_LENGTH
 
@@ -411,7 +419,6 @@ fun StageOfWaitingAddressScreen(
 
 @Composable
 fun StageOfWaitingHourScreen(
-    uiState: CreateCarRideViewModelUiState.Steps,
     title: String,
     onValueChange: (String) -> Unit = {},
     onNextAction: () -> Unit = {},
@@ -519,12 +526,100 @@ fun StageOfWaitingHourScreen(
             modifier = Modifier.fillMaxWidth(),
             title = stringResource(id = R.string.register_account_stage_of_birth_date_button_title),
             isEnable = (firstTextField + secondTextField).length == 4,
-            isLoading = uiState.isLoading,
-            isSuccess = uiState.isSuccess,
             onButtonListener = {
                 onValueChange("${firstTextField}:${secondTextField}")
                 onNextAction()
             }
+        )
+    }
+}
+
+@Composable
+fun StateOfWaitingCreateRideScreen(
+    event: (CreateCarRideViewModelEventState) -> Unit
+) {
+    val loadingLottieAnimation by rememberLottieComposition(
+        spec = LottieCompositionSpec.RawRes(R.raw.search_car_ride)
+    )
+
+    LaunchedEffect(Unit) {
+        event(OnCreateCarRide)
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(White)
+            .padding(20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        LottieAnimation(
+            composition = loadingLottieAnimation,
+            modifier = Modifier
+                .size(170.dp),
+            contentScale = ContentScale.Crop,
+            iterations = LottieConstants.IterateForever
+        )
+
+        Text(
+            text = stringResource(R.string.create_car_ride_waiting_title),
+            style = MaterialTheme.typography.titleSmall,
+            color = TextColor,
+            fontWeight = SemiBold,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(
+                horizontal = 30.dp,
+                vertical = 40.dp,
+            ),
+        )
+    }
+}
+
+@Composable
+fun StateOfFinishCreateRideScreen() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(White)
+            .padding(20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_success),
+            contentDescription = "check",
+            modifier = Modifier.size(120.dp)
+        )
+        Text(
+            text = stringResource(R.string.create_car_ride_success_title),
+            style = MaterialTheme.typography.titleMedium,
+            color = SoftBlack,
+            fontWeight = SemiBold,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(
+                horizontal = 20.dp,
+                vertical = 30.dp,
+            ),
+        )
+        Text(
+            text = stringResource(R.string.create_car_ride_success_message),
+            style = MaterialTheme.typography.bodySmall,
+            color = TextFieldColor,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(
+                horizontal = 20.dp,
+                vertical = 10.dp,
+            ),
+        )
+
+        Spacer(modifier = Modifier.height(30.dp))
+
+        CCButton(
+            modifier = Modifier.fillMaxWidth(),
+            title = stringResource(id = R.string.register_account_stage_of_birth_date_button_title),
+            isEnable = true,
+            onButtonListener = {}
         )
     }
 }
@@ -610,23 +705,21 @@ fun StageOfWaitingAddressScreenPreview() {
 @Composable
 fun StageOfWaitingHourScreenPreview() {
     StageOfWaitingHourScreen(
-        uiState = CreateCarRideViewModelUiState.Steps(
-            steps = CreateCarRideSteps.CAR_WAITING_HOUR,
-            carModel = "",
-            carColor = "",
-            carPlate = "",
-            quantitySeats = 0,
-            waitingAddress = "",
-            waitingAddressList = emptyList(),
-            destinationAddress = "",
-            destinationAddressList = emptyList(),
-            waitingHour = "",
-            destinationHour = "",
-            enabledCarModelScreen = false,
-            isLoading = false,
-            isError = false,
-            isSuccess = false,
-        ),
         title = "Waiting Hour",
     )
+}
+
+
+@Preview
+@Composable
+fun StageOfWaitingCreateRideScreenPreview() {
+    StateOfWaitingCreateRideScreen(
+        event = {}
+    )
+}
+
+@Preview
+@Composable
+fun StateOfFinishCreateRideScreenPreview() {
+    StateOfFinishCreateRideScreen()
 }

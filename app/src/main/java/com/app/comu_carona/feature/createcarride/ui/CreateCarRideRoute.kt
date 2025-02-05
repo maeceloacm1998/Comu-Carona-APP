@@ -85,7 +85,6 @@ fun CreateCarRideRoute(
                 )
 
                 CAR_WAITING_HOUR -> StageOfWaitingHourScreen(
-                    uiState = uiState,
                     title = stringResource(id = R.string.create_car_ride_waiting_hour_title),
                     onValueChange = { event(OnWaitingHour(it)) },
                     onNextAction = { event(OnNextStep(CAR_DESTINATION_ADDRESS)) },
@@ -107,13 +106,14 @@ fun CreateCarRideRoute(
                 )
 
                 CAR_DESTINATION_HOUR -> StageOfWaitingHourScreen(
-                    uiState = uiState,
                     title = stringResource(id = R.string.create_car_ride_destination_hour_title),
                     onValueChange = { event(OnDestinationHour(it)) },
-                    onNextAction = { event(OnNextStep(FINISH)) },
+                    onNextAction = { event(OnNextStep(WAITING_CREATE_RIDE)) },
                     onBackAction = { event(OnRemoveNewStep(CAR_DESTINATION_ADDRESS)) }
                 )
-                WAITING_CREATE_RIDE -> {}
+                WAITING_CREATE_RIDE -> StateOfWaitingCreateRideScreen(
+                    event = event
+                )
                 FINISH -> {}
             }
         }

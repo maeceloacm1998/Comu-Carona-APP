@@ -48,4 +48,9 @@
     <string name="create_car_ride_destination_address_placeholder">Digite o endereço completo</string>
 
     <string name="create_car_ride_destination_hour_title">Qual horário você vai chegar no local?</string>
+
+    <string name="create_car_ride_waiting_title">A Carona está sendo criada, aguarde um momento...</string>
+
+    <string name="create_car_ride_success_title">Sua Carona foi criada!</string>
+    <string name="create_car_ride_success_message">Aguarde as pessoas entrarem na sua carona 🚗</string>
 </resources>

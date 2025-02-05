@@ -51,7 +51,8 @@ sealed class CreateCarRideViewModelEventState {
     /**
      * Represents the event when the destination address is updated.
      */
-    data class OnDestinationAddress(val destinationAddress: String) : CreateCarRideViewModelEventState()
+    data class OnDestinationAddress(val destinationAddress: String) :
+        CreateCarRideViewModelEventState()
 
     /**
      * Represents the event when the waiting hour is updated.
@@ -62,4 +63,14 @@ sealed class CreateCarRideViewModelEventState {
      * Represents the event when the destination hour is updated.
      */
     data class OnDestinationHour(val destinationHour: String) : CreateCarRideViewModelEventState()
+
+    /**
+     * Represents the event when the create car ride button is clicked.
+     */
+    data object OnCreateCarRide : CreateCarRideViewModelEventState()
+
+    /**
+     * Represents the event when the search address is clicked.
+     */
+    data object OnGoToHome : CreateCarRideViewModelEventState()
 }

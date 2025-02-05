@@ -2,9 +2,24 @@ package com.app.comu_carona.feature.createcarride.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.app.comu_carona.feature.createcarride.data.models.CreateCarRideSteps
 import com.app.comu_carona.feature.createcarride.data.models.CreateCarRideSteps.FINISH
 import com.app.comu_carona.feature.createcarride.domain.SearchAddressUseCase
+import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnCarColor
+import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnCarModel
+import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnCarPlate
+import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnClearAddressList
+import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnCreateCarRide
+import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnDestinationAddress
+import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnDestinationHour
+import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnGoToHome
+import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnNextStep
+import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnQuantitySeats
+import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnRemoveNewStep
+import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnWaitingAddress
+import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnWaitingHour
+import com.app.comu_carona.routes.Routes
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -15,7 +30,8 @@ import org.koin.android.annotation.KoinViewModel
 
 @KoinViewModel
 class CreateCarRideViewModel(
-    private val searchAddressUseCase: SearchAddressUseCase
+    private val searchAddressUseCase: SearchAddressUseCase,
+    private val navController: NavController,
 ) : ViewModel() {
     private val viewModelState = MutableStateFlow(CreateCarRideViewModelState())
     private val stepsOrder: List<CreateCarRideSteps> =
@@ -31,20 +47,19 @@ class CreateCarRideViewModel(
 
     fun onEvent(event: CreateCarRideViewModelEventState) {
         when (event) {
-            is CreateCarRideViewModelEventState.OnNextStep -> onNextStep(event.step)
-            is CreateCarRideViewModelEventState.OnRemoveNewStep -> onRemoveNewStep(event.step)
-            is CreateCarRideViewModelEventState.OnCarModel -> onUpdateCarModel(event.carModel)
-            is CreateCarRideViewModelEventState.OnCarColor -> onUpdateCarColor(event.carColor)
-            is CreateCarRideViewModelEventState.OnCarPlate -> onUpdateCarPlate(event.carPlate)
-            is CreateCarRideViewModelEventState.OnQuantitySeats -> onUpdateQuantitySeats(event.quantitySeats)
-            is CreateCarRideViewModelEventState.OnWaitingAddress -> onUpdateWaitingAddress(event.waitingAddress)
-            is CreateCarRideViewModelEventState.OnDestinationAddress -> onUpdateDestinationAddress(
-                event.destinationAddress
-            )
-
-            is CreateCarRideViewModelEventState.OnWaitingHour -> onUpdateWaitingHour(event.waitingHour)
-            is CreateCarRideViewModelEventState.OnDestinationHour -> onUpdateDestinationHour(event.destinationHour)
-            CreateCarRideViewModelEventState.OnClearAddressList -> onClearAddressList()
+            is OnNextStep -> onNextStep(event.step)
+            is OnRemoveNewStep -> onRemoveNewStep(event.step)
+            is OnCarModel -> onUpdateCarModel(event.carModel)
+            is OnCarColor -> onUpdateCarColor(event.carColor)
+            is OnCarPlate -> onUpdateCarPlate(event.carPlate)
+            is OnQuantitySeats -> onUpdateQuantitySeats(event.quantitySeats)
+            is OnWaitingAddress -> onUpdateWaitingAddress(event.waitingAddress)
+            is OnDestinationAddress -> onUpdateDestinationAddress(event.destinationAddress)
+            is OnWaitingHour -> onUpdateWaitingHour(event.waitingHour)
+            is OnDestinationHour -> onUpdateDestinationHour(event.destinationHour)
+            is OnClearAddressList -> onClearAddressList()
+            is OnCreateCarRide -> onCreateCarRide()
+            is OnGoToHome -> onGoToHome()
         }
     }
 
@@ -79,6 +94,14 @@ class CreateCarRideViewModel(
 
     private fun onCreateCarRide() {
 
+    }
+
+    private fun onGoToHome() {
+        navController.navigate(Routes.Home.route) {
+            popUpTo(Routes.CheckCode.route) {
+                inclusive = true
+            }
+        }
     }
 
     private fun onUpdateEnabledCarModelScreen() {
