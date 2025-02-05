@@ -41,11 +41,11 @@ import com.app.comu_carona.components.carridecard.AvailableCarRideCard
 import com.app.comu_carona.components.horizontalline.HorizontalLine
 import com.app.comu_carona.feature.bottomnavigation.BottomNavBar
 import com.app.comu_carona.feature.home.data.models.AvailableCarRide
+import com.app.comu_carona.feature.home.ui.HomeViewModelEventState.OnNavigateTo
 import com.app.comu_carona.routes.Routes
 import com.app.comu_carona.theme.SoftBlack
 import com.app.comu_carona.theme.TextColor
 import com.app.comu_carona.theme.TextFieldLineColor
-import okhttp3.Route
 
 @Composable
 fun HomeScreen(
@@ -70,7 +70,7 @@ fun HomeScreen(
             BottomNavBar(
                 currentRoute = Routes.Home.route,
                 onItemClick = {
-                    onEvent(HomeViewModelEventState.OnNavigateTo(it))
+                    onEvent(OnNavigateTo(it))
                 }
             )
         }
@@ -101,7 +101,9 @@ fun HomeScreen(
                             .padding(horizontal = 20.dp, vertical = 30.dp)
                             .fillMaxWidth()
                             .height(135.dp)
-                            .clickable { },
+                            .clickable {
+                                onEvent(OnNavigateTo(Routes.CreateCarRide.route))
+                            },
                         painter = painterResource(R.drawable.ic_create_car_ride),
                         contentDescription = "",
                         contentScale = FillBounds,

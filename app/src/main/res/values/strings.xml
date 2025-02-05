@@ -39,4 +39,13 @@
 
     <string name="create_car_ride_quantity_seats_title">Então, quantos\npassageiros você\npodera levar no carro?</string>
 
+    <string name="create_car_ride_waiting_address_title">De onde vai sair?</string>
+    <string name="create_car_ride_waiting_address_placeholder">Digite o endereço completo</string>
+
+    <string name="create_car_ride_waiting_hour_title">Qual horário você vai estar no local?</string>
+
+    <string name="create_car_ride_destination_address_title">Para qual local você vai?</string>
+    <string name="create_car_ride_destination_address_placeholder">Digite o endereço completo</string>
+
+    <string name="create_car_ride_destination_hour_title">Qual horário você vai chegar no local?</string>
 </resources>

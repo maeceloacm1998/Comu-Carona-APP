@@ -1,6 +1,5 @@
 package com.app.comu_carona
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -25,10 +24,7 @@ fun ComuCaronaNavGraph(
         modifier = modifier,
     ) {
         composable(route = Routes.Home.route) {
-//            HomeRoute(
-//                navController = navController
-//            )
-            CreateCarRideRoute(
+            HomeRoute(
                 navController = navController
             )
         }

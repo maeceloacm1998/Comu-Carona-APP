@@ -7,4 +7,6 @@ enum class CreateCarRideSteps {
     CAR_WAITING_HOUR,
     CAR_DESTINATION_ADDRESS,
     CAR_DESTINATION_HOUR,
+    WAITING_CREATE_RIDE,
+    FINISH
 }

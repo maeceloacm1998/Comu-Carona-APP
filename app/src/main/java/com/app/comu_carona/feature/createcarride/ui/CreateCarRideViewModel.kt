@@ -3,15 +3,20 @@ package com.app.comu_carona.feature.createcarride.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.comu_carona.feature.createcarride.data.models.CreateCarRideSteps
+import com.app.comu_carona.feature.createcarride.data.models.CreateCarRideSteps.FINISH
+import com.app.comu_carona.feature.createcarride.domain.SearchAddressUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
 
 @KoinViewModel
-class CreateCarRideViewModel : ViewModel() {
+class CreateCarRideViewModel(
+    private val searchAddressUseCase: SearchAddressUseCase
+) : ViewModel() {
     private val viewModelState = MutableStateFlow(CreateCarRideViewModelState())
     private val stepsOrder: List<CreateCarRideSteps> =
         CreateCarRideSteps.entries.toTypedArray().toList()
@@ -39,11 +44,12 @@ class CreateCarRideViewModel : ViewModel() {
 
             is CreateCarRideViewModelEventState.OnWaitingHour -> onUpdateWaitingHour(event.waitingHour)
             is CreateCarRideViewModelEventState.OnDestinationHour -> onUpdateDestinationHour(event.destinationHour)
+            CreateCarRideViewModelEventState.OnClearAddressList -> onClearAddressList()
         }
     }
 
     private fun onNextStep(step: CreateCarRideSteps) {
-        if (step == CreateCarRideSteps.CAR_DESTINATION_HOUR) {
+        if (step == FINISH) {
             onCreateCarRide()
         } else {
             val index = stepsOrder.indexOf(step)
@@ -55,6 +61,24 @@ class CreateCarRideViewModel : ViewModel() {
         val index = stepsOrder.indexOf(step)
 
         onUpdateStep(stepsOrder[index])
+    }
+
+    private fun onSearchAddress(
+        address: String,
+        onSuccess: (List<String>) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        viewModelScope.launch {
+            searchAddressUseCase(address).onSuccess { addresses ->
+                onSuccess(addresses)
+            }.onFailure { throwable ->
+                onError(throwable)
+            }
+        }
+    }
+
+    private fun onCreateCarRide() {
+
     }
 
     private fun onUpdateEnabledCarModelScreen() {
@@ -99,14 +123,45 @@ class CreateCarRideViewModel : ViewModel() {
     }
 
     private fun onUpdateWaitingAddress(waitingAddress: String) {
+        onSearchAddress(
+            address = waitingAddress,
+            onSuccess = { addresses ->
+                viewModelState.update {
+                    it.copy(waitingAddressList = addresses)
+                }
+            }, onError = {
+                viewModelState.update {
+                    it.copy(waitingAddressList = emptyList())
+                }
+            }
+        )
         viewModelState.update {
             it.copy(waitingAddress = waitingAddress)
         }
     }
 
     private fun onUpdateDestinationAddress(destinationAddress: String) {
+        onSearchAddress(
+            address = destinationAddress,
+            onSuccess = { addresses ->
+                viewModelState.update {
+                    it.copy(waitingAddressList = addresses)
+                }
+            }, onError = {
+                viewModelState.update {
+                    it.copy(waitingAddressList = emptyList())
+                }
+            }
+        )
+
         viewModelState.update {
             it.copy(destinationAddress = destinationAddress)
+        }
+    }
+
+    private fun onClearAddressList() {
+        viewModelState.update {
+            it.copy(waitingAddressList = emptyList(), destinationAddressList = emptyList())
         }
     }
 
@@ -120,9 +175,5 @@ class CreateCarRideViewModel : ViewModel() {
         viewModelState.update {
             it.copy(destinationHour = destinationHour)
         }
-    }
-
-    private fun onCreateCarRide() {
-
     }
 }

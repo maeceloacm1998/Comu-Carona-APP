@@ -19,6 +19,11 @@ sealed class CreateCarRideViewModelEventState {
         CreateCarRideViewModelEventState()
 
     /**
+     * Represents the event when the address list is cleared.
+     */
+    data object OnClearAddressList : CreateCarRideViewModelEventState()
+
+    /**
      * Represents the event when the car model is updated.
      */
     data class OnCarModel(val carModel: String) : CreateCarRideViewModelEventState()

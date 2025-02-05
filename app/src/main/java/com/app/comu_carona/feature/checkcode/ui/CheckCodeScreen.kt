@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.app.comu_carona.R
 import com.app.comu_carona.components.button.CCButton
+import com.app.comu_carona.feature.checkcode.ui.CheckCodeViewModelEventState.OnChangedCode
 import com.app.comu_carona.theme.Error
 import com.app.comu_carona.theme.GrayLight
 import com.app.comu_carona.theme.Success
@@ -97,7 +98,7 @@ fun CheckCodeScreen(
                         if (newValue.length <= 1) {
                             val updatedValues = uiState.code.toMutableList()
                             updatedValues[index] = newValue
-                            onEvent.invoke(CheckCodeViewModelEventState.OnChangedCode(updatedValues))
+                            onEvent.invoke(OnChangedCode(updatedValues))
 
                             // Focus next field
                             if (newValue.isNotEmpty() && index < focusRequesters.size - 1) {

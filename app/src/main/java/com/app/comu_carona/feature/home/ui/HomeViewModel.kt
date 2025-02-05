@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
 import retrofit2.HttpException
+import javax.net.ssl.SSLException
 
 @KoinViewModel
 class HomeViewModel(
@@ -84,13 +85,23 @@ class HomeViewModel(
                     onUpdateAvailableCarRides(availableCarRides)
                 },
                 onFailure = { throwable ->
-                    val errorCode = (throwable as HttpException).code()
-
-                    when (errorCode) {
-                        NetworkingHttpState.UNAUTHORIZED.code -> {
-                            logoutUseCase(navController, Routes.Home.route)
+                    when (throwable) {
+                        is HttpException -> {
+                            val errorCode = throwable.code()
+                            when (errorCode) {
+                                NetworkingHttpState.UNAUTHORIZED.code -> {
+                                    logoutUseCase(navController, Routes.Home.route)
+                                }
+                                else -> {
+                                    onUpdateLoadingState(false)
+                                    onUpdateErrorState(true)
+                                }
+                            }
                         }
-
+                        is SSLException -> {
+                            onUpdateLoadingState(false)
+                            onUpdateErrorState(true)
+                        }
                         else -> {
                             onUpdateLoadingState(false)
                             onUpdateErrorState(true)
