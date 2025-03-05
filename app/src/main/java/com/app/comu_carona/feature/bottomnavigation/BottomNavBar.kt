@@ -24,7 +24,7 @@ fun BottomNavBar(
 ) {
     val bottomNavigationItems = listOf(
         BottomNavItem("Home", Routes.Home.route, painterResource(id = R.drawable.ic_home)),
-        BottomNavItem("Suas Caronas", Routes.CheckCode.route, painterResource(id = R.drawable.ic_my_car_ride)),
+        BottomNavItem("Suas Caronas", Routes.RideInProgress.route, painterResource(id = R.drawable.ic_my_car_ride)),
         BottomNavItem("Perfil", Routes.RegisterAccount.route, painterResource(id = R.drawable.ic_profile))
     )
 

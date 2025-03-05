@@ -55,4 +55,6 @@
     <string name="create_car_ride_success_message">Aguarde as pessoas entrarem na sua carona 🚗</string>
     <string name="create_car_ride_success_button_title">Ir para minhas caronas</string>
 
+    <string name="ride_in_progress_title">Caronas em andamento 🚗</string>
+
 </resources>
