@@ -26,9 +26,9 @@
     <string name="register_account_stage_of_photo_circular_button_title">Adicionar foto</string>
     <string name="register_account_stage_of_photo_button_title">Finalizar</string>
 
-    <string name="home_available_car_ride_title">Caronas disponíveis</string>
-    <string name="home_not_available_car_ride_title">Nenhuma corrida disponível</string>
-    <string name="home_username_title">Olá %s 👋</string>
+    <string name="initial_available_car_ride_title">Caronas disponíveis</string>
+    <string name="initial_not_available_car_ride_title">Nenhuma corrida disponível</string>
+    <string name="initial_username_title">Olá %s 👋</string>
 
     <string name="create_car_ride_car_model_title">Qual são os dados\ndo seu carro?</string>
     <string name="create_car_ride_car_model_message">Para mais detalhes da sua carona, digite os detalhes do seu carro para melhor identificação.</string>
@@ -56,5 +56,6 @@
     <string name="create_car_ride_success_button_title">Ir para minhas caronas</string>
 
     <string name="ride_in_progress_title">Caronas em andamento 🚗</string>
+    <string name="ride_in_progress_empty_title">Nenhuma corrida disponível</string>
 
 </resources>

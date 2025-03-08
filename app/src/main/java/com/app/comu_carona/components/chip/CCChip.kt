@@ -2,7 +2,6 @@ package com.app.comu_carona.components.chip
 
 import androidx.compose.animation.Animatable
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button

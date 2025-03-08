@@ -8,9 +8,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.app.comu_carona.feature.checkcode.ui.CheckCodeRoute
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideRoute
-import com.app.comu_carona.feature.home.ui.HomeRoute
+import com.app.comu_carona.feature.home.HomeRoute
+import com.app.comu_carona.feature.home.steps.rideinprogress.ui.RideInProgressRoute
 import com.app.comu_carona.feature.registeraccount.ui.RegisterAccountRoute
-import com.app.comu_carona.feature.rideinprogress.ui.RideInProgressScreen
 import com.app.comu_carona.routes.Routes
 
 @Composable
@@ -46,10 +46,6 @@ fun ComuCaronaNavGraph(
             CreateCarRideRoute(
                 navController = navController
             )
-        }
-
-        composable(route = Routes.RideInProgress.route) {
-            RideInProgressScreen()
         }
     }
 }
