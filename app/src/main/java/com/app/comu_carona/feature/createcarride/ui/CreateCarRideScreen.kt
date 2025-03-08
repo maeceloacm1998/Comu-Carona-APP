@@ -340,7 +340,7 @@ fun StageOfWaitingAddressScreen(
                 .focusRequester(focusRequesters),
             placeholder = stringResource(id = R.string.create_car_ride_waiting_address_placeholder),
             value = textFieldValue,
-            onValueChange = { text ->
+            onDebouncedChange = { text ->
                 onValueChange(text)
             },
             keyboardType = KeyboardType.Text,
