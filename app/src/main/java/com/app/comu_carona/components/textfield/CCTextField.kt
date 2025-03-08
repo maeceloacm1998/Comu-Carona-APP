@@ -12,6 +12,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,6 +29,9 @@ import com.app.comu_carona.theme.Error
 import com.app.comu_carona.theme.GrayLight
 import com.app.comu_carona.theme.TextFieldColor
 import com.app.comu_carona.theme.TextFieldLineColor
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun CCTextField(
@@ -36,7 +40,9 @@ fun CCTextField(
     placeholderSize: Int = 16,
     textAlign: TextAlign = TextAlign.Start,
     value: String,
-    onValueChange: (String) -> Unit,
+    onValueChange: (String) -> Unit = {},
+    onDebouncedChange: (String) -> Unit = {},
+    debounceTime: Long = 800L,
     keyboardType: KeyboardType = KeyboardType.Number,
     maxLines: Int = 1,
     maxLength: Int = 100,
@@ -56,6 +62,8 @@ fun CCTextField(
 
     val keyboardController = LocalSoftwareKeyboardController.current
     var textFieldValue by remember { mutableStateOf(TextFieldValue(text = value)) }
+    val coroutineScope = rememberCoroutineScope()
+    var debounceJob by remember { mutableStateOf<Job?>(null) }
 
     LaunchedEffect(value) {
         if (textFieldValue.text != value) {
@@ -63,6 +71,14 @@ fun CCTextField(
                 text = value,
                 selection = TextRange(value.length)
             )
+        }
+    }
+
+    LaunchedEffect(textFieldValue.text) {
+        debounceJob?.cancel()
+        debounceJob = coroutineScope.launch {
+            delay(debounceTime)
+            onDebouncedChange(textFieldValue.text)
         }
     }
 
@@ -121,6 +137,7 @@ fun CCTextFieldPreview() {
     CCTextField(
         value = "",
         onValueChange = {},
-        onImeAction = {}
+        onImeAction = {},
+        onDebouncedChange = {}
     )
 }
