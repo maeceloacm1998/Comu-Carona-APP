@@ -49,17 +49,19 @@ fun AvailableCarRideCard(
         onClick = {},
     ) {
         Column {
-            Row(
-                modifier = Modifier
-                    .padding(start = 10.dp, top = 10.dp)
-            ) {
-                status.map { items ->
-                    CCTag(
-                        modifier = Modifier
-                            .padding(start = 10.dp),
-                        title = items.title,
-                        color = items.color
-                    )
+            if(status.isNotEmpty()) {
+                Row(
+                    modifier = Modifier
+                        .padding(top = 12.dp)
+                ) {
+                    status.map { items ->
+                        CCTag(
+                            modifier = Modifier
+                                .padding(start = 10.dp),
+                            title = items.title,
+                            color = items.color
+                        )
+                    }
                 }
             }
 
