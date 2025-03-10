@@ -23,17 +23,13 @@ fun CCTag(
     Column(
         modifier = modifier
             .background(color, RoundedCornerShape(10.dp))
-            .padding(horizontal = 10.dp, vertical = 2.dp)
+            .padding(horizontal = 15.dp, vertical = 4.dp)
     ) {
         Text(
             text = title,
-            style = MaterialTheme.typography.titleSmall,
+            style = MaterialTheme.typography.displaySmall,
             color = Color.White,
             fontWeight = SemiBold,
-            modifier = Modifier.padding(
-                start = 5.dp,
-                end = 5.dp,
-            ),
         )
     }
 }

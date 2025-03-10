@@ -3,9 +3,11 @@ package com.app.comu_carona
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,7 +16,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             Scaffold { paddingValues ->
                 ComuCaronaApp(
-                    modifier = Modifier.padding(paddingValues)
+                    modifier = Modifier
+                        .background(Color.White)
+                        .padding(paddingValues)
                 )
             }
         }

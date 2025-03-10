@@ -10,6 +10,7 @@ enum class RideInProgressFilterOptions(
     val title: String,
     val color: Color
 ) {
+    TODOS("Todos", Secondary),
     MY_RIDE("Minha carona", Secondary),
     IN_PROGRESS("Em andamento", Primary),
     CANCELED("Cancelado", Error),
@@ -18,10 +19,11 @@ enum class RideInProgressFilterOptions(
     companion object {
         fun fromValue(value: String):  RideInProgressFilterOptions {
             return when(value) {
-                MY_RIDE.toString() -> MY_RIDE
-                IN_PROGRESS.toString() -> IN_PROGRESS
-                CANCELED.toString() -> CANCELED
-                FINISHED.toString() -> FINISHED
+                TODOS.title -> TODOS
+                MY_RIDE.title -> MY_RIDE
+                IN_PROGRESS.title -> IN_PROGRESS
+                CANCELED.title -> CANCELED
+                FINISHED.title -> FINISHED
                 else -> {
                     throw IllegalArgumentException("Invalid value")
                 }

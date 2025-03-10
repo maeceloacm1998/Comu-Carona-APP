@@ -3,6 +3,7 @@ package com.app.comu_carona.feature.home.steps.rideinprogress.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.app.comu_carona.feature.home.steps.rideinprogress.data.models.RideInProgressFilterOptions
 import com.app.comu_carona.feature.home.steps.rideinprogress.data.models.RideInProgressModel
 import com.app.comu_carona.feature.home.steps.rideinprogress.domain.GetRideInProgressUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +19,12 @@ class RideInProgressViewModel(
     private val navController: NavController,
     private val getRideInProgressUseCase: GetRideInProgressUseCase
 ) : ViewModel() {
-    private val viewModelState = MutableStateFlow(RideInProgressViewModelState())
+    private val viewModelState =
+        MutableStateFlow(
+            RideInProgressViewModelState(
+                rideInProgressFilterSelected = RideInProgressFilterOptions.TODOS
+            )
+        )
 
     init {
         onLoadAvailableCarRide()
@@ -35,6 +41,7 @@ class RideInProgressViewModel(
     fun onEvent(event: RideInProgressViewModelEventState) {
         when (event) {
             is RideInProgressViewModelEventState.OnLoadRideInProgress -> onLoadAvailableCarRide()
+            is RideInProgressViewModelEventState.OnSelectFilter -> onSelectFilter(event.rideInProgressFilterOptions)
             is RideInProgressViewModelEventState.OnNavigateTo -> onNavigateTo(event.route)
         }
     }
@@ -43,7 +50,7 @@ class RideInProgressViewModel(
         onUpdateLoading(true)
 
         viewModelScope.launch {
-            val status = viewModelState.value.rideInProgressFilterSelected
+            val status = viewModelState.value.rideInProgressFilterSelected.toString()
 
             onUpdateLoading(false)
 
@@ -59,6 +66,11 @@ class RideInProgressViewModel(
         }
     }
 
+    private fun onSelectFilter(rideInProgressFilterOptions: RideInProgressFilterOptions) {
+        onUpdateFilterSelected(rideInProgressFilterOptions)
+        onLoadAvailableCarRide()
+    }
+
     private fun onNavigateTo(route: String) {
         navController.navigate(route)
     }
@@ -72,12 +84,14 @@ class RideInProgressViewModel(
         }
     }
 
-    private fun onUpdateLoading(isLoading: Boolean) {
-        viewModelState.update { it.copy(isLoading = isLoading) }
+    private fun onUpdateFilterSelected(rideInProgressFilterOptions: RideInProgressFilterOptions) {
+        viewModelState.update {
+            it.copy(rideInProgressFilterSelected = rideInProgressFilterOptions)
+        }
     }
 
-    private fun onUpdateSuccess(isSuccess: Boolean) {
-        viewModelState.update { it.copy(isSuccess = isSuccess) }
+    private fun onUpdateLoading(isLoading: Boolean) {
+        viewModelState.update { it.copy(isLoading = isLoading) }
     }
 
     private fun onUpdateError(error: Boolean) {

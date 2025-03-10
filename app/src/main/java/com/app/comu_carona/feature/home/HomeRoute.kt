@@ -1,9 +1,9 @@
 package com.app.comu_carona.feature.home
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -16,7 +16,6 @@ import com.app.comu_carona.feature.home.steps.initial.ui.InitialRoute
 import com.app.comu_carona.feature.home.steps.rideinprogress.ui.RideInProgressRoute
 import com.app.comu_carona.feature.home.HomeViewModelEventState.OnNavigateTo
 import com.app.comu_carona.routes.Routes
-import com.app.comu_carona.routes.Routes.Home
 import com.app.comu_carona.routes.Routes.Initial
 import com.app.comu_carona.utils.AnimatedUtils.animatedTransitionPage
 import org.koin.androidx.compose.koinViewModel
@@ -35,6 +34,7 @@ fun HomeRoute(
     )
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeRoute(
     uiState: HomeViewModelUiState,
@@ -52,11 +52,10 @@ fun HomeRoute(
                 }
             )
         }
-    ) { innerPadding ->
+    ) {
         AnimatedContent(
             modifier = Modifier
                 .background(Color.White)
-                .padding(innerPadding)
                 .fillMaxSize(),
             targetState = uiState.steps,
             label = "AnimatedContent",

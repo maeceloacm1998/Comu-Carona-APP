@@ -1,18 +1,13 @@
 package com.app.comu_carona.feature.home.steps.rideinprogress.ui
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.app.comu_carona.R
-import com.app.comu_carona.components.errorcontent.CCErrorContent
 import com.app.comu_carona.components.loadingcontent.CCLoadingSwipeRefreshContent
+import com.app.comu_carona.feature.home.steps.initial.ui.InitialScreenLoading
 import com.app.comu_carona.feature.home.steps.rideinprogress.ui.RideInProgressViewModelEventState.OnLoadRideInProgress
-import com.app.comu_carona.feature.home.steps.rideinprogress.ui.RideInProgressViewModelUiState.HasRiderInProgress
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -44,24 +39,19 @@ fun RideInProgressRoute(
         isError = uiState.isError,
         onRefresh = { onEvent(OnLoadRideInProgress) },
         loadingContent = {
-            // Colocar tela de loading
-            Text("deu loading")
+            InitialScreenLoading(
+                userName = "",
+                photoUrl = ""
+            )
         },
         errorContent = {
             Text("deu erro")
         },
         content = {
-            if(uiState is HasRiderInProgress) {
-                RideInProgressScreen(
-                    uiState = uiState,
-                    onEvent = onEvent
-                )
-            } else {
-                CCErrorContent(
-                    modifier = Modifier.fillMaxSize(),
-                    title = stringResource(R.string.ride_in_progress_empty_title)
-                )
-            }
+            RideInProgressScreen(
+                uiState = uiState,
+                onEvent = onEvent
+            )
         }
     )
 }

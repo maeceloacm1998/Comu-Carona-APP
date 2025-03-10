@@ -4,9 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -25,14 +27,17 @@ import androidx.compose.ui.unit.dp
 import com.app.comu_carona.R
 import com.app.comu_carona.components.carridecard.AvailableCarRideCard
 import com.app.comu_carona.components.chip.CCChip
+import com.app.comu_carona.components.errorcontent.CCErrorContent
 import com.app.comu_carona.components.horizontalline.HorizontalLine
 import com.app.comu_carona.feature.home.steps.rideinprogress.data.models.RideInProgressFilterOptions
+import com.app.comu_carona.feature.home.steps.rideinprogress.ui.RideInProgressViewModelEventState.OnSelectFilter
+import com.app.comu_carona.feature.home.steps.rideinprogress.ui.RideInProgressViewModelUiState.HasRiderInProgress
 import com.app.comu_carona.theme.SoftBlack
 import com.app.comu_carona.theme.TextFieldLineColor
 
 @Composable
 fun RideInProgressScreen(
-    uiState: RideInProgressViewModelUiState.HasRiderInProgress,
+    uiState: RideInProgressViewModelUiState,
     onEvent: (RideInProgressViewModelEventState) -> Unit
 ) {
     Scaffold(
@@ -60,32 +65,49 @@ fun RideInProgressScreen(
             )
 
             LazyRow {
+                item {
+                    Spacer(modifier = Modifier.width(15.dp))
+                }
+
                 items(RideInProgressFilterOptions.entries.size) { index ->
                     CCChip(
                         modifier = Modifier
                             .padding(vertical = 10.dp, horizontal = 5.dp),
                         title = RideInProgressFilterOptions.entries[index].title,
+                        isActivated = uiState.rideInProgressFilterSelected == RideInProgressFilterOptions.entries[index],
+                        onClick = {
+                            onEvent(
+                                OnSelectFilter(RideInProgressFilterOptions.entries[index])
+                            )
+                        }
                     )
                 }
             }
 
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize(),
-            ) {
-                items(uiState.rideInProgressList) { items ->
-                    AvailableCarRideCard(
-                        modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
-                        waitingHour = items.waitingHour,
-                        destinationHour = items.destinationHour,
-                        waitingAddress = items.waitingAddress,
-                        destinationAddress = items.destinationAddress,
-                        riderPhotoUrl = items.riderInformation.photoUrl,
-                        riderUserName = items.riderInformation.username,
-                        riderDescription = "Participa de alvo",
-                        status = items.states.map { RideInProgressFilterOptions.fromValue(it) }
-                    )
+            if(uiState is HasRiderInProgress) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                ) {
+                    items(uiState.rideInProgressList) { items ->
+                        AvailableCarRideCard(
+                            modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
+                            waitingHour = items.waitingHour,
+                            destinationHour = items.destinationHour,
+                            waitingAddress = items.waitingAddress,
+                            destinationAddress = items.destinationAddress,
+                            riderPhotoUrl = items.riderInformation.photoUrl,
+                            riderUserName = items.riderInformation.username,
+                            riderDescription = "Participa de alvo",
+                            status = items.states.map { RideInProgressFilterOptions.fromValue(it) }
+                        )
+                    }
                 }
+            } else {
+                CCErrorContent(
+                    modifier = Modifier.fillMaxSize(),
+                    title = stringResource(R.string.ride_in_progress_empty_title)
+                )
             }
         }
     }
@@ -117,10 +139,10 @@ fun RideInProgressScreenPreview() {
         uiState = RideInProgressViewModelUiState.HasRiderInProgress(
             rideInProgressList = listOf(),
             rideInProgressListFiltered = listOf(),
+            rideInProgressFilterSelected = RideInProgressFilterOptions.TODOS,
             isLoading = false,
             isError = false,
             isRefresh = false,
-            isSuccess = false,
         ),
         onEvent = {}
     )

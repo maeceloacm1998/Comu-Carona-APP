@@ -9,7 +9,6 @@ import androidx.navigation.compose.rememberNavController
 import com.app.comu_carona.feature.checkcode.ui.CheckCodeRoute
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideRoute
 import com.app.comu_carona.feature.home.HomeRoute
-import com.app.comu_carona.feature.home.steps.rideinprogress.ui.RideInProgressRoute
 import com.app.comu_carona.feature.registeraccount.ui.RegisterAccountRoute
 import com.app.comu_carona.routes.Routes
 
