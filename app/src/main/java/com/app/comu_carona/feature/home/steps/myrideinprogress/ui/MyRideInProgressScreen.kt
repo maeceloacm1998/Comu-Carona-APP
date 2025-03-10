@@ -1,4 +1,4 @@
-package com.app.comu_carona.feature.home.steps.rideinprogress.ui
+package com.app.comu_carona.feature.home.steps.myrideinprogress.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -30,18 +30,18 @@ import com.app.comu_carona.components.chip.CCChip
 import com.app.comu_carona.components.errorcontent.CCErrorContent
 import com.app.comu_carona.components.horizontalline.HorizontalLine
 import com.app.comu_carona.feature.home.steps.myrideinprogress.data.models.RideInProgressFilterOptions
-import com.app.comu_carona.feature.home.steps.rideinprogress.ui.RideInProgressViewModelEventState.OnSelectFilter
+import com.app.comu_carona.feature.home.steps.myrideinprogress.ui.MyRideInProgressViewModelEventState.OnSelectFilter
 import com.app.comu_carona.theme.SoftBlack
 import com.app.comu_carona.theme.TextFieldLineColor
 
 @Composable
-fun RideInProgressScreen(
-    uiState: RideInProgressViewModelUiState,
-    onEvent: (RideInProgressViewModelEventState) -> Unit
+fun MyRideInProgressScreen(
+    uiState: MyRideInProgressViewModelUiState,
+    onEvent: (MyRideInProgressViewModelEventState) -> Unit
 ) {
     Scaffold(
         topBar = {
-           RideInProgressTopBar(
+            MyRideInProgressTopBar(
                 modifier = Modifier
                     .background(White)
                     .padding(vertical = 20.dp),
@@ -76,16 +76,14 @@ fun RideInProgressScreen(
                         isActivated = uiState.rideInProgressFilterSelected == RideInProgressFilterOptions.entries[index],
                         onClick = {
                             onEvent(
-                                OnSelectFilter(
-                                    RideInProgressFilterOptions.entries[index]
-                                )
+                                OnSelectFilter(RideInProgressFilterOptions.entries[index])
                             )
                         }
                     )
                 }
             }
 
-            if(uiState is RideInProgressViewModelUiState.HasRiderInProgress) {
+            if(uiState is MyRideInProgressViewModelUiState.HasRiderInProgress) {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize(),
@@ -115,7 +113,7 @@ fun RideInProgressScreen(
 }
 
 @Composable
-fun RideInProgressTopBar(modifier: Modifier = Modifier) {
+fun MyRideInProgressTopBar(modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -124,7 +122,7 @@ fun RideInProgressTopBar(modifier: Modifier = Modifier) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = stringResource(R.string.ride_in_progress_title),
+            text = stringResource(R.string.my_ride_in_progress_title),
             style = MaterialTheme.typography.titleMedium,
             color = SoftBlack,
             fontWeight = SemiBold,
@@ -136,8 +134,8 @@ fun RideInProgressTopBar(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun RideInProgressScreenPreview() {
-    RideInProgressScreen(
-        uiState = RideInProgressViewModelUiState.HasRiderInProgress(
+    MyRideInProgressScreen(
+        uiState = MyRideInProgressViewModelUiState.HasRiderInProgress(
             rideInProgressList = listOf(),
             rideInProgressListFiltered = listOf(),
             rideInProgressFilterSelected = RideInProgressFilterOptions.TODOS,

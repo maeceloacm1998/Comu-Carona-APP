@@ -1,9 +1,9 @@
-package com.app.comu_carona.feature.home.steps.rideinprogress.ui
+package com.app.comu_carona.feature.home.steps.myrideinprogress.ui
 
 import com.app.comu_carona.feature.home.steps.myrideinprogress.data.models.RideInProgressFilterOptions
 import com.app.comu_carona.feature.home.steps.rideinprogress.data.models.RideInProgressModel
 
-sealed interface RideInProgressViewModelUiState {
+sealed interface MyRideInProgressViewModelUiState {
     val isLoading: Boolean
     val isError: Boolean
     val isRefresh: Boolean
@@ -17,7 +17,7 @@ sealed interface RideInProgressViewModelUiState {
         override val isLoading: Boolean,
         override val isError: Boolean,
         override val isRefresh: Boolean,
-    ) : RideInProgressViewModelUiState
+    ) : MyRideInProgressViewModelUiState
 
 
     /**
@@ -30,13 +30,13 @@ sealed interface RideInProgressViewModelUiState {
         override val isLoading: Boolean,
         override val isError: Boolean,
         override val isRefresh: Boolean,
-    ) : RideInProgressViewModelUiState
+    ) : MyRideInProgressViewModelUiState
 }
 
 /**
  * Represents the state of the home screen.
  */
-data class RideInProgressViewModelState(
+data class MyRideInProgressViewModelState(
     val rideInProgressList: List<RideInProgressModel> = emptyList(),
     val rideInProgressListFiltered: List<RideInProgressModel> = emptyList(),
     val rideInProgressFilterSelected: RideInProgressFilterOptions = RideInProgressFilterOptions.TODOS,
@@ -48,8 +48,8 @@ data class RideInProgressViewModelState(
     /**
      * Converts the state to a UI state.
      */
-    fun toUiState(): RideInProgressViewModelUiState = if (rideInProgressListFiltered.isNotEmpty()) {
-        RideInProgressViewModelUiState.HasRiderInProgress(
+    fun toUiState(): MyRideInProgressViewModelUiState = if (rideInProgressListFiltered.isNotEmpty()) {
+        MyRideInProgressViewModelUiState.HasRiderInProgress(
             rideInProgressList = rideInProgressList,
             rideInProgressListFiltered = rideInProgressListFiltered,
             rideInProgressFilterSelected = rideInProgressFilterSelected,
@@ -58,7 +58,7 @@ data class RideInProgressViewModelState(
             isRefresh = isRefresh,
         )
     } else {
-        RideInProgressViewModelUiState.NoHasRiderInProgress(
+        MyRideInProgressViewModelUiState.NoHasRiderInProgress(
             rideInProgressFilterSelected = rideInProgressFilterSelected,
             isLoading = isLoading,
             isError = isError,

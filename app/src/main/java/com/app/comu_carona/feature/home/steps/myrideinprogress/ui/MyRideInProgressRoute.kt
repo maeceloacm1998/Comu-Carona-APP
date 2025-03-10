@@ -1,4 +1,4 @@
-package com.app.comu_carona.feature.home.steps.rideinprogress.ui
+package com.app.comu_carona.feature.home.steps.myrideinprogress.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -8,50 +8,48 @@ import androidx.navigation.NavController
 import com.app.comu_carona.R
 import com.app.comu_carona.components.errorcontent.CCErrorContentRetry
 import com.app.comu_carona.components.loadingcontent.CCLoadingSwipeRefreshContent
-import com.app.comu_carona.feature.home.steps.myrideinprogress.ui.MyRideInProgressViewModelEventState
 import com.app.comu_carona.feature.home.steps.myrideinprogress.ui.MyRideInProgressViewModelEventState.OnLoadMyRideInProgress
-import com.app.comu_carona.feature.home.steps.rideinprogress.ui.RideInProgressViewModelEventState.OnLoadRideInProgress
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
-fun RideInProgressRoute(
+fun MyRideInProgressRoute(
     navController: NavController
 ) {
-    val viewModel: RideInProgressViewModel = koinViewModel(
+    val viewModel: MyRideInProgressViewModel = koinViewModel(
         parameters = {
             parametersOf(navController)
         }
     )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    RideInProgressRoute(
+    MyRideInProgressRoute(
         uiState = uiState,
         onEvent = viewModel::onEvent
     )
 }
 
 @Composable
-fun RideInProgressRoute(
-    uiState: RideInProgressViewModelUiState,
-    onEvent: (RideInProgressViewModelEventState) -> Unit
+fun MyRideInProgressRoute(
+    uiState: MyRideInProgressViewModelUiState,
+    onEvent: (MyRideInProgressViewModelEventState) -> Unit
 ) {
     CCLoadingSwipeRefreshContent(
         isLoading = uiState.isLoading,
         isRefresh = uiState.isRefresh,
         isError = uiState.isError,
-        onRefresh = { onEvent(OnLoadRideInProgress) },
+        onRefresh = { onEvent(OnLoadMyRideInProgress) },
         loadingContent = {
-            RideInProgressScreenLoading()
+            MyRideInProgressScreenLoading()
         },
         errorContent = {
             CCErrorContentRetry(
                 title = stringResource(R.string.generic_connection_error),
-                onClick = { onEvent(OnLoadRideInProgress) }
+                onClick = { onEvent(OnLoadMyRideInProgress) }
             )
         },
         content = {
-            RideInProgressScreen(
+            MyRideInProgressScreen(
                 uiState = uiState,
                 onEvent = onEvent
             )

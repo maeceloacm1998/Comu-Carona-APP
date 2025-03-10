@@ -1,12 +1,11 @@
-package com.app.comu_carona.feature.home.steps.rideinprogress.ui
+package com.app.comu_carona.feature.home.steps.myrideinprogress.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.app.comu_carona.feature.home.steps.myrideinprogress.data.models.RideInProgressFilterOptions
-import com.app.comu_carona.feature.home.steps.myrideinprogress.ui.MyRideInProgressViewModelEventState
+import com.app.comu_carona.feature.home.steps.myrideinprogress.domain.GetMyRideInProgressUseCase
 import com.app.comu_carona.feature.home.steps.rideinprogress.data.models.RideInProgressModel
-import com.app.comu_carona.feature.home.steps.rideinprogress.domain.GetRideInProgressUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -16,13 +15,13 @@ import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
 
 @KoinViewModel
-class RideInProgressViewModel(
+class MyRideInProgressViewModel(
     private val navController: NavController,
-    private val getRideInProgressUseCase: GetRideInProgressUseCase
+    private val getMyRideInProgressUseCase: GetMyRideInProgressUseCase
 ) : ViewModel() {
     private val viewModelState =
         MutableStateFlow(
-            RideInProgressViewModelState(
+            MyRideInProgressViewModelState(
                 rideInProgressFilterSelected = RideInProgressFilterOptions.TODOS
             )
         )
@@ -32,18 +31,18 @@ class RideInProgressViewModel(
     }
 
     val uiState = viewModelState
-        .map(RideInProgressViewModelState::toUiState)
+        .map(MyRideInProgressViewModelState::toUiState)
         .stateIn(
             viewModelScope,
             SharingStarted.Eagerly,
             viewModelState.value.toUiState()
         )
 
-    fun onEvent(event: RideInProgressViewModelEventState) {
+    fun onEvent(event: MyRideInProgressViewModelEventState) {
         when (event) {
-            is RideInProgressViewModelEventState.OnLoadRideInProgress -> onLoadAvailableCarRide()
-            is RideInProgressViewModelEventState.OnSelectFilter -> onSelectFilter(event.rideInProgressFilterOptions)
-            is RideInProgressViewModelEventState.OnNavigateTo -> onNavigateTo(event.route)
+            is MyRideInProgressViewModelEventState.OnLoadMyRideInProgress -> onLoadAvailableCarRide()
+            is MyRideInProgressViewModelEventState.OnSelectFilter -> onSelectFilter(event.rideInProgressFilterOptions)
+            is MyRideInProgressViewModelEventState.OnNavigateTo -> onNavigateTo(event.route)
         }
     }
 
@@ -55,7 +54,7 @@ class RideInProgressViewModel(
 
             onUpdateLoading(false)
 
-            getRideInProgressUseCase.invoke(status)
+            getMyRideInProgressUseCase.invoke(status)
                 .onSuccess { result ->
                     onUpdateRideInProgressList(result)
                     onUpdateLoading(false)

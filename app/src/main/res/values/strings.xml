@@ -55,9 +55,10 @@
     <string name="create_car_ride_success_message">Aguarde as pessoas entrarem na sua carona 🚗</string>
     <string name="create_car_ride_success_button_title">Ir para minhas caronas</string>
 
-    <string name="ride_in_progress_title">Caronas em andamento 🚗</string>
+    <string name="ride_in_progress_title">Minhas reservas</string>
     <string name="ride_in_progress_empty_title">Nenhuma corrida disponível</string>
 
+    <string name="my_ride_in_progress_title">Minhas caronas</string>
 
     <string name="generic_connection_error">Ocorreu um erro de conexão. Por favor, tente novamente.</string>
 </resources>

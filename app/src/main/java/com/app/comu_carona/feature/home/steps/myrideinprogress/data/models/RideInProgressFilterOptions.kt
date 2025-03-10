@@ -1,4 +1,4 @@
-package com.app.comu_carona.feature.home.steps.rideinprogress.data.models
+package com.app.comu_carona.feature.home.steps.myrideinprogress.data.models
 
 import androidx.compose.ui.graphics.Color
 import com.app.comu_carona.theme.Error

@@ -18,7 +18,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.app.comu_carona.components.horizontalline.HorizontalLine
 import com.app.comu_carona.components.tag.CCTag
-import com.app.comu_carona.feature.home.steps.rideinprogress.data.models.RideInProgressFilterOptions
 import com.app.comu_carona.theme.BackgroundSkeleton
 import com.app.comu_carona.theme.TextFieldLineColor
 import com.valentinilk.shimmer.shimmer
@@ -33,7 +32,7 @@ fun AvailableCarRideCard(
     riderPhotoUrl: String,
     riderUserName: String,
     riderDescription: String,
-    status: List<RideInProgressFilterOptions> = emptyList()
+    status: List<com.app.comu_carona.feature.home.steps.myrideinprogress.data.models.RideInProgressFilterOptions> = emptyList()
 ) {
     Card(
         modifier = modifier

@@ -1,5 +1,6 @@
 package com.app.comu_carona.feature.home.bottomnavigation
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -24,7 +25,8 @@ fun BottomNavBar(
 ) {
     val bottomNavigationItems = listOf(
         BottomNavItem("Home", Routes.Initial.route, painterResource(id = R.drawable.ic_home)),
-        BottomNavItem("Suas Caronas", Routes.RideInProgress.route, painterResource(id = R.drawable.ic_my_car_ride)),
+        BottomNavItem("Suas reservas", Routes.RideInProgress.route, painterResource(id = R.drawable.ic_my_car_ride)),
+        BottomNavItem("Suas caronas", Routes.MyRideInProgress.route, painterResource(id = R.drawable.ic_car_ride)),
         BottomNavItem("Perfil", Routes.RegisterAccount.route, painterResource(id = R.drawable.ic_profile))
     )
 
@@ -36,6 +38,7 @@ fun BottomNavBar(
             NavigationBarItem(
                 icon = {
                     Icon(
+                        modifier = Modifier.size(23.dp),
                         painter = item.icon,
                         contentDescription = item.name,
                         tint = if(currentRoute == item.route) Primary else DisabledBackground
