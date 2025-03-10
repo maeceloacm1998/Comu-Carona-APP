@@ -3,26 +3,32 @@ package com.app.comu_carona.feature.home.steps.myrideinprogress.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.app.comu_carona.commons.usecase.LogoutUseCase
 import com.app.comu_carona.feature.home.steps.myrideinprogress.domain.GetMyRideInProgressUseCase
 import com.app.comu_carona.feature.home.steps.rideinprogress.data.models.RideInProgressFilterOptions
 import com.app.comu_carona.feature.home.steps.rideinprogress.data.models.RideInProgressModel
+import com.app.comu_carona.routes.Routes
+import com.app.comu_carona.service.retrofit.NetworkingHttpState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import okhttp3.Route
 import org.koin.android.annotation.KoinViewModel
+import retrofit2.HttpException
 
 @KoinViewModel
 class MyRideInProgressViewModel(
     private val navController: NavController,
-    private val getMyRideInProgressUseCase: GetMyRideInProgressUseCase
+    private val getMyRideInProgressUseCase: GetMyRideInProgressUseCase,
+    private val logoutUseCase: LogoutUseCase
 ) : ViewModel() {
     private val viewModelState =
         MutableStateFlow(
             MyRideInProgressViewModelState(
-                rideInProgressFilterSelected = RideInProgressFilterOptions.TODOS
+                rideInProgressFilterSelected = RideInProgressFilterOptions.ALL
             )
         )
 
@@ -59,9 +65,22 @@ class MyRideInProgressViewModel(
                     onUpdateRideInProgressList(result)
                     onUpdateLoading(false)
                 }
-                .onFailure {
-                    onUpdateError(true)
-                    onUpdateLoading(false)
+                .onFailure { throwable ->
+                    val errorCode = (throwable as HttpException).code()
+
+                    when (errorCode) {
+                        NetworkingHttpState.UNAUTHORIZED.code -> {
+                            logoutUseCase(
+                                navController = navController,
+                                actualRoute = Routes.Home.route
+                            )
+                        }
+
+                        else -> {
+                            onUpdateError(true)
+                            onUpdateLoading(false)
+                        }
+                    }
                 }
         }
     }

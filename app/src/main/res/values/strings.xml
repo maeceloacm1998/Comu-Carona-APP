@@ -60,5 +60,5 @@
 
     <string name="my_ride_in_progress_title">Minhas caronas</string>
 
-    <string name="generic_connection_error">Ocorreu um erro de conexão. Por favor, tente novamente.</string>
+    <string name="generic_connection_error">Ocorreu um erro de conexão.\nPor favor, tente novamente.</string>
 </resources>

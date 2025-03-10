@@ -39,6 +39,9 @@ fun MyRideInProgressScreen(
     uiState: MyRideInProgressViewModelUiState,
     onEvent: (MyRideInProgressViewModelEventState) -> Unit
 ) {
+    val filterOptionsWithoutMyRides: List<RideInProgressFilterOptions> =
+        RideInProgressFilterOptions.entries.filter { it != RideInProgressFilterOptions.MY_RIDE }
+
     Scaffold(
         topBar = {
             MyRideInProgressTopBar(
@@ -68,17 +71,14 @@ fun MyRideInProgressScreen(
                     Spacer(modifier = Modifier.width(15.dp))
                 }
 
-                items(RideInProgressFilterOptions.entries.size) { index ->
+                items(filterOptionsWithoutMyRides) { item ->
                     CCChip(
                         modifier = Modifier
                             .padding(vertical = 10.dp, horizontal = 5.dp),
-                        title = RideInProgressFilterOptions.entries[index].title,
-                        isActivated = uiState.rideInProgressFilterSelected == RideInProgressFilterOptions.entries[index],
+                        title = item.title,
+                        isActivated = uiState.rideInProgressFilterSelected == item,
                         onClick = {
-                            onEvent(
-                                OnSelectFilter(RideInProgressFilterOptions.entries[index])
-                            )
-                        }
+                            onEvent(OnSelectFilter(item))                        }
                     )
                 }
             }
@@ -138,7 +138,7 @@ fun RideInProgressScreenPreview() {
         uiState = MyRideInProgressViewModelUiState.HasRiderInProgress(
             rideInProgressList = listOf(),
             rideInProgressListFiltered = listOf(),
-            rideInProgressFilterSelected = RideInProgressFilterOptions.TODOS,
+            rideInProgressFilterSelected = RideInProgressFilterOptions.ALL,
             isLoading = false,
             isError = false,
             isRefresh = false,

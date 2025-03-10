@@ -4,10 +4,12 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.app.comu_carona.commons.usecase.LogoutUseCase
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountSteps
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountSteps.PHOTO
 import com.app.comu_carona.feature.registeraccount.domain.RegisterAccountUseCase
 import com.app.comu_carona.routes.Routes
+import com.app.comu_carona.service.retrofit.NetworkingHttpState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -15,11 +17,13 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
+import retrofit2.HttpException
 
 @KoinViewModel
 class RegisterAccountViewModel(
     private val navigation: NavController,
-    private val registerAccountUseCase: RegisterAccountUseCase
+    private val registerAccountUseCase: RegisterAccountUseCase,
+    private val logoutUseCase: LogoutUseCase
 ): ViewModel() {
     private val viewModelState = MutableStateFlow(RegisterAccountViewModelState())
     private val stepsOrder: List<RegisterAccountSteps> = RegisterAccountSteps.entries.toTypedArray().toList()
@@ -76,9 +80,22 @@ class RegisterAccountViewModel(
                 onGoToHome()
                 onUpdateLoading(false)
                 onUpdateSuccess(true)
-            }.onFailure {
-                onUpdateLoading(false)
-                // Colocar Snackbar de erro
+            }.onFailure { throwable ->
+                val errorCode = (throwable as HttpException).code()
+
+                when (errorCode) {
+                    NetworkingHttpState.UNAUTHORIZED.code -> {
+                        logoutUseCase(
+                            navController = navigation,
+                            actualRoute = Routes.CreateCarRide.route
+                        )
+                    }
+
+                    else -> {
+                        onUpdateLoading(false)
+                        // Colocar Snackbar de erro
+                    }
+                }
             }
         }
     }

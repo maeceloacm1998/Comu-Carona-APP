@@ -39,7 +39,7 @@ sealed interface RideInProgressViewModelUiState {
 data class RideInProgressViewModelState(
     val rideInProgressList: List<RideInProgressModel> = emptyList(),
     val rideInProgressListFiltered: List<RideInProgressModel> = emptyList(),
-    val rideInProgressFilterSelected: RideInProgressFilterOptions = RideInProgressFilterOptions.TODOS,
+    val rideInProgressFilterSelected: RideInProgressFilterOptions = RideInProgressFilterOptions.ALL,
     val isLoading: Boolean = false,
     val isError: Boolean = false,
     val isRefresh: Boolean = false,

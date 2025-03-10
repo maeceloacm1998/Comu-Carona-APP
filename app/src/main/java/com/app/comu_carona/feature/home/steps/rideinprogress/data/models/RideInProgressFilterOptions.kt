@@ -10,7 +10,7 @@ enum class RideInProgressFilterOptions(
     val title: String,
     val color: Color
 ) {
-    TODOS("Todos", Secondary),
+    ALL("Todos", Secondary),
     MY_RIDE("Minha carona", Secondary),
     IN_PROGRESS("Em andamento", Primary),
     CANCELED("Cancelado", Error),
@@ -19,7 +19,7 @@ enum class RideInProgressFilterOptions(
     companion object {
         fun fromValue(value: String): RideInProgressFilterOptions {
             return when(value) {
-                TODOS.title -> TODOS
+                ALL.title -> ALL
                 MY_RIDE.title -> MY_RIDE
                 IN_PROGRESS.title -> IN_PROGRESS
                 CANCELED.title -> CANCELED

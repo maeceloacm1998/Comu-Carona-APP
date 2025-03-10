@@ -139,7 +139,7 @@ fun RideInProgressScreenPreview() {
         uiState = RideInProgressViewModelUiState.HasRiderInProgress(
             rideInProgressList = listOf(),
             rideInProgressListFiltered = listOf(),
-            rideInProgressFilterSelected = RideInProgressFilterOptions.TODOS,
+            rideInProgressFilterSelected = RideInProgressFilterOptions.ALL,
             isLoading = false,
             isError = false,
             isRefresh = false,
