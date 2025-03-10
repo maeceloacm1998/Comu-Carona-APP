@@ -29,8 +29,8 @@ import com.app.comu_carona.components.carridecard.AvailableCarRideCard
 import com.app.comu_carona.components.chip.CCChip
 import com.app.comu_carona.components.errorcontent.CCErrorContent
 import com.app.comu_carona.components.horizontalline.HorizontalLine
-import com.app.comu_carona.feature.home.steps.myrideinprogress.data.models.RideInProgressFilterOptions
 import com.app.comu_carona.feature.home.steps.myrideinprogress.ui.MyRideInProgressViewModelEventState.OnSelectFilter
+import com.app.comu_carona.feature.home.steps.rideinprogress.data.models.RideInProgressFilterOptions
 import com.app.comu_carona.theme.SoftBlack
 import com.app.comu_carona.theme.TextFieldLineColor
 

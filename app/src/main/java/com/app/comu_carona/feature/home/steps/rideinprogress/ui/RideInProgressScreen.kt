@@ -29,7 +29,7 @@ import com.app.comu_carona.components.carridecard.AvailableCarRideCard
 import com.app.comu_carona.components.chip.CCChip
 import com.app.comu_carona.components.errorcontent.CCErrorContent
 import com.app.comu_carona.components.horizontalline.HorizontalLine
-import com.app.comu_carona.feature.home.steps.myrideinprogress.data.models.RideInProgressFilterOptions
+import com.app.comu_carona.feature.home.steps.rideinprogress.data.models.RideInProgressFilterOptions
 import com.app.comu_carona.feature.home.steps.rideinprogress.ui.RideInProgressViewModelEventState.OnSelectFilter
 import com.app.comu_carona.theme.SoftBlack
 import com.app.comu_carona.theme.TextFieldLineColor
@@ -39,9 +39,12 @@ fun RideInProgressScreen(
     uiState: RideInProgressViewModelUiState,
     onEvent: (RideInProgressViewModelEventState) -> Unit
 ) {
+    val filterOptionsWithoutMyRides: List<RideInProgressFilterOptions> =
+        RideInProgressFilterOptions.entries.filter { it != RideInProgressFilterOptions.MY_RIDE }
+
     Scaffold(
         topBar = {
-           RideInProgressTopBar(
+            RideInProgressTopBar(
                 modifier = Modifier
                     .background(White)
                     .padding(vertical = 20.dp),
@@ -68,24 +71,20 @@ fun RideInProgressScreen(
                     Spacer(modifier = Modifier.width(15.dp))
                 }
 
-                items(RideInProgressFilterOptions.entries.size) { index ->
+                items(filterOptionsWithoutMyRides) { item ->
                     CCChip(
                         modifier = Modifier
                             .padding(vertical = 10.dp, horizontal = 5.dp),
-                        title = RideInProgressFilterOptions.entries[index].title,
-                        isActivated = uiState.rideInProgressFilterSelected == RideInProgressFilterOptions.entries[index],
+                        title = item.title,
+                        isActivated = uiState.rideInProgressFilterSelected == item,
                         onClick = {
-                            onEvent(
-                                OnSelectFilter(
-                                    RideInProgressFilterOptions.entries[index]
-                                )
-                            )
+                            onEvent(OnSelectFilter(item))
                         }
                     )
                 }
             }
 
-            if(uiState is RideInProgressViewModelUiState.HasRiderInProgress) {
+            if (uiState is RideInProgressViewModelUiState.HasRiderInProgress) {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize(),

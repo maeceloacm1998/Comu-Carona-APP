@@ -3,8 +3,8 @@ package com.app.comu_carona.feature.home.steps.myrideinprogress.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.app.comu_carona.feature.home.steps.myrideinprogress.data.models.RideInProgressFilterOptions
 import com.app.comu_carona.feature.home.steps.myrideinprogress.domain.GetMyRideInProgressUseCase
+import com.app.comu_carona.feature.home.steps.rideinprogress.data.models.RideInProgressFilterOptions
 import com.app.comu_carona.feature.home.steps.rideinprogress.data.models.RideInProgressModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

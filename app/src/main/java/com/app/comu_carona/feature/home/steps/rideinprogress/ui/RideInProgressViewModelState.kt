@@ -1,6 +1,6 @@
 package com.app.comu_carona.feature.home.steps.rideinprogress.ui
 
-import com.app.comu_carona.feature.home.steps.myrideinprogress.data.models.RideInProgressFilterOptions
+import com.app.comu_carona.feature.home.steps.rideinprogress.data.models.RideInProgressFilterOptions
 import com.app.comu_carona.feature.home.steps.rideinprogress.data.models.RideInProgressModel
 
 sealed interface RideInProgressViewModelUiState {
