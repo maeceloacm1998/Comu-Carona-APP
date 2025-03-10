@@ -1,12 +1,13 @@
 package com.app.comu_carona.feature.home.steps.rideinprogress.ui
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.app.comu_carona.R
+import com.app.comu_carona.components.errorcontent.CCErrorContentRetry
 import com.app.comu_carona.components.loadingcontent.CCLoadingSwipeRefreshContent
-import com.app.comu_carona.feature.home.steps.initial.ui.InitialScreenLoading
 import com.app.comu_carona.feature.home.steps.rideinprogress.ui.RideInProgressViewModelEventState.OnLoadRideInProgress
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -39,13 +40,13 @@ fun RideInProgressRoute(
         isError = uiState.isError,
         onRefresh = { onEvent(OnLoadRideInProgress) },
         loadingContent = {
-            InitialScreenLoading(
-                userName = "",
-                photoUrl = ""
-            )
+            RideInProgressScreenLoading()
         },
         errorContent = {
-            Text("deu erro")
+            CCErrorContentRetry(
+                title = stringResource(R.string.generic_connection_error),
+                onClick = { onEvent(OnLoadRideInProgress) }
+            )
         },
         content = {
             RideInProgressScreen(

@@ -58,4 +58,6 @@
     <string name="ride_in_progress_title">Caronas em andamento 🚗</string>
     <string name="ride_in_progress_empty_title">Nenhuma corrida disponível</string>
 
+
+    <string name="generic_connection_error">Ocorreu um erro de conexão. Por favor, tente novamente.</string>
 </resources>
