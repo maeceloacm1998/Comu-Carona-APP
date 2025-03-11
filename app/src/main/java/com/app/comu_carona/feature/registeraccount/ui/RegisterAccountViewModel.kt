@@ -1,6 +1,7 @@
 package com.app.comu_carona.feature.registeraccount.ui
 
 import android.net.Uri
+import androidx.compose.material3.SnackbarHostState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
@@ -8,6 +9,7 @@ import com.app.comu_carona.commons.usecase.LogoutUseCase
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountSteps
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountSteps.PHOTO
 import com.app.comu_carona.feature.registeraccount.domain.RegisterAccountUseCase
+import com.app.comu_carona.feature.registeraccount.ui.RegisterAccountViewModelEventState.*
 import com.app.comu_carona.routes.Routes
 import com.app.comu_carona.service.retrofit.NetworkingHttpState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,9 +24,11 @@ import retrofit2.HttpException
 @KoinViewModel
 class RegisterAccountViewModel(
     private val navigation: NavController,
+    private val snackbarHostState: SnackbarHostState,
     private val registerAccountUseCase: RegisterAccountUseCase,
     private val logoutUseCase: LogoutUseCase
 ): ViewModel() {
+    private val snackbarMessageError = "Aconteceu um erro ao registrar o usuário, tenta novamente."
     private val viewModelState = MutableStateFlow(RegisterAccountViewModelState())
     private val stepsOrder: List<RegisterAccountSteps> = RegisterAccountSteps.entries.toTypedArray().toList()
 
@@ -38,13 +42,13 @@ class RegisterAccountViewModel(
 
     fun onEvent(event: RegisterAccountViewModelEventState) {
         when(event) {
-            is RegisterAccountViewModelEventState.OnNextStep -> onNextStep(event.step)
-            is RegisterAccountViewModelEventState.OnRemoveNewStep -> onRemoveNewStep(event.step)
-            is RegisterAccountViewModelEventState.OnGrantedPermission -> onGrantedPermission(event.isGranted)
-            is RegisterAccountViewModelEventState.OnUpdateFullName -> onUpdateFullName(event.fullName)
-            is RegisterAccountViewModelEventState.OnUpdateBirthDate -> onUpdateBirthDate(event.birthDate)
-            is RegisterAccountViewModelEventState.OnUpdatePhoneNumber -> onUpdatePhoneNumber(event.phoneNumber)
-            is RegisterAccountViewModelEventState.OnOpenPhoto -> onOpenGallery(event.uri)
+            is OnNextStep -> onNextStep(event.step)
+            is OnRemoveNewStep -> onRemoveNewStep(event.step)
+            is OnGrantedPermission -> onGrantedPermission(event.isGranted)
+            is OnUpdateFullName -> onUpdateFullName(event.fullName)
+            is OnUpdateBirthDate -> onUpdateBirthDate(event.birthDate)
+            is OnUpdatePhoneNumber -> onUpdatePhoneNumber(event.phoneNumber)
+            is OnOpenPhoto -> onOpenGallery(event.uri)
         }
     }
 
@@ -93,7 +97,7 @@ class RegisterAccountViewModel(
 
                     else -> {
                         onUpdateLoading(false)
-                        // Colocar Snackbar de erro
+                        snackbarHostState.showSnackbar(snackbarMessageError)
                     }
                 }
             }

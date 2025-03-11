@@ -24,3 +24,4 @@ val GrayLight = Color(0xfff7f8f9)
 
 val Success = Color(0xff5db075)
 val Error = Color(0xffd90000)
+val BrowDark = Color(0xFFD99734)
