@@ -637,6 +637,67 @@ fun StateOfFinishCreateRideScreen(
     }
 }
 
+@Composable
+fun LastCarRideBottomSheet(
+    lastCarRide: LastCarRide,
+    event: (CreateCarRideViewModelEventState) -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(White)
+            .padding(20.dp)
+    ) {
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            text = stringResource(R.string.create_car_ride_last_car_ride_title),
+            style = MaterialTheme.typography.titleMedium,
+            color = SoftBlack,
+            textAlign = Center
+        )
+
+        Spacer(modifier = Modifier.height(25.dp))
+
+        UserSelectionBox(
+            modifier = Modifier
+                .padding(horizontal = 10.dp),
+            riderPhotoUrl = lastCarRide.availableCarRide.riderPhotoUrl,
+            riderUserName = lastCarRide.availableCarRide.riderUserName,
+            riderDescription = lastCarRide.availableCarRide.riderDescription,
+            showArrow = false
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        AddressBox(
+            modifier = Modifier
+                .padding(horizontal = 10.dp, vertical = 15.dp),
+            waitingHour = lastCarRide.availableCarRide.waitingHour,
+            destinationHour = lastCarRide.availableCarRide.destinationHour,
+            waitingAddress = lastCarRide.availableCarRide.waitingAddress,
+            destinationAddress = lastCarRide.availableCarRide.destinationAddress
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        CCButton(
+            title = stringResource(R.string.create_car_ride_last_car_ride_confirm_button_title),
+            onButtonListener = {
+                event(OnConfirmLastCarRideUsage)
+            }
+        )
+
+        CCButton(
+            title = stringResource(R.string.create_car_ride_last_car_ride_cancel_button_title),
+            containerColor = White,
+            titleColor = Error,
+            onButtonListener = {
+                event(OnDeclineLastCarRideUsage)
+            }
+        )
+    }
+}
+
 
 @Preview
 @Composable
@@ -718,69 +779,6 @@ fun StageOfWaitingAddressScreenPreview() {
         title = "Waiting Address",
         onNextAction = {}
     )
-}
-
-@Composable
-fun LastCarRideBottomSheet(
-    lastCarRide: LastCarRide,
-    event: (CreateCarRideViewModelEventState) -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(White)
-            .padding(20.dp)
-    ) {
-        Text(
-            modifier = Modifier.fillMaxWidth(),
-            text = "Usar a ultima carona?",
-            style = MaterialTheme.typography.titleMedium,
-            color = SoftBlack,
-            textAlign = Center
-        )
-
-        Spacer(modifier = Modifier.height(25.dp))
-
-        UserSelectionBox(
-            modifier = Modifier
-                .padding(horizontal = 10.dp),
-            riderPhotoUrl = lastCarRide.availableCarRide.riderPhotoUrl,
-            riderUserName = lastCarRide.availableCarRide.riderUserName,
-            riderDescription = lastCarRide.availableCarRide.riderDescription,
-            showArrow = false
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        AddressBox(
-            modifier = Modifier
-                .padding(horizontal = 10.dp, vertical = 15.dp),
-            waitingHour = lastCarRide.availableCarRide.waitingHour,
-            destinationHour = lastCarRide.availableCarRide.destinationHour,
-            waitingAddress = lastCarRide.availableCarRide.waitingAddress,
-            destinationAddress = lastCarRide.availableCarRide.destinationAddress
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        CCButton(
-            title = "Usar última carona",
-            onButtonListener = {
-                event(OnConfirmLastCarRideUsage)
-            }
-        )
-
-        CCButton(
-            title = "Criar nova carona",
-            containerColor = White,
-            titleColor = Error,
-            onButtonListener = {
-                event(OnDeclineLastCarRideUsage)
-            }
-        )
-
-
-    }
 }
 
 @Preview

@@ -48,6 +48,7 @@ import com.app.comu_carona.R
 import com.app.comu_carona.components.button.CCButton
 import com.app.comu_carona.components.button.CCButtonBack
 import com.app.comu_carona.components.permissions.RequestGalleryPermission
+import com.app.comu_carona.components.shimmerimage.CCShimmerImage
 import com.app.comu_carona.components.textfield.CCTextField
 import com.app.comu_carona.feature.registeraccount.ui.RegisterAccountViewModelEventState.*
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountSteps.BIRTH_DATE

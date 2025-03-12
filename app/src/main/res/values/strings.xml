@@ -37,6 +37,10 @@
     <string name="create_car_ride_car_model_color_hint">Cor do carro</string>
     <string name="create_car_ride_car_model_button_title">Próximo</string>
 
+    <string name="create_car_ride_last_car_ride_title">Usar a ultima carona?</string>
+    <string name="create_car_ride_last_car_ride_confirm_button_title">Usar última carona</string>
+    <string name="create_car_ride_last_car_ride_cancel_button_title">Criar nova carona</string>
+
     <string name="create_car_ride_quantity_seats_title">Então, quantos\npassageiros você\npodera levar no carro?</string>
 
     <string name="create_car_ride_waiting_address_title">De onde vai sair?</string>

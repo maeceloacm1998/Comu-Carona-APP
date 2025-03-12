@@ -29,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.app.comu_carona.R
+import com.app.comu_carona.components.shimmerimage.CCShimmerImage
 import com.app.comu_carona.theme.Primary
 import com.app.comu_carona.theme.TextFieldLightColor
 import com.app.comu_carona.theme.UrbanistFontFamily
@@ -69,13 +70,10 @@ fun UserSelectionBox(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start
             ) {
-                Image(
-                    painter = rememberAsyncImagePainter(model = riderPhotoUrl),
+                CCShimmerImage(
+                    imageUrl = riderPhotoUrl,
                     contentScale = FillBounds,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(35.dp)
-                        .clip(CircleShape)
+                    imageSize = 35
                 )
 
                 Column(

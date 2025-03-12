@@ -141,11 +141,7 @@ class CreateCarRideViewModel(
     }
 
     private fun onGoToHome() {
-        navController.navigate(Routes.Home.route) {
-            popUpTo(Routes.CheckCode.route) {
-                inclusive = true
-            }
-        }
+        navController.popBackStack()
     }
 
     private fun onUpdateEnabledCarModelScreen() {

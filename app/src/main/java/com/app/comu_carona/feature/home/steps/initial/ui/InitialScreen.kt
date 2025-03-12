@@ -34,6 +34,7 @@ import com.app.comu_carona.R
 import com.app.comu_carona.components.carridecard.AvailableCarRideCard
 import com.app.comu_carona.components.errorcontent.CCErrorContent
 import com.app.comu_carona.components.horizontalline.HorizontalLine
+import com.app.comu_carona.components.shimmerimage.CCShimmerImage
 import com.app.comu_carona.feature.home.steps.initial.data.models.AvailableCarRide
 import com.app.comu_carona.feature.home.steps.initial.ui.InitialViewModelEventState.OnNavigateTo
 import com.app.comu_carona.routes.Routes
@@ -139,13 +140,10 @@ fun InitialTopBar(
             fontWeight = SemiBold,
             textAlign = TextAlign.Center,
         )
-        Image(
-            painter = rememberAsyncImagePainter(model = photoUrl),
+        CCShimmerImage(
+            imageUrl = photoUrl,
             contentScale = FillBounds,
-            contentDescription = null,
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
+            imageSize = 40
         )
     }
 }
