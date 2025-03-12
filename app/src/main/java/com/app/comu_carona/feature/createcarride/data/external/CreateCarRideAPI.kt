@@ -1,9 +1,11 @@
 package com.app.comu_carona.feature.createcarride.data.external
 
 import com.app.comu_carona.feature.createcarride.data.models.CreateCarRideRequest
+import com.app.comu_carona.feature.createcarride.data.models.LastCarRide
 import org.koin.core.annotation.Factory
 import retrofit2.Retrofit
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 
@@ -17,6 +19,9 @@ interface CreateCarRideAPI {
     suspend fun createCarRide(
         @Body data: CreateCarRideRequest
     )
+
+    @GET("/api/car-ride/v1/find-last")
+    suspend fun getLastCarRide(): LastCarRide
 }
 
 @Factory(binds = [CreateCarRideAPI::class])
@@ -31,4 +36,7 @@ class CreateCarRideAPIImpl(
     override suspend fun createCarRide(data: CreateCarRideRequest) {
         createCarRideAPI.createCarRide(data)
     }
+
+    override suspend fun getLastCarRide(): LastCarRide =
+        createCarRideAPI.getLastCarRide()
 }

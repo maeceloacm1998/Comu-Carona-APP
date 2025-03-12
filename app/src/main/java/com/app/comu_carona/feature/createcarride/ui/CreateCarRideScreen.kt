@@ -44,7 +44,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight.Companion.SemiBold
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextAlign.Companion.Center
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -55,19 +55,27 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.app.comu_carona.R
 import com.app.comu_carona.components.button.CCButton
 import com.app.comu_carona.components.button.CCButtonBack
+import com.app.comu_carona.components.carridecard.AddressBox
+import com.app.comu_carona.components.carridecard.UserSelectionBox
 import com.app.comu_carona.components.horizontalline.HorizontalLine
 import com.app.comu_carona.components.textfield.CCTextField
+import com.app.comu_carona.feature.createcarride.data.models.CreateCarRideRequest
 import com.app.comu_carona.feature.createcarride.data.models.CreateCarRideSteps
 import com.app.comu_carona.feature.createcarride.data.models.CreateCarRideSteps.CAR_QUANTITY_SEATS
 import com.app.comu_carona.feature.createcarride.data.models.CreateCarRideSteps.CAR_WAITING_ADDRESS
+import com.app.comu_carona.feature.createcarride.data.models.LastCarRide
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnCarColor
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnCarModel
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnCarPlate
+import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnConfirmLastCarRideUsage
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnCreateCarRide
+import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnDeclineLastCarRideUsage
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnGoToHome
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnNextStep
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnQuantitySeats
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnRemoveNewStep
+import com.app.comu_carona.feature.home.steps.initial.data.models.AvailableCarRide
+import com.app.comu_carona.theme.Error
 import com.app.comu_carona.theme.Primary
 import com.app.comu_carona.theme.SoftBlack
 import com.app.comu_carona.theme.TextColor
@@ -474,7 +482,7 @@ fun StageOfWaitingHourScreen(
                     .focusRequester(firstTextFieldFocus),
                 placeholder = "00",
                 placeholderSize = 60,
-                textAlign = TextAlign.Center,
+                textAlign = Center,
                 maxLength = 2,
                 value = firstTextField,
                 onValueChange = { text ->
@@ -503,7 +511,7 @@ fun StageOfWaitingHourScreen(
                     .focusRequester(secondTextFieldFocus),
                 placeholder = "00",
                 placeholderSize = 60,
-                textAlign = TextAlign.Center,
+                textAlign = Center,
                 maxLength = 2,
                 value = secondTextField,
                 onValueChange = { text ->
@@ -568,7 +576,7 @@ fun StateOfWaitingCreateRideScreen(
             style = MaterialTheme.typography.titleSmall,
             color = TextColor,
             fontWeight = SemiBold,
-            textAlign = TextAlign.Center,
+            textAlign = Center,
             modifier = Modifier.padding(
                 horizontal = 30.dp,
                 vertical = 40.dp,
@@ -601,7 +609,7 @@ fun StateOfFinishCreateRideScreen(
             style = MaterialTheme.typography.titleMedium,
             color = SoftBlack,
             fontWeight = SemiBold,
-            textAlign = TextAlign.Center,
+            textAlign = Center,
             modifier = Modifier.padding(
                 horizontal = 20.dp
             ),
@@ -610,7 +618,7 @@ fun StateOfFinishCreateRideScreen(
             text = stringResource(R.string.create_car_ride_success_message),
             style = MaterialTheme.typography.bodyMedium,
             color = TextFieldColor,
-            textAlign = TextAlign.Center,
+            textAlign = Center,
             modifier = Modifier.padding(
                 horizontal = 20.dp,
             ),
@@ -647,6 +655,8 @@ fun StageOfCarModelScreenPreview() {
             waitingHour = "",
             destinationHour = "",
             enabledCarModelScreen = false,
+            hasLastCarRide = true,
+            lastCarRide = null,
             isLoading = false,
             isError = false,
             isSuccess = false,
@@ -672,6 +682,8 @@ fun StageOfQuantitySeatsScreenPreview() {
             waitingHour = "",
             destinationHour = "",
             enabledCarModelScreen = false,
+            hasLastCarRide = true,
+            lastCarRide = null,
             isLoading = false,
             isError = false,
             isSuccess = false,
@@ -697,6 +709,8 @@ fun StageOfWaitingAddressScreenPreview() {
             waitingHour = "",
             destinationHour = "",
             enabledCarModelScreen = false,
+            hasLastCarRide = true,
+            lastCarRide = null,
             isLoading = false,
             isError = false,
             isSuccess = false,
@@ -706,11 +720,107 @@ fun StageOfWaitingAddressScreenPreview() {
     )
 }
 
+@Composable
+fun LastCarRideBottomSheet(
+    lastCarRide: LastCarRide,
+    event: (CreateCarRideViewModelEventState) -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(White)
+            .padding(20.dp)
+    ) {
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Usar a ultima carona?",
+            style = MaterialTheme.typography.titleMedium,
+            color = SoftBlack,
+            textAlign = Center
+        )
+
+        Spacer(modifier = Modifier.height(25.dp))
+
+        UserSelectionBox(
+            modifier = Modifier
+                .padding(horizontal = 10.dp),
+            riderPhotoUrl = lastCarRide.availableCarRide.riderPhotoUrl,
+            riderUserName = lastCarRide.availableCarRide.riderUserName,
+            riderDescription = lastCarRide.availableCarRide.riderDescription,
+            showArrow = false
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        AddressBox(
+            modifier = Modifier
+                .padding(horizontal = 10.dp, vertical = 15.dp),
+            waitingHour = lastCarRide.availableCarRide.waitingHour,
+            destinationHour = lastCarRide.availableCarRide.destinationHour,
+            waitingAddress = lastCarRide.availableCarRide.waitingAddress,
+            destinationAddress = lastCarRide.availableCarRide.destinationAddress
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        CCButton(
+            title = "Usar última carona",
+            onButtonListener = {
+                event(OnConfirmLastCarRideUsage)
+            }
+        )
+
+        CCButton(
+            title = "Criar nova carona",
+            containerColor = White,
+            titleColor = Error,
+            onButtonListener = {
+                event(OnDeclineLastCarRideUsage)
+            }
+        )
+
+
+    }
+}
+
 @Preview
 @Composable
 fun StageOfWaitingHourScreenPreview() {
     StageOfWaitingHourScreen(
         title = "Waiting Hour",
+    )
+}
+
+@Preview
+@Composable
+fun LastCarRideBottomSheetPreview() {
+    LastCarRideBottomSheet(
+        lastCarRide = LastCarRide(
+            carRideInformation = CreateCarRideRequest(
+                carModel = "Modelo",
+                carPlate = "Placa",
+                carColor = "Cor",
+                quantitySeats = 3,
+                waitingAddress = "Endereço de espera",
+                destinationAddress = "Endereço de destino",
+                waitingHour = "00:00",
+                destinationHour = "00:00",
+                status = "",
+                isTwoPassengersBehind = false,
+                twoPassengersBehind = false
+            ),
+            availableCarRide = AvailableCarRide(
+                id = "1",
+                waitingAddress = "Endereço de espera",
+                destinationAddress = "Endereço de destino",
+                waitingHour = "00:00",
+                destinationHour = "00:00",
+                riderPhotoUrl = "dsadas",
+                riderDescription = "Teste description",
+                riderUserName = "Marcelo teste",
+            )
+        ),
+        event = {}
     )
 }
 

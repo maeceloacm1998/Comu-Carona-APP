@@ -1,6 +1,7 @@
 package com.app.comu_carona.feature.createcarride.ui
 
 import com.app.comu_carona.feature.createcarride.data.models.CreateCarRideSteps
+import com.app.comu_carona.feature.createcarride.data.models.LastCarRide
 
 sealed interface CreateCarRideViewModelUiState {
 
@@ -17,6 +18,8 @@ sealed interface CreateCarRideViewModelUiState {
         var waitingHour: String,
         var destinationHour: String,
         var enabledCarModelScreen: Boolean,
+        var hasLastCarRide: Boolean,
+        var lastCarRide: LastCarRide?,
         val isLoading: Boolean,
         val isError: Boolean,
         val isSuccess: Boolean,
@@ -36,6 +39,8 @@ data class CreateCarRideViewModelState(
     var waitingHour: String = "",
     var destinationHour: String = "",
     var enabledCarModelScreen: Boolean = false,
+    var hasLastCarRide: Boolean = false,
+    var lastCarRide: LastCarRide? = null,
     val isLoading: Boolean = false,
     val isError: Boolean = false,
     val isSuccess: Boolean = false,
@@ -54,6 +59,8 @@ data class CreateCarRideViewModelState(
         waitingHour = waitingHour,
         destinationHour = destinationHour,
         enabledCarModelScreen = enabledCarModelScreen,
+        hasLastCarRide = hasLastCarRide,
+        lastCarRide = lastCarRide,
         isLoading = isLoading,
         isError = isError,
         isSuccess = isSuccess,

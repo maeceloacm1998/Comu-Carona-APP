@@ -70,6 +70,21 @@ sealed class CreateCarRideViewModelEventState {
     data object OnCreateCarRide : CreateCarRideViewModelEventState()
 
     /**
+     * Represents the event when the bottom sheet is dismissed.
+     */
+    data object OnDismissBottomSheet : CreateCarRideViewModelEventState()
+
+    /**
+     * Represents the event when the bottom sheet is expanded.
+     */
+    data object OnConfirmLastCarRideUsage : CreateCarRideViewModelEventState()
+
+    /**
+     * Represents the event when the bottom sheet is declined.
+     */
+    data object OnDeclineLastCarRideUsage : CreateCarRideViewModelEventState()
+
+    /**
      * Represents the event when the search address is clicked.
      */
     data object OnGoToHome : CreateCarRideViewModelEventState()

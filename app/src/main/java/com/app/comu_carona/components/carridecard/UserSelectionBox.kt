@@ -38,7 +38,8 @@ fun UserSelectionBox(
     modifier: Modifier = Modifier,
     riderPhotoUrl: String,
     riderUserName: String,
-    riderDescription: String
+    riderDescription: String,
+    showArrow: Boolean = true,
 ) {
     Card(
         modifier = modifier
@@ -99,15 +100,17 @@ fun UserSelectionBox(
                 }
             }
 
-            Icon(
-                modifier = Modifier
-                    .size(30.dp)
-                    .padding(start = 10.dp)
-                    .weight(0.1f),
-                painter = rememberVectorPainter(image = Icons.Default.ArrowForward),
-                contentDescription = "Arrow_Forward",
-                tint = Primary
-            )
+            if(showArrow) {
+                Icon(
+                    modifier = Modifier
+                        .size(30.dp)
+                        .padding(start = 10.dp)
+                        .weight(0.1f),
+                    painter = rememberVectorPainter(image = Icons.Default.ArrowForward),
+                    contentDescription = "Arrow_Forward",
+                    tint = Primary
+                )
+            }
         }
     }
 }

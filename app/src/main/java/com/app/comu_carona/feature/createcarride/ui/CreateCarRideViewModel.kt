@@ -7,14 +7,17 @@ import com.app.comu_carona.feature.createcarride.data.models.CreateCarRideSteps
 import com.app.comu_carona.feature.createcarride.data.models.CreateCarRideSteps.CAR_DESTINATION_HOUR
 import com.app.comu_carona.feature.createcarride.data.models.CreateCarRideSteps.FINISH
 import com.app.comu_carona.feature.createcarride.domain.CreateCarRideUseCase
+import com.app.comu_carona.feature.createcarride.domain.GetLastCarRideUseCase
 import com.app.comu_carona.feature.createcarride.domain.SearchAddressUseCase
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnCarColor
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnCarModel
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnCarPlate
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnClearAddressList
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnCreateCarRide
+import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnDeclineLastCarRideUsage
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnDestinationAddress
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnDestinationHour
+import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnDismissBottomSheet
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnGoToHome
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnNextStep
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnQuantitySeats
@@ -34,7 +37,8 @@ import org.koin.android.annotation.KoinViewModel
 class CreateCarRideViewModel(
     private val navController: NavController,
     private val searchAddressUseCase: SearchAddressUseCase,
-    private val createCarRideUseCase: CreateCarRideUseCase
+    private val createCarRideUseCase: CreateCarRideUseCase,
+    private val getLastCarRideUseCase: GetLastCarRideUseCase
 ) : ViewModel() {
     private val viewModelState = MutableStateFlow(CreateCarRideViewModelState())
     private val stepsOrder: List<CreateCarRideSteps> =
@@ -47,6 +51,10 @@ class CreateCarRideViewModel(
             SharingStarted.Eagerly,
             viewModelState.value.toUiState()
         )
+
+    init {
+        fetchLastCarRide()
+    }
 
     fun onEvent(event: CreateCarRideViewModelEventState) {
         when (event) {
@@ -62,7 +70,23 @@ class CreateCarRideViewModel(
             is OnDestinationHour -> onUpdateDestinationHour(event.destinationHour)
             is OnClearAddressList -> onClearAddressList()
             is OnCreateCarRide -> onCreateCarRide()
+            is OnDismissBottomSheet -> onDismissBottomSheet()
+            is CreateCarRideViewModelEventState.OnConfirmLastCarRideUsage -> onConfirmLastCarRideUsage()
+            is OnDeclineLastCarRideUsage -> onDeclineLastCarRideUsage()
             is OnGoToHome -> onGoToHome()
+        }
+    }
+
+    private fun fetchLastCarRide() {
+        viewModelScope.launch {
+            getLastCarRideUseCase().onSuccess { lastCarRide ->
+                viewModelState.update {
+                    it.copy(
+                        hasLastCarRide = true,
+                        lastCarRide = lastCarRide
+                    )
+                }
+            }
         }
     }
 
@@ -108,6 +132,7 @@ class CreateCarRideViewModel(
                 waitingHour = state.waitingHour,
                 destinationHour = state.destinationHour
             ).onSuccess {
+                onDismissBottomSheet()
                 onRemoveNewStep(FINISH)
             }.onFailure {
                 onRemoveNewStep(CAR_DESTINATION_HOUR)
@@ -201,6 +226,30 @@ class CreateCarRideViewModel(
         }
     }
 
+
+    private fun onConfirmLastCarRideUsage() {
+        val lastCarRideInformation =
+            checkNotNull(viewModelState.value.lastCarRide?.carRideInformation)
+        viewModelState.update {
+            it.copy(
+                carModel = lastCarRideInformation.carModel,
+                carColor = lastCarRideInformation.carColor,
+                carPlate = lastCarRideInformation.carPlate,
+                quantitySeats = lastCarRideInformation.quantitySeats,
+                waitingAddress = lastCarRideInformation.waitingAddress,
+                destinationAddress = lastCarRideInformation.destinationAddress,
+                waitingHour = lastCarRideInformation.waitingHour,
+                destinationHour = lastCarRideInformation.destinationHour
+            )
+        }
+
+        onCreateCarRide()
+    }
+
+    private fun onDeclineLastCarRideUsage() {
+        onDismissBottomSheet()
+    }
+
     private fun onClearAddressList() {
         viewModelState.update {
             it.copy(waitingAddressList = emptyList(), destinationAddressList = emptyList())
@@ -216,6 +265,12 @@ class CreateCarRideViewModel(
     private fun onUpdateDestinationHour(destinationHour: String) {
         viewModelState.update {
             it.copy(destinationHour = destinationHour)
+        }
+    }
+
+    private fun onDismissBottomSheet() {
+        viewModelState.update {
+            it.copy(hasLastCarRide = false)
         }
     }
 }

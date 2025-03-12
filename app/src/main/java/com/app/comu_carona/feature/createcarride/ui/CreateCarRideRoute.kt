@@ -2,13 +2,16 @@ package com.app.comu_carona.feature.createcarride.ui
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.app.comu_carona.R
+import com.app.comu_carona.components.bottomsheet.CCBottomSheet
 import com.app.comu_carona.feature.createcarride.data.models.CreateCarRideSteps.CAR_DESTINATION_ADDRESS
 import com.app.comu_carona.feature.createcarride.data.models.CreateCarRideSteps.CAR_DESTINATION_HOUR
 import com.app.comu_carona.feature.createcarride.data.models.CreateCarRideSteps.CAR_MODEL
@@ -20,6 +23,7 @@ import com.app.comu_carona.feature.createcarride.data.models.CreateCarRideSteps.
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnClearAddressList
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnDestinationAddress
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnDestinationHour
+import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnDismissBottomSheet
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnNextStep
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnRemoveNewStep
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideViewModelEventState.OnWaitingAddress
@@ -45,6 +49,7 @@ fun CreateCarRideRoute(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateCarRideRoute(
     uiState: CreateCarRideViewModelUiState,
@@ -111,10 +116,26 @@ fun CreateCarRideRoute(
                     onNextAction = { event(OnNextStep(WAITING_CREATE_RIDE)) },
                     onBackAction = { event(OnRemoveNewStep(CAR_DESTINATION_ADDRESS)) }
                 )
+
                 WAITING_CREATE_RIDE -> StateOfWaitingCreateRideScreen(
                     event = event
                 )
+
                 FINISH -> StateOfFinishCreateRideScreen(
+                    event = event
+                )
+            }
+        }
+        CCBottomSheet(
+            showSheet = uiState.hasLastCarRide,
+            onDismissRequest = {
+                event(OnDismissBottomSheet)
+            },
+            containerColor = Color.White
+        ) {
+            if(uiState.lastCarRide != null) {
+                LastCarRideBottomSheet(
+                    lastCarRide = uiState.lastCarRide!!,
                     event = event
                 )
             }
