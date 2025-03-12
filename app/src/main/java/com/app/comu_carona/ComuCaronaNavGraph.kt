@@ -3,9 +3,12 @@ package com.app.comu_carona
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsRoute
 import com.app.comu_carona.feature.checkcode.ui.CheckCodeRoute
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideRoute
 import com.app.comu_carona.feature.home.HomeRoute
@@ -44,6 +47,16 @@ fun ComuCaronaNavGraph(
         composable(route = Routes.CreateCarRide.route) {
             CreateCarRideRoute(
                 navController = navController
+            )
+        }
+
+        composable(
+            route = Routes.CarRideDetails.route,
+            arguments = listOf(navArgument("id") { type = NavType.StringType })
+        ) { backStackEntry ->
+            CarRideDetailsRoute(
+                navController = navController,
+                backStackEntry = backStackEntry
             )
         }
     }

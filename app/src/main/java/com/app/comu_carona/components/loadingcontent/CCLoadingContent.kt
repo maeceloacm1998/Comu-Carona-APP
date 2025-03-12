@@ -8,6 +8,37 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
+fun CCLoadingContent(
+    isLoading: Boolean,
+    isError: Boolean,
+    loadingContent: @Composable () -> Unit,
+    errorContent: @Composable () -> Unit,
+    content: @Composable () -> Unit
+) {
+
+    AnimatedVisibility(
+        visible = isLoading,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        loadingContent()
+    }
+
+    AnimatedVisibility(
+        visible = isError,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        errorContent()
+    }
+
+    AnimatedVisibility(
+        visible = !isLoading && !isError,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        content()
+    }
+}
+
+@Composable
 fun CCLoadingSwipeRefreshContent(
     isLoading: Boolean,
     isRefresh: Boolean,

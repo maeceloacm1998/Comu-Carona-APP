@@ -79,14 +79,15 @@ class CreateCarRideViewModel(
 
     private fun fetchLastCarRide() {
         viewModelScope.launch {
-            getLastCarRideUseCase().onSuccess { lastCarRide ->
-                viewModelState.update {
-                    it.copy(
-                        hasLastCarRide = true,
-                        lastCarRide = lastCarRide
-                    )
+            getLastCarRideUseCase()
+                .onSuccess { lastCarRide ->
+                    viewModelState.update {
+                        it.copy(
+                            hasLastCarRide = true,
+                            lastCarRide = lastCarRide
+                        )
+                    }
                 }
-            }
         }
     }
 

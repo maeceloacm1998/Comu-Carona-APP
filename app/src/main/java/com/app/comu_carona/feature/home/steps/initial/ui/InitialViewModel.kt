@@ -7,6 +7,8 @@ import com.app.comu_carona.commons.usecase.LogoutUseCase
 import com.app.comu_carona.feature.home.steps.initial.data.models.AvailableCarRide
 import com.app.comu_carona.feature.home.steps.initial.domain.AvailableCarRidesUseCase
 import com.app.comu_carona.feature.home.steps.initial.domain.GetUserInformation
+import com.app.comu_carona.feature.home.steps.initial.ui.InitialViewModelEventState.OnLoadAvailableCarRide
+import com.app.comu_carona.feature.home.steps.initial.ui.InitialViewModelEventState.OnNavigateTo
 import com.app.comu_carona.routes.Routes
 import com.app.comu_carona.service.retrofit.NetworkingHttpState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -43,8 +45,8 @@ class InitialViewModel(
 
     fun onEvent(event: InitialViewModelEventState) {
         when (event) {
-            is InitialViewModelEventState.OnLoadAvailableCarRide -> onLoadAvailableCarRide()
-            is InitialViewModelEventState.OnNavigateTo -> onNavigateTo(event.route)
+            is OnLoadAvailableCarRide -> onLoadAvailableCarRide()
+            is OnNavigateTo -> onNavigateTo(event.route, event.params)
         }
     }
 
@@ -112,8 +114,9 @@ class InitialViewModel(
         }
     }
 
-    private fun onNavigateTo(route: String) {
-        navController.navigate(route)
+    private fun onNavigateTo(route: String, param: String) {
+        val routeWithId = route.replace("{id}", param)
+        navController.navigate(routeWithId)
     }
 
     private fun onGoToCheckCode() {

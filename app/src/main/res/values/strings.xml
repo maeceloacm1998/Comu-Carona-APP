@@ -64,5 +64,12 @@
 
     <string name="my_ride_in_progress_title">Minhas caronas</string>
 
+    <string name="car_ride_details_date_title_empty">Data não informada</string>
+    <string name="car_ride_details_hour_title_empty">00:00</string>
+    <string name="car_ride_details_address_title_empty">Endereço não informado</string>
+    <string name="car_ride_details_username_title_empty">Nome não informado</string>
+    <string name="car_ride_details_description_title_empty">Descrição não informada</string>
+    <string name="car_ride_details_reservation_button_title">Quero essa carona!</string>
+
     <string name="generic_connection_error">Ocorreu um erro de conexão.\nPor favor, tente novamente.</string>
 </resources>

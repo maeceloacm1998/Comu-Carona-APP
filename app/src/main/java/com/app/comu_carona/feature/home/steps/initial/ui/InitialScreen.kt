@@ -105,6 +105,14 @@ fun InitialScreen(
                             riderPhotoUrl = availableCarRide.riderPhotoUrl,
                             riderUserName = availableCarRide.riderUserName,
                             riderDescription = availableCarRide.riderDescription,
+                            onClick = {
+                                onEvent(
+                                    OnNavigateTo(
+                                        route = Routes.CarRideDetails.route,
+                                        params = availableCarRide.id
+                                    )
+                                )
+                            },
                             modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp)
                         )
                     }

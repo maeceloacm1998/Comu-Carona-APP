@@ -1,0 +1,161 @@
+package com.app.comu_carona.feature.carridedetails.ui
+
+import androidx.compose.material3.SnackbarHostState
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import com.app.comu_carona.commons.usecase.LogoutUseCase
+import com.app.comu_carona.components.snackbar.SnackbarCustomType
+import com.app.comu_carona.components.snackbar.SnackbarCustomType.ERROR
+import com.app.comu_carona.feature.carridedetails.data.models.CarRideDetails
+import com.app.comu_carona.feature.carridedetails.domain.GetCarRideDetailsUseCase
+import com.app.comu_carona.feature.carridedetails.domain.ReservationRideUseCase
+import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnBack
+import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnFetchReservationRide
+import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnReservationRide
+import com.app.comu_carona.routes.Routes
+import com.app.comu_carona.service.retrofit.NetworkingHttpState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import org.koin.android.annotation.KoinViewModel
+import retrofit2.HttpException
+
+@KoinViewModel
+class CarRideDetailsViewModel(
+    private val riderId: String,
+    private val navController: NavController,
+    private val snackbarHostState: SnackbarHostState,
+    private val getCarRideDetails: GetCarRideDetailsUseCase,
+    private val reservationRideUseCase: ReservationRideUseCase,
+    private val logoutUseCase: LogoutUseCase
+) : ViewModel() {
+    private val fullSeatsMessage = "Todas as vagas dessa carona ja foram preechidas! \uD83D\uDE25"
+    private val viewModelState = MutableStateFlow(CarRideDetailsViewModelState())
+
+    val uiState = viewModelState
+        .map(CarRideDetailsViewModelState::toUiState)
+        .stateIn(
+            viewModelScope,
+            SharingStarted.Eagerly,
+            viewModelState.value.toUiState()
+        )
+
+    init {
+        onFetchCarRideDetails(id = riderId)
+    }
+
+    fun onEvent(event: CarRideDetailsViewModelEventState) {
+        when (event) {
+            is OnFetchReservationRide -> onFetchReservationRide()
+            is OnReservationRide -> onFetchReservationRide()
+            is OnBack -> navController.popBackStack()
+        }
+    }
+
+    private fun onFetchCarRideDetails(id: String) {
+        onUpdateError(false)
+        onUpdateLoading(true)
+
+        viewModelScope.launch {
+            getCarRideDetails.invoke(id)
+                .onSuccess { result ->
+                    onUpdateLoading(false)
+                    onUpdateCarRideDetails(result)
+
+                    if(result.isFullSeats) {
+                        onUpdateShowSnackBar(
+                            showSnackBar = true,
+                            snackBarMessage = fullSeatsMessage,
+                            snackbarType = ERROR
+                        )
+                    }
+                }
+                .onFailure { throwable ->
+                    val errorCode = (throwable as HttpException).code()
+
+                    when (errorCode) {
+                        NetworkingHttpState.UNAUTHORIZED.code -> {
+                            logoutUseCase(navController, Routes.Home.route)
+                        }
+
+                        else -> {
+                            onUpdateLoading(false)
+                            onUpdateError(true)
+                        }
+                    }
+                }
+        }
+    }
+
+    private fun onFetchReservationRide() {
+        onUpdateLoadingReservation(true)
+
+        viewModelScope.launch {
+            reservationRideUseCase.invoke(riderId)
+                .onSuccess {
+                    onUpdateLoadingReservation(false)
+                    onUpdateSuccessReservation(true)
+                }
+                .onFailure { throwable ->
+                    val errorCode = (throwable as HttpException).code()
+
+                    when (errorCode) {
+                        NetworkingHttpState.UNAUTHORIZED.code -> {
+                            logoutUseCase(
+                                navController = navController,
+                                actualRoute = Routes.CarRideDetails.route
+                            )
+                        }
+
+                        else -> {
+                            onUpdateLoadingReservation(false)
+                            onUpdateShowSnackBar(
+                                showSnackBar = true,
+                                snackBarMessage = throwable.message ?: "",
+                                snackbarType = ERROR
+                            )
+                        }
+                    }
+                }
+        }
+    }
+
+    private fun onUpdateCarRideDetails(carRideDetails: CarRideDetails) {
+        viewModelState.update { it.copy(carRideDetailsResponse = carRideDetails) }
+    }
+
+    private fun onUpdateShowSnackBar(
+        showSnackBar: Boolean,
+        snackBarMessage: String,
+        snackbarType: SnackbarCustomType
+    ) {
+        viewModelState.update {
+            it.copy(
+                showSnackBar = showSnackBar,
+                snackBarMessage = snackBarMessage,
+                snackbarType = snackbarType
+            )
+        }
+    }
+
+    private fun onUpdateSuccessReservation(isSuccess: Boolean) {
+        viewModelState.update { it.copy(isSuccessReservation = isSuccess) }
+    }
+
+    private fun onUpdateLoadingReservation(isLoading: Boolean) {
+        viewModelState.update { it.copy(isLoadingReservation = isLoading) }
+    }
+
+    private fun onUpdateLoading(isLoading: Boolean) {
+        viewModelState.update { it.copy(isLoading = isLoading) }
+    }
+
+    private fun onUpdateError(error: Boolean) {
+        viewModelState.update { it.copy(isError = error) }
+    }
+
+}

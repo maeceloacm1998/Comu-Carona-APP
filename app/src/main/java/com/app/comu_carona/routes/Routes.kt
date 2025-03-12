@@ -8,6 +8,7 @@ sealed class Routes(val route: String) {
     data object Initial : Routes("initial")
     data object RideInProgress : Routes("ride_in_progress")
     data object MyRideInProgress : Routes("my_ride_in_progress")
+    data object CarRideDetails : Routes("car_ride_details/{id}")
 }
 
 fun Routes.withArgs(vararg args: String): String {

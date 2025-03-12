@@ -33,7 +33,8 @@ fun AvailableCarRideCard(
     riderPhotoUrl: String,
     riderUserName: String,
     riderDescription: String,
-    status: List<RideInProgressFilterOptions> = emptyList()
+    status: List<RideInProgressFilterOptions> = emptyList(),
+    onClick: () -> Unit = {}
 ) {
     Card(
         modifier = modifier
@@ -46,7 +47,7 @@ fun AvailableCarRideCard(
         colors = CardDefaults.elevatedCardColors(
             containerColor = White
         ),
-        onClick = {},
+        onClick = onClick,
     ) {
         Column {
             if(status.isNotEmpty()) {
