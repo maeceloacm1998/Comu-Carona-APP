@@ -41,6 +41,8 @@ class RegisterAccountUseCase(
                         accessToken = userResponse.accessToken,
                         refreshToken = userResponse.refreshToken
                     )
+                    authPreferences.userName = userResponse.username
+                    authPreferences.photoUrl = userResponse.photoUrl
 
                     val photoUploadResponse = uploadPhoto(context, photoUri)
                     photoUploadResponse.fold(
@@ -69,5 +71,4 @@ class RegisterAccountUseCase(
         )
         return registerAccountRepository.updatePhoto(photoPart)
     }
-
 }
