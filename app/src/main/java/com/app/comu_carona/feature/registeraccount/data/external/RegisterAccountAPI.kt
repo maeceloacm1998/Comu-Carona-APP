@@ -1,5 +1,6 @@
 package com.app.comu_carona.feature.registeraccount.data.external
 
+import com.app.comu_carona.feature.registeraccount.data.models.PhotoRequest
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountRequest
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountResponse
 import okhttp3.MultipartBody
@@ -24,7 +25,7 @@ interface RegisterAccountAPI {
     @POST("api/files/v1/upload/user-image")
     suspend fun uploadImage(
         @Part file: MultipartBody.Part
-    )
+    ): PhotoRequest
 }
 
 @Factory(binds = [RegisterAccountAPI::class])
@@ -38,6 +39,6 @@ class RegisterAccountAPIImpl(
         username: String
     ): RegisterAccountResponse = registerAccountAPI.registerAccount(request, username)
 
-    override suspend fun uploadImage(file: MultipartBody.Part): Unit =
+    override suspend fun uploadImage(file: MultipartBody.Part): PhotoRequest =
         registerAccountAPI.uploadImage(file)
 }

@@ -1,6 +1,7 @@
 package com.app.comu_carona.feature.registeraccount.data
 
 import com.app.comu_carona.feature.registeraccount.data.external.RegisterAccountAPI
+import com.app.comu_carona.feature.registeraccount.data.models.PhotoRequest
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountRequest
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountResponse
 import kotlinx.coroutines.Dispatchers
@@ -30,7 +31,7 @@ class RegisterAccountRepositoryImpl(
         }
     }
 
-    override suspend fun updatePhoto(photoUri: MultipartBody.Part): Result<Unit> {
+    override suspend fun updatePhoto(photoUri: MultipartBody.Part): Result<PhotoRequest> {
         return withContext(Dispatchers.IO) {
             try {
                 val response = registerAccountAPI.uploadImage(photoUri)

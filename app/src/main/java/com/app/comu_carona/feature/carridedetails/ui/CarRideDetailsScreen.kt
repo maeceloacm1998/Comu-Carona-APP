@@ -38,6 +38,8 @@ import com.app.comu_carona.components.snackbar.CCSnackbar
 import com.app.comu_carona.components.snackbar.SnackbarCustomType
 import com.app.comu_carona.feature.carridedetails.data.models.BottomSheetCarRideUser
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnBack
+import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnCallPhone
+import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnCallWhatsApp
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnOpenBottomSheet
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnReservationRide
 import com.app.comu_carona.theme.SoftBlack
@@ -95,9 +97,9 @@ fun CarRideDetailsScreen(
                         ?: stringResource(R.string.car_ride_details_hour_title_empty),
                     destinationHour = uiState.carRideDetailsResponse?.destinationHour
                         ?: stringResource(R.string.car_ride_details_hour_title_empty),
-                    waitingAddress = uiState.carRideDetailsResponse?.destinationHour
+                    waitingAddress = uiState.carRideDetailsResponse?.waitingAddress
                         ?: stringResource(R.string.car_ride_details_address_title_empty),
-                    destinationAddress = uiState.carRideDetailsResponse?.destinationHour
+                    destinationAddress = uiState.carRideDetailsResponse?.destinationAddress
                         ?: stringResource(R.string.car_ride_details_address_title_empty)
                 )
 
@@ -153,14 +155,20 @@ fun CarRideDetailsScreen(
             containerColor = White
         ) {
             if (uiState.carRideDetailsResponse != null) {
-                UserDetailsBottomSheet(uiState.carRideDetailsResponse.bottomSheetCarRideUser)
+                UserDetailsBottomSheet(
+                    data = uiState.carRideDetailsResponse.bottomSheetCarRideUser,
+                    onEvent = onEvent
+                )
             }
         }
     }
 }
 
 @Composable
-fun UserDetailsBottomSheet(data: BottomSheetCarRideUser) {
+fun UserDetailsBottomSheet(
+    data: BottomSheetCarRideUser,
+    onEvent: (CarRideDetailsViewModelEventState) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -205,6 +213,9 @@ fun UserDetailsBottomSheet(data: BottomSheetCarRideUser) {
                         contentDescription = stringResource(R.string.car_ride_details_user_details_wpp_title),
                         modifier = Modifier.padding(end = 5.dp)
                     )
+                },
+                onButtonListener = {
+                    onEvent(OnCallWhatsApp)
                 }
             )
             CCOutlinedButton(
@@ -212,13 +223,16 @@ fun UserDetailsBottomSheet(data: BottomSheetCarRideUser) {
                     .weight(1f)
                     .height(50.dp)
                     .padding(start = 7.dp),
-                title = stringResource(R.string.car_ride_details_user_details_phone_title),
+                title = stringResource(R.string.car_ride_details_user_details_phone_title, data.bottomSheetRiderUsername),
                 icon = {
                     Image(
                         painter = painterResource(id = R.drawable.ic_phone),
                         contentDescription = stringResource(R.string.car_ride_details_user_details_phone_title),
                         modifier = Modifier.padding(end = 5.dp)
                     )
+                },
+                onButtonListener = {
+                    onEvent(OnCallPhone)
                 }
             )
         }
@@ -236,7 +250,8 @@ fun UserDetailsBottomSheetPreview() {
             bottomSheetRiderPhoto = "",
             bottomSheetCarRiderDescription = "Lorem ipsum dolor sit amet",
             bottomSheetRiderPhoneNumber = "123456789"
-        )
+        ),
+        onEvent = {}
     )
 }
 

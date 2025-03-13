@@ -3,6 +3,7 @@ package com.app.comu_carona.feature.registeraccount.domain
 import android.content.Context
 import android.net.Uri
 import com.app.comu_carona.feature.registeraccount.data.RegisterAccountRepository
+import com.app.comu_carona.feature.registeraccount.data.models.PhotoRequest
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountRequest
 import com.app.comu_carona.service.retrofit.AuthPreferences
 import com.app.comu_carona.utils.DeviceUtils
@@ -41,12 +42,12 @@ class RegisterAccountUseCase(
                         accessToken = userResponse.accessToken,
                         refreshToken = userResponse.refreshToken
                     )
-                    authPreferences.userName = userResponse.username
-                    authPreferences.photoUrl = userResponse.photoUrl
 
                     val photoUploadResponse = uploadPhoto(context, photoUri)
                     photoUploadResponse.fold(
-                        onSuccess = {
+                        onSuccess = { data ->
+                            authPreferences.userName = userResponse.username
+                            authPreferences.photoUrl = data.uri
                             Result.success(Unit)
                         },
                         onFailure = { throwable ->
@@ -63,7 +64,7 @@ class RegisterAccountUseCase(
         }
     }
 
-    private suspend fun uploadPhoto(context: Context, photoUri: Uri): Result<Unit> {
+    private suspend fun uploadPhoto(context: Context, photoUri: Uri): Result<PhotoRequest> {
         val photoPart = MultipartUtils.getFilePartFromUri(
             context = context,
             uri = photoUri,

@@ -4,6 +4,9 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.app.comu_carona.commons.usecase.CallPhoneUseCase
+import com.app.comu_carona.commons.usecase.CallWhatsappUseCase
+import com.app.comu_carona.commons.usecase.CallWhatsappUseCase.Companion.DEFAULT_MESSAGE_CAR_RIDE
 import com.app.comu_carona.commons.usecase.LogoutUseCase
 import com.app.comu_carona.components.snackbar.SnackbarCustomType
 import com.app.comu_carona.components.snackbar.SnackbarCustomType.ERROR
@@ -11,6 +14,8 @@ import com.app.comu_carona.feature.carridedetails.data.models.CarRideDetails
 import com.app.comu_carona.feature.carridedetails.domain.GetCarRideDetailsUseCase
 import com.app.comu_carona.feature.carridedetails.domain.ReservationRideUseCase
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnBack
+import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnCallPhone
+import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnCallWhatsApp
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnDismissBottomSheet
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnFetchReservationRide
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnOpenBottomSheet
@@ -33,6 +38,8 @@ class CarRideDetailsViewModel(
     private val snackbarHostState: SnackbarHostState,
     private val getCarRideDetails: GetCarRideDetailsUseCase,
     private val reservationRideUseCase: ReservationRideUseCase,
+    private val callWhatsappUseCase: CallWhatsappUseCase,
+    private val callPhoneUseCase: CallPhoneUseCase,
     private val logoutUseCase: LogoutUseCase
 ) : ViewModel() {
     private val fullSeatsMessage = "Todas as vagas dessa carona ja foram preechidas! \uD83D\uDE25"
@@ -56,9 +63,12 @@ class CarRideDetailsViewModel(
             is OnReservationRide -> onFetchReservationRide()
             is OnDismissBottomSheet -> onDismissBottomSheet()
             is OnOpenBottomSheet -> onOpenBottomSheet()
+            is OnCallWhatsApp -> onCallWhatsApp()
+            is OnCallPhone -> onCallPhone()
             is OnBack -> navController.popBackStack()
         }
     }
+
 
     private fun onFetchCarRideDetails(id: String) {
         onUpdateError(false)
@@ -70,7 +80,7 @@ class CarRideDetailsViewModel(
                     onUpdateLoading(false)
                     onUpdateCarRideDetails(result)
 
-                    if(result.isFullSeats) {
+                    if (result.isFullSeats) {
                         onUpdateShowSnackBar(
                             showSnackBar = true,
                             snackBarMessage = fullSeatsMessage,
@@ -155,6 +165,28 @@ class CarRideDetailsViewModel(
 
     private fun onOpenBottomSheet() {
         viewModelState.update { it.copy(showBottomSheet = true) }
+    }
+
+    private fun onCallPhone() {
+        val data = checkNotNull(viewModelState.value.carRideDetailsResponse)
+        callPhoneUseCase(
+            phoneNumber = data.bottomSheetCarRideUser.bottomSheetRiderPhoneNumber,
+            onErrorAction = { errorMessage ->
+                onUpdateShowSnackBar(
+                    showSnackBar = true,
+                    snackBarMessage = errorMessage,
+                    snackbarType = ERROR
+                )
+            }
+        )
+    }
+
+    private fun onCallWhatsApp() {
+        val data = checkNotNull(viewModelState.value.carRideDetailsResponse)
+        callWhatsappUseCase(
+            phoneNumber = data.bottomSheetCarRideUser.bottomSheetRiderPhoneNumber,
+            message = DEFAULT_MESSAGE_CAR_RIDE
+        )
     }
 
     private fun onUpdateSuccessReservation(isSuccess: Boolean) {

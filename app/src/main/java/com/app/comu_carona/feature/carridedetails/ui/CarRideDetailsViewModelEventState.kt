@@ -26,4 +26,14 @@ sealed class CarRideDetailsViewModelEventState {
      * Open bottom sheet with car ride
      */
     data object OnOpenBottomSheet : CarRideDetailsViewModelEventState()
+
+    /**
+     * Call to WhatsApp
+     */
+    data object OnCallWhatsApp : CarRideDetailsViewModelEventState()
+
+    /**
+     * Call to Phone
+     */
+    data object OnCallPhone : CarRideDetailsViewModelEventState()
 }
