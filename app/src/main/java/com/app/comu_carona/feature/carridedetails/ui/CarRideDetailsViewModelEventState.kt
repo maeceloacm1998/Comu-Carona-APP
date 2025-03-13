@@ -41,4 +41,9 @@ sealed class CarRideDetailsViewModelEventState {
      * Go to home screen
      */
     data object OnGoToHome : CarRideDetailsViewModelEventState()
+
+    /**
+     * Retry fetch car ride details
+     */
+    data object OnRetry : CarRideDetailsViewModelEventState()
 }

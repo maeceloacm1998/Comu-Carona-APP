@@ -25,9 +25,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.app.comu_carona.theme.BackgroundSkeleton
 import com.app.comu_carona.theme.Primary
 import com.app.comu_carona.theme.TextFieldColor
 import com.app.comu_carona.theme.UrbanistFontFamily
+import com.valentinilk.shimmer.shimmer
 
 @Composable
 fun AddressBox(
@@ -146,6 +148,89 @@ fun AddressBox(
             }
         )
     }
+}
+
+
+@Composable
+fun AddressBoxShimmer(
+    modifier: Modifier = Modifier
+) {
+    ConstraintLayout(
+        modifier = modifier
+            .fillMaxWidth()
+            .shimmer()
+    ) {
+        val (
+            initPoint,
+            finishPoint,
+            linePoint,
+            initAddress,
+            finishAddress
+        ) = createRefs()
+
+        Box(
+            modifier = Modifier
+                .size(12.dp)
+                .clip(CircleShape)
+                .background(BackgroundSkeleton)
+                .constrainAs(initPoint) {
+                    start.linkTo(parent.start, margin = 8.dp)
+                    top.linkTo(parent.top, margin = 8.dp)
+                }
+        )
+
+        Box(
+            modifier = Modifier
+                .background(BackgroundSkeleton)
+                .width(4.dp)
+                .height(30.dp)
+                .constrainAs(linePoint) {
+                    top.linkTo(initPoint.bottom)
+                    start.linkTo(initPoint.start)
+                    end.linkTo(initPoint.end)
+                    bottom.linkTo(finishPoint.top)
+                }
+        )
+
+        Box(
+            modifier = Modifier
+                .size(12.dp)
+                .clip(CircleShape)
+                .background(BackgroundSkeleton)
+                .constrainAs(finishPoint) {
+                    start.linkTo(parent.start, margin = 8.dp)
+                    top.linkTo(linePoint.bottom)
+                }
+        )
+
+        Box(
+            modifier = Modifier
+                .height(20.dp)
+                .fillMaxWidth(0.7f)
+                .background(BackgroundSkeleton)
+                .constrainAs(initAddress) {
+                    top.linkTo(initPoint.top)
+                    start.linkTo(initPoint.end, margin = 8.dp)
+                }
+        )
+
+        Box(
+            modifier = Modifier
+                .height(20.dp)
+                .fillMaxWidth(0.7f)
+                .background(BackgroundSkeleton)
+                .constrainAs(finishAddress) {
+                    top.linkTo(finishPoint.top)
+                    start.linkTo(finishPoint.end, margin = 8.dp)
+                }
+        )
+    }
+}
+
+@Preview
+@Composable
+fun AddressBoxShimmerPreview() {
+    AddressBoxShimmer()
 }
 
 @Preview(showBackground = true)

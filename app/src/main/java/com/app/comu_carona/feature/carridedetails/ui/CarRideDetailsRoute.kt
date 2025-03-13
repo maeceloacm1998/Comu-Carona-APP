@@ -10,9 +10,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import com.app.comu_carona.R
+import com.app.comu_carona.components.contenterror.CCErrorContentRetry
 import com.app.comu_carona.components.contentloading.CCLoadingContent
 import com.app.comu_carona.components.contentsuccess.CCSuccessContent
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnGoToHome
+import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnRetry
 import com.app.comu_carona.utils.AnimatedUtils.animatedTransitionPage
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -64,10 +66,13 @@ fun CarRideDetailsRoute(
                     isLoading = uiState.isLoading,
                     isError = uiState.isError,
                     loadingContent = {
-                        // Colocar tela de loading
+                        CarRideDetailsScreenLoading()
                     },
                     errorContent = {
-                        // Error content
+                        CCErrorContentRetry(
+                            title = stringResource(R.string.generic_connection_error),
+                            onClick = { onEvent(OnRetry) }
+                        )
                     },
                     content = {
                         check(uiState is CarRideDetailsViewModelUiState.HasCarRideDetails)

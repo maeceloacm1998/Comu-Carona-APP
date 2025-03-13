@@ -1,11 +1,14 @@
 package com.app.comu_carona.components.carridecard
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -27,12 +30,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
 import com.app.comu_carona.R
 import com.app.comu_carona.components.shimmerimage.CCShimmerImage
+import com.app.comu_carona.theme.BackgroundSkeleton
 import com.app.comu_carona.theme.Primary
 import com.app.comu_carona.theme.TextFieldLightColor
 import com.app.comu_carona.theme.UrbanistFontFamily
+import com.valentinilk.shimmer.shimmer
 
 @Composable
 fun UserSelectionBox(
@@ -111,6 +115,84 @@ fun UserSelectionBox(
             }
         }
     }
+}
+
+@Composable
+fun UserSelectionBoxShimmer(
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier
+            .fillMaxWidth(),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = White
+        )
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .shimmer(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(30.dp)
+                    .weight(0.1f)
+                    .padding(end = 10.dp)
+                    .background(BackgroundSkeleton)
+            )
+
+            Row(
+                modifier = Modifier
+                    .weight(0.7f)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(35.dp)
+                        .clip(CircleShape)
+                        .background(BackgroundSkeleton)
+                )
+
+                Column(
+                    modifier = Modifier.padding(start = 10.dp),
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .height(20.dp)
+                            .fillMaxWidth(0.5f)
+                            .background(BackgroundSkeleton)
+                    )
+
+                    Spacer(modifier = Modifier.size(5.dp))
+
+                    Box(
+                        modifier = Modifier
+                            .height(15.dp)
+                            .fillMaxWidth(0.7f)
+                            .background(BackgroundSkeleton)
+                    )
+                }
+            }
+
+            Box(
+                modifier = Modifier
+                    .size(30.dp)
+                    .padding(start = 10.dp)
+                    .weight(0.1f)
+                    .background(BackgroundSkeleton)
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun UserSelectionBoxShimmerPreview() {
+    UserSelectionBoxShimmer()
 }
 
 @Preview(showBackground = true)

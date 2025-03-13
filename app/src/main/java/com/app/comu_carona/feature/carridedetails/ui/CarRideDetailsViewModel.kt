@@ -22,6 +22,7 @@ import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEven
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnGoToHome
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnOpenBottomSheet
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnReservationRide
+import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnRetry
 import com.app.comu_carona.routes.Routes
 import com.app.comu_carona.service.retrofit.NetworkingHttpState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -68,6 +69,7 @@ class CarRideDetailsViewModel(
             is OnCallWhatsApp -> onCallWhatsApp()
             is OnCallPhone -> onCallPhone()
             is OnGoToHome -> onGoToHome()
+            is OnRetry -> onFetchCarRideDetails(riderId)
             is OnBack -> navController.popBackStack()
         }
     }
