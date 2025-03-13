@@ -70,6 +70,9 @@
     <string name="car_ride_details_username_title_empty">Nome não informado</string>
     <string name="car_ride_details_description_title_empty">Descrição não informada</string>
     <string name="car_ride_details_reservation_button_title">Quero essa carona!</string>
+    <string name="car_ride_details_user_details_title">Dados do Motorista</string>
+    <string name="car_ride_details_user_details_wpp_title">Whatsapp</string>
+    <string name="car_ride_details_user_details_phone_title">Ligar para %s</string>
 
     <string name="generic_connection_error">Ocorreu um erro de conexão.\nPor favor, tente novamente.</string>
 </resources>

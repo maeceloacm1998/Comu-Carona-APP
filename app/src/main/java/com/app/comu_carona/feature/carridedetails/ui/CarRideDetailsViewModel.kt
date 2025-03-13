@@ -11,7 +11,9 @@ import com.app.comu_carona.feature.carridedetails.data.models.CarRideDetails
 import com.app.comu_carona.feature.carridedetails.domain.GetCarRideDetailsUseCase
 import com.app.comu_carona.feature.carridedetails.domain.ReservationRideUseCase
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnBack
+import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnDismissBottomSheet
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnFetchReservationRide
+import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnOpenBottomSheet
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnReservationRide
 import com.app.comu_carona.routes.Routes
 import com.app.comu_carona.service.retrofit.NetworkingHttpState
@@ -52,6 +54,8 @@ class CarRideDetailsViewModel(
         when (event) {
             is OnFetchReservationRide -> onFetchReservationRide()
             is OnReservationRide -> onFetchReservationRide()
+            is OnDismissBottomSheet -> onDismissBottomSheet()
+            is OnOpenBottomSheet -> onOpenBottomSheet()
             is OnBack -> navController.popBackStack()
         }
     }
@@ -136,10 +140,21 @@ class CarRideDetailsViewModel(
         viewModelState.update {
             it.copy(
                 showSnackBar = showSnackBar,
-                snackBarMessage = snackBarMessage,
                 snackbarType = snackbarType
             )
         }
+
+        viewModelScope.launch {
+            snackbarHostState.showSnackbar(snackBarMessage)
+        }
+    }
+
+    private fun onDismissBottomSheet() {
+        viewModelState.update { it.copy(showBottomSheet = false) }
+    }
+
+    private fun onOpenBottomSheet() {
+        viewModelState.update { it.copy(showBottomSheet = true) }
     }
 
     private fun onUpdateSuccessReservation(isSuccess: Boolean) {

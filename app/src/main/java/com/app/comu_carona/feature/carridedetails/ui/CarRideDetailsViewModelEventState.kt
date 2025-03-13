@@ -15,4 +15,15 @@ sealed class CarRideDetailsViewModelEventState {
      * Back to previous screen
      */
     data object OnBack : CarRideDetailsViewModelEventState()
+
+    /**
+     * Dismiss bottom sheet
+     */
+    data object OnDismissBottomSheet : CarRideDetailsViewModelEventState()
+
+
+    /**
+     * Open bottom sheet with car ride
+     */
+    data object OnOpenBottomSheet : CarRideDetailsViewModelEventState()
 }
