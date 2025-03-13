@@ -1,4 +1,4 @@
-package com.app.comu_carona.components.loadingcontent
+package com.app.comu_carona.components.contentloading
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.fillMaxSize

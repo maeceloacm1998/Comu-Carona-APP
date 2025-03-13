@@ -57,6 +57,7 @@ import com.app.comu_carona.components.button.CCButton
 import com.app.comu_carona.components.button.CCButtonBack
 import com.app.comu_carona.components.carridecard.AddressBox
 import com.app.comu_carona.components.carridecard.UserSelectionBox
+import com.app.comu_carona.components.contentsuccess.CCSuccessContent
 import com.app.comu_carona.components.horizontalline.HorizontalLine
 import com.app.comu_carona.components.textfield.CCTextField
 import com.app.comu_carona.feature.createcarride.data.models.CreateCarRideRequest
@@ -589,52 +590,14 @@ fun StateOfWaitingCreateRideScreen(
 fun StateOfFinishCreateRideScreen(
     event: (CreateCarRideViewModelEventState) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(White)
-            .padding(20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Image(
-            modifier = Modifier
-                .size(120.dp)
-                .padding(bottom = 20.dp),
-            painter = painterResource(id = R.drawable.ic_success),
-            contentDescription = "check"
-        )
-        Text(
-            text = stringResource(R.string.create_car_ride_success_title),
-            style = MaterialTheme.typography.titleMedium,
-            color = SoftBlack,
-            fontWeight = SemiBold,
-            textAlign = Center,
-            modifier = Modifier.padding(
-                horizontal = 20.dp
-            ),
-        )
-        Text(
-            text = stringResource(R.string.create_car_ride_success_message),
-            style = MaterialTheme.typography.bodyMedium,
-            color = TextFieldColor,
-            textAlign = Center,
-            modifier = Modifier.padding(
-                horizontal = 20.dp,
-            ),
-        )
-
-        Spacer(modifier = Modifier.height(30.dp))
-
-        CCButton(
-            modifier = Modifier.fillMaxWidth(),
-            title = stringResource(id = R.string.create_car_ride_success_button_title),
-            isEnable = true,
-            onButtonListener = {
-                event(OnGoToHome)
-            }
-        )
-    }
+    CCSuccessContent(
+        title = stringResource(R.string.create_car_ride_success_title),
+        description = stringResource(R.string.create_car_ride_success_message),
+        buttonText = stringResource(R.string.create_car_ride_success_button_title),
+        onClick = {
+            event(OnGoToHome)
+        }
+    )
 }
 
 @Composable

@@ -36,4 +36,9 @@ sealed class CarRideDetailsViewModelEventState {
      * Call to Phone
      */
     data object OnCallPhone : CarRideDetailsViewModelEventState()
+
+    /**
+     * Go to home screen
+     */
+    data object OnGoToHome : CarRideDetailsViewModelEventState()
 }

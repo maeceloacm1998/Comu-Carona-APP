@@ -19,6 +19,7 @@ import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEven
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnCallWhatsApp
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnDismissBottomSheet
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnFetchReservationRide
+import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnGoToHome
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnOpenBottomSheet
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnReservationRide
 import com.app.comu_carona.routes.Routes
@@ -66,6 +67,7 @@ class CarRideDetailsViewModel(
             is OnOpenBottomSheet -> onOpenBottomSheet()
             is OnCallWhatsApp -> onCallWhatsApp()
             is OnCallPhone -> onCallPhone()
+            is OnGoToHome -> onGoToHome()
             is OnBack -> navController.popBackStack()
         }
     }
@@ -189,6 +191,14 @@ class CarRideDetailsViewModel(
             phoneNumber = data.bottomSheetCarRideUser.bottomSheetRiderPhoneNumber,
             message = DEFAULT_MESSAGE_CAR_RIDE
         )
+    }
+
+    private fun onGoToHome() {
+        navController.navigate(Routes.Home.route) {
+            popUpTo(Routes.CheckCode.route) {
+                inclusive = true
+            }
+        }
     }
 
     private fun onUpdateSuccessReservation(isSuccess: Boolean) {

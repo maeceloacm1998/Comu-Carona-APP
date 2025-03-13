@@ -73,6 +73,9 @@
     <string name="car_ride_details_user_details_title">Dados do Motorista</string>
     <string name="car_ride_details_user_details_wpp_title">Whatsapp</string>
     <string name="car_ride_details_user_details_phone_title">Ligar</string>
+    <string name="car_ride_details_complete_title">Sua Carona foi reservada!</string>
+    <string name="car_ride_details_complete_description">Encontre a pessoa  no horário e local marcado, volte sempre 😁</string>
+    <string name="car_ride_details_complete_button_title">Ir para sua reservas</string>
 
     <string name="generic_connection_error">Ocorreu um erro de conexão.\nPor favor, tente novamente.</string>
 </resources>

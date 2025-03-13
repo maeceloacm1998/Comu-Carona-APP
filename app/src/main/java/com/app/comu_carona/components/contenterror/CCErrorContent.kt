@@ -1,4 +1,4 @@
-package com.app.comu_carona.components.errorcontent
+package com.app.comu_carona.components.contenterror
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,14 +22,13 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.app.comu_carona.R
-import com.app.comu_carona.components.button.CCButton
 import com.app.comu_carona.theme.TextColor
 
+
 @Composable
-fun CCErrorContentRetry (
+fun CCErrorContent(
     modifier: Modifier = Modifier,
-    title: String,
-    onClick: () -> Unit = {}
+    title: String
 ) {
     val loadingLottieAnimation by rememberLottieComposition(
         spec = LottieCompositionSpec.RawRes(R.raw.search_car_ride)
@@ -61,20 +60,13 @@ fun CCErrorContentRetry (
                 vertical = 30.dp,
             ),
         )
-
-        CCButton(
-            modifier = Modifier.padding(vertical = 20.dp, horizontal = 20.dp),
-            title = "Tentar novamente",
-            onButtonListener = onClick
-        )
     }
 }
 
-
 @Preview
 @Composable
-fun CCErrorContentRetryPreview() {
-    CCErrorContentRetry(
-        title = "Erro ao carregar a tela, tente novamente"
+fun CCErrorContentPreview() {
+    CCErrorContent(
+        title = "Title"
     )
 }

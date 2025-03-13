@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.app.comu_carona.R
 import com.app.comu_carona.components.carridecard.AvailableCarRideCard
 import com.app.comu_carona.components.chip.CCChip
-import com.app.comu_carona.components.errorcontent.CCErrorContent
+import com.app.comu_carona.components.contenterror.CCErrorContent
 import com.app.comu_carona.components.horizontalline.HorizontalLine
 import com.app.comu_carona.feature.home.steps.myrideinprogress.ui.MyRideInProgressViewModelEventState.OnSelectFilter
 import com.app.comu_carona.feature.home.steps.rideinprogress.data.models.RideInProgressFilterOptions

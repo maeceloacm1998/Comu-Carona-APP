@@ -6,10 +6,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.app.comu_carona.R
-import com.app.comu_carona.components.errorcontent.CCErrorContentRetry
-import com.app.comu_carona.components.loadingcontent.CCLoadingSwipeRefreshContent
-import com.app.comu_carona.feature.home.steps.myrideinprogress.ui.MyRideInProgressViewModelEventState
-import com.app.comu_carona.feature.home.steps.myrideinprogress.ui.MyRideInProgressViewModelEventState.OnLoadMyRideInProgress
+import com.app.comu_carona.components.contenterror.CCErrorContentRetry
+import com.app.comu_carona.components.contentloading.CCLoadingSwipeRefreshContent
 import com.app.comu_carona.feature.home.steps.rideinprogress.ui.RideInProgressViewModelEventState.OnLoadRideInProgress
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
