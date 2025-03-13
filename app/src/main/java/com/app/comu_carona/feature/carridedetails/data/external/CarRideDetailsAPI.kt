@@ -16,7 +16,7 @@ interface CarRideDetailsAPI {
     @POST("/api/car-ride/v1/details/reservationRide/{riderId}")
     suspend fun reservationRide(
         @Path("riderId") riderId: String
-    ): CarRideDetails
+    )
 }
 
 @Factory(binds = [CarRideDetailsAPI::class])
@@ -28,6 +28,6 @@ class CarRideDetailsAPIImpl(
     override suspend fun getCarRideDetails(id: String): CarRideDetails =
         createCarRideAPI.getCarRideDetails(id)
 
-    override suspend fun reservationRide(riderId: String): CarRideDetails =
+    override suspend fun reservationRide(riderId: String) =
         createCarRideAPI.reservationRide(riderId)
 }

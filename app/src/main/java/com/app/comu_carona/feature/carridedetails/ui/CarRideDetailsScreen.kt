@@ -141,6 +141,9 @@ fun CarRideDetailsScreen(
                 CCButton(
                     Modifier.padding(bottom = 20.dp),
                     title = stringResource(R.string.car_ride_details_reservation_button_title),
+                    isLoading = uiState.isLoadingReservation,
+                    isSuccess = uiState.isSuccessReservation,
+                    isEnable = uiState.isEnableButton,
                     onButtonListener = { onEvent(OnReservationRide) }
                 )
             }
@@ -223,7 +226,7 @@ fun UserDetailsBottomSheet(
                     .weight(1f)
                     .height(50.dp)
                     .padding(start = 7.dp),
-                title = stringResource(R.string.car_ride_details_user_details_phone_title, data.bottomSheetRiderUsername),
+                title = stringResource(R.string.car_ride_details_user_details_phone_title),
                 icon = {
                     Image(
                         painter = painterResource(id = R.drawable.ic_phone),
@@ -267,7 +270,8 @@ fun CarRideDetailsScreenPreview() {
             isSuccessReservation = false,
             isLoading = false,
             isError = false,
-            isLoadingReservation = false
+            isLoadingReservation = false,
+            isEnableButton = true
         ),
         onEvent = {},
         snackbarHostState = SnackbarHostState()

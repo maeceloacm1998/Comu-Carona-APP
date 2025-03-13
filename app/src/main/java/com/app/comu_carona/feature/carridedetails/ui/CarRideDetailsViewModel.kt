@@ -10,6 +10,7 @@ import com.app.comu_carona.commons.usecase.CallWhatsappUseCase.Companion.DEFAULT
 import com.app.comu_carona.commons.usecase.LogoutUseCase
 import com.app.comu_carona.components.snackbar.SnackbarCustomType
 import com.app.comu_carona.components.snackbar.SnackbarCustomType.ERROR
+import com.app.comu_carona.components.snackbar.SnackbarCustomType.WARNING
 import com.app.comu_carona.feature.carridedetails.data.models.CarRideDetails
 import com.app.comu_carona.feature.carridedetails.domain.GetCarRideDetailsUseCase
 import com.app.comu_carona.feature.carridedetails.domain.ReservationRideUseCase
@@ -81,10 +82,11 @@ class CarRideDetailsViewModel(
                     onUpdateCarRideDetails(result)
 
                     if (result.isFullSeats) {
+                        onUpdateIsEnableButton(false)
                         onUpdateShowSnackBar(
                             showSnackBar = true,
                             snackBarMessage = fullSeatsMessage,
-                            snackbarType = ERROR
+                            snackbarType = WARNING
                         )
                     }
                 }
@@ -203,6 +205,10 @@ class CarRideDetailsViewModel(
 
     private fun onUpdateError(error: Boolean) {
         viewModelState.update { it.copy(isError = error) }
+    }
+
+    private fun onUpdateIsEnableButton(isEnableButton: Boolean) {
+        viewModelState.update { it.copy(isEnableButton = isEnableButton) }
     }
 
 }
