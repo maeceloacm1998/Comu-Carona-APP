@@ -2,6 +2,7 @@ package com.app.comu_carona.feature.carridedetails.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,7 +13,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
@@ -20,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -41,7 +47,9 @@ import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEven
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnCallPhone
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnCallWhatsApp
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnOpenBottomSheet
+import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnOpenShare
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnReservationRide
+import com.app.comu_carona.theme.Primary
 import com.app.comu_carona.theme.SoftBlack
 import com.app.comu_carona.theme.Success
 import com.app.comu_carona.theme.TextFieldLightColor
@@ -76,9 +84,25 @@ fun CarRideDetailsScreen(
 
                 Spacer(modifier = Modifier.height(20.dp))
 
-                CCButtonBack(onClick = {
-                    onEvent(OnBack)
-                })
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    CCButtonBack(onClick = {
+                        onEvent(OnBack)
+                    })
+
+                    IconButton(
+                        onClick = { onEvent(OnOpenShare) }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Share,
+                            contentDescription = null,
+                            tint = SoftBlack
+                        )
+                    }
+                }
 
                 Spacer(modifier = Modifier.height(20.dp))
 
@@ -185,6 +209,28 @@ fun UserDetailsBottomSheet(
             fontWeight = Bold,
             color = SoftBlack,
         )
+
+        Spacer(modifier = Modifier.height(30.dp))
+
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Column(
+                modifier = Modifier
+                    .background(Transparent)
+                    .border(1.dp, TextFieldLightColor, shape = MaterialTheme.shapes.medium)
+                    .padding(vertical = 20.dp, horizontal = 30.dp),
+            ) {
+                Text(
+                    text = "YUX-2024",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = Primary,
+                    fontWeight = Bold,
+                )
+            }
+        }
 
         Spacer(modifier = Modifier.height(30.dp))
 

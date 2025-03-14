@@ -46,4 +46,9 @@ sealed class CarRideDetailsViewModelEventState {
      * Retry fetch car ride details
      */
     data object OnRetry : CarRideDetailsViewModelEventState()
+
+    /**
+     * Open share link
+     */
+    data object OnOpenShare: CarRideDetailsViewModelEventState()
 }

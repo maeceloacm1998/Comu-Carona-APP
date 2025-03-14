@@ -27,7 +27,7 @@ class CallPhoneUseCase(
         onErrorAction: (message: String) -> Unit = {}
     ) {
         val intent = Intent(Intent.ACTION_DIAL).apply {
-            data = Uri.parse("tel:31992521566")
+            data = Uri.parse(phoneNumber)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
         if (intent.resolveActivity(context.packageManager) != null) {

@@ -8,6 +8,7 @@ import com.app.comu_carona.commons.usecase.CallPhoneUseCase
 import com.app.comu_carona.commons.usecase.CallWhatsappUseCase
 import com.app.comu_carona.commons.usecase.CallWhatsappUseCase.Companion.DEFAULT_MESSAGE_CAR_RIDE
 import com.app.comu_carona.commons.usecase.LogoutUseCase
+import com.app.comu_carona.commons.usecase.ShareLinkUseCase
 import com.app.comu_carona.components.snackbar.SnackbarCustomType
 import com.app.comu_carona.components.snackbar.SnackbarCustomType.ERROR
 import com.app.comu_carona.components.snackbar.SnackbarCustomType.WARNING
@@ -21,6 +22,7 @@ import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEven
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnFetchReservationRide
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnGoToHome
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnOpenBottomSheet
+import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnOpenShare
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnReservationRide
 import com.app.comu_carona.feature.carridedetails.ui.CarRideDetailsViewModelEventState.OnRetry
 import com.app.comu_carona.routes.Routes
@@ -43,6 +45,7 @@ class CarRideDetailsViewModel(
     private val reservationRideUseCase: ReservationRideUseCase,
     private val callWhatsappUseCase: CallWhatsappUseCase,
     private val callPhoneUseCase: CallPhoneUseCase,
+    private val shareLinkUseCase: ShareLinkUseCase,
     private val logoutUseCase: LogoutUseCase
 ) : ViewModel() {
     private val fullSeatsMessage = "Todas as vagas dessa carona ja foram preechidas! \uD83D\uDE25"
@@ -70,10 +73,10 @@ class CarRideDetailsViewModel(
             is OnCallPhone -> onCallPhone()
             is OnGoToHome -> onGoToHome()
             is OnRetry -> onFetchCarRideDetails(riderId)
+            is OnOpenShare -> onOpenShareLink()
             is OnBack -> navController.popBackStack()
         }
     }
-
 
     private fun onFetchCarRideDetails(id: String) {
         onUpdateError(false)
@@ -201,6 +204,19 @@ class CarRideDetailsViewModel(
                 inclusive = true
             }
         }
+    }
+
+    private fun onOpenShareLink() {
+        val data = checkNotNull(viewModelState.value.carRideDetailsResponse)
+        shareLinkUseCase(
+            link = data.shareDeeplink,
+            onErrorAction = {
+                onUpdateShowSnackBar(
+                    showSnackBar = true,
+                    snackBarMessage = it,
+                    snackbarType = ERROR
+                )
+            })
     }
 
     private fun onUpdateSuccessReservation(isSuccess: Boolean) {
