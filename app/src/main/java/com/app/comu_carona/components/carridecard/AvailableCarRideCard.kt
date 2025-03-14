@@ -72,7 +72,8 @@ fun AvailableCarRideCard(
                 waitingHour = waitingHour,
                 destinationHour = destinationHour,
                 waitingAddress = waitingAddress,
-                destinationAddress = destinationAddress
+                destinationAddress = destinationAddress,
+                showCopyAddress = false
             )
 
             HorizontalLine(

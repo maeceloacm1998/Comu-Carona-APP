@@ -8,6 +8,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FileCopy
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,11 +29,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.app.comu_carona.commons.usecase.CopyToClipboardUseCase
 import com.app.comu_carona.theme.BackgroundSkeleton
 import com.app.comu_carona.theme.Primary
 import com.app.comu_carona.theme.TextFieldColor
 import com.app.comu_carona.theme.UrbanistFontFamily
 import com.valentinilk.shimmer.shimmer
+import org.koin.compose.koinInject
 
 @Composable
 fun AddressBox(
@@ -37,9 +43,11 @@ fun AddressBox(
     waitingHour: String,
     destinationHour: String,
     waitingAddress: String,
-    destinationAddress: String
+    destinationAddress: String,
+    showCopyAddress: Boolean = true
 ) {
     var addressHeight by remember { mutableStateOf(0.dp) }
+    var copyToClipboardUseCase = koinInject<CopyToClipboardUseCase>()
 
     ConstraintLayout(
         modifier = modifier.fillMaxWidth()
@@ -51,7 +59,9 @@ fun AddressBox(
             finishPoint,
             linePoint,
             initAddress,
-            finishAddress
+            finishAddress,
+            copyIconInitAddress,
+            copyIconFinishAddress
         ) = createRefs()
 
         Text(
@@ -125,13 +135,34 @@ fun AddressBox(
                 .constrainAs(initAddress) {
                     top.linkTo(initPoint.top, margin = (-3).dp)
                     start.linkTo(initPoint.end, margin = 8.dp)
-                    end.linkTo(parent.end)
+                    end.linkTo(copyIconInitAddress.start)
                     width = Dimension.fillToConstraints
                 }
                 .onGloballyPositioned { coordinates ->
                     addressHeight = (coordinates.size.height * 0.4).dp
                 }
         )
+
+        IconButton(
+            onClick = {
+                copyToClipboardUseCase(waitingAddress)
+            },
+            modifier = Modifier
+                .constrainAs(copyIconInitAddress) {
+                    top.linkTo(initPoint.top, margin = 8.dp)
+                    bottom.linkTo(initPoint.bottom, margin = 8.dp)
+                    end.linkTo(parent.end, margin = 8.dp)
+                }
+        ) {
+            if (showCopyAddress) {
+                Icon(
+                    modifier = Modifier.size(20.dp),
+                    imageVector = Icons.Outlined.FileCopy,
+                    contentDescription = null,
+                    tint = Primary
+                )
+            }
+        }
 
         Text(
             text = destinationAddress,
@@ -143,10 +174,31 @@ fun AddressBox(
                 top.linkTo(finishPoint.top)
                 bottom.linkTo(finishPoint.bottom)
                 start.linkTo(finishPoint.end, margin = 8.dp)
-                end.linkTo(parent.end)
+                end.linkTo(copyIconFinishAddress.start)
                 width = Dimension.fillToConstraints
             }
         )
+
+        IconButton(
+            onClick = {
+                copyToClipboardUseCase(destinationAddress)
+            },
+            modifier = Modifier
+                .constrainAs(copyIconFinishAddress) {
+                    top.linkTo(finishPoint.top, margin = 8.dp)
+                    bottom.linkTo(finishPoint.bottom, margin = 8.dp)
+                    end.linkTo(parent.end, margin = 8.dp)
+                }
+        ) {
+            if (showCopyAddress) {
+                Icon(
+                    modifier = Modifier.size(20.dp),
+                    imageVector = Icons.Outlined.FileCopy,
+                    contentDescription = null,
+                    tint = Primary
+                )
+            }
+        }
     }
 }
 
@@ -240,6 +292,7 @@ fun AddressBoxPreview() {
         waitingHour = "10:00",
         destinationHour = "12:00",
         waitingAddress = "Rua pandia calógeras - praça da xxxxsadasdasdasdas",
-        destinationAddress = "Rua pandia calógeras - praça"
+        destinationAddress = "Rua pandia calógeras - praça",
+        showCopyAddress = true
     )
 }
