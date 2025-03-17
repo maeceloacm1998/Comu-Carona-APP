@@ -31,6 +31,7 @@ import com.app.comu_carona.components.contenterror.CCErrorContent
 import com.app.comu_carona.components.horizontalline.HorizontalLine
 import com.app.comu_carona.feature.home.steps.myrideinprogress.ui.MyRideInProgressViewModelEventState.OnSelectFilter
 import com.app.comu_carona.feature.home.steps.rideinprogress.data.models.RideInProgressFilterOptions
+import com.app.comu_carona.routes.Routes
 import com.app.comu_carona.theme.SoftBlack
 import com.app.comu_carona.theme.TextFieldLineColor
 
@@ -78,12 +79,13 @@ fun MyRideInProgressScreen(
                         title = item.title,
                         isActivated = uiState.rideInProgressFilterSelected == item,
                         onClick = {
-                            onEvent(OnSelectFilter(item))                        }
+                            onEvent(OnSelectFilter(item))
+                        }
                     )
                 }
             }
 
-            if(uiState is MyRideInProgressViewModelUiState.HasRiderInProgress) {
+            if (uiState is MyRideInProgressViewModelUiState.HasRiderInProgress) {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize(),
@@ -98,7 +100,15 @@ fun MyRideInProgressScreen(
                             riderPhotoUrl = items.riderInformation.photoUrl,
                             riderUserName = items.riderInformation.username,
                             riderDescription = "Participa de alvo",
-                            status = items.states.map { RideInProgressFilterOptions.fromValue(it) }
+                            status = items.states.map { RideInProgressFilterOptions.fromValue(it) },
+                            onClick = {
+                                onEvent(
+                                    MyRideInProgressViewModelEventState.OnNavigateTo(
+                                        Routes.MyRideInProgressDetails.route,
+                                        items.uuid
+                                    )
+                                )
+                            }
                         )
                     }
                 }

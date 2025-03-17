@@ -7,5 +7,6 @@ sealed class RideInProgressViewModelEventState {
     data class OnSelectFilter(val rideInProgressFilterOptions: RideInProgressFilterOptions) :
         RideInProgressViewModelEventState()
 
-    data class OnNavigateTo(val route: String) : RideInProgressViewModelEventState()
+    data class OnNavigateTo(val route: String, val params: String = "") :
+        RideInProgressViewModelEventState()
 }

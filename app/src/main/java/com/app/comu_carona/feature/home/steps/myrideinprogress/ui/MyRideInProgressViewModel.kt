@@ -48,7 +48,10 @@ class MyRideInProgressViewModel(
         when (event) {
             is MyRideInProgressViewModelEventState.OnLoadMyRideInProgress -> onLoadAvailableCarRide()
             is MyRideInProgressViewModelEventState.OnSelectFilter -> onSelectFilter(event.rideInProgressFilterOptions)
-            is MyRideInProgressViewModelEventState.OnNavigateTo -> onNavigateTo(event.route)
+            is MyRideInProgressViewModelEventState.OnNavigateTo -> onNavigateTo(
+                event.route,
+                event.params
+            )
         }
     }
 
@@ -90,8 +93,9 @@ class MyRideInProgressViewModel(
         onLoadAvailableCarRide()
     }
 
-    private fun onNavigateTo(route: String) {
-        navController.navigate(route)
+    private fun onNavigateTo(route: String, param: String) {
+        val routeWithId = route.replace("{id}", param)
+        navController.navigate(routeWithId)
     }
 
     private fun onUpdateRideInProgressList(rideInProgressList: List<RideInProgressModel>) {
