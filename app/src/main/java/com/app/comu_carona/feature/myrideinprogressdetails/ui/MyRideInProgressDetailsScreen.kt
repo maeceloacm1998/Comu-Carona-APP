@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -144,13 +146,32 @@ fun MyRideInProgressDetailsScreen(
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = uiState.carRideDetailsResponse?.description
-                        ?: stringResource(R.string.car_ride_details_description_title_empty),
-                    style = MaterialTheme.typography.bodySmall,
+                    text = stringResource(R.string.my_ride_in_progress_details_reservations_title),
+                    style = MaterialTheme.typography.titleSmall,
+                    color = SoftBlack,
                     fontWeight = Bold,
-                    color = TextFieldLightColor,
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 25.dp),
                 )
+
+                if(uiState.carRideDetailsResponse?.reservations.isNullOrEmpty()) {
+                    Text(
+                        text = stringResource(R.string.my_ride_in_progress_details_reservations_empty_title),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = TextFieldLightColor,
+                        modifier = Modifier.fillMaxWidth().padding(bottom = 25.dp),
+                    )
+                } else {
+                    LazyColumn {
+                        items(uiState.carRideDetailsResponse?.reservations ?: emptyList()) { reservation ->
+                            Text(
+                                text = reservation.username,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = TextFieldLightColor,
+                                modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+                            )
+                        }
+                    }
+                }
             }
 
             Column(
