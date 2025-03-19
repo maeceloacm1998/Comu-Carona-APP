@@ -1,4 +1,4 @@
-package com.app.comu_carona.feature.myrideinprogressdetails.ui
+package com.app.comu_carona.feature.rideinprogressDetails.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -29,7 +29,6 @@ import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.app.comu_carona.R
@@ -40,26 +39,26 @@ import com.app.comu_carona.components.carridecard.AddressBox
 import com.app.comu_carona.components.carridecard.UserSelectionBox
 import com.app.comu_carona.components.horizontalline.HorizontalLine
 import com.app.comu_carona.components.snackbar.CCSnackbar
-import com.app.comu_carona.components.snackbar.SnackbarCustomType
-import com.app.comu_carona.feature.carridedetails.data.models.BottomSheetCarRideUser
+import com.app.comu_carona.components.snackbar.SnackbarCustomType.ERROR
 import com.app.comu_carona.feature.carridedetails.ui.UserDetailsBottomSheet
-import com.app.comu_carona.feature.myrideinprogressdetails.ui.MyRideInProgressDetailsViewModelEventState.OnCallPhone
-import com.app.comu_carona.feature.myrideinprogressdetails.ui.MyRideInProgressDetailsViewModelEventState.OnCallWhatsApp
-import com.app.comu_carona.feature.myrideinprogressdetails.ui.MyRideInProgressDetailsViewModelEventState.OnOpenBottomSheet
-import com.app.comu_carona.feature.myrideinprogressdetails.ui.MyRideInProgressDetailsViewModelEventState.OnOpenShare
-import com.app.comu_carona.feature.myrideinprogressdetails.ui.MyRideInProgressDetailsViewModelEventState.OnCancelMyRide
-import com.app.comu_carona.feature.myrideinprogressdetails.ui.MyRideInProgressDetailsViewModelEventState.OnDismissBottomSheet
-import com.app.comu_carona.feature.myrideinprogressdetails.ui.MyRideInProgressDetailsViewModelEventState.OnOpenCancelBottomSheet
+import com.app.comu_carona.feature.myrideinprogressdetails.ui.CancelBottomSheet
+import com.app.comu_carona.feature.rideinprogressDetails.ui.RideInProgressDetailsViewModelEventState.OnBack
+import com.app.comu_carona.feature.rideinprogressDetails.ui.RideInProgressDetailsViewModelEventState.OnCallPhone
+import com.app.comu_carona.feature.rideinprogressDetails.ui.RideInProgressDetailsViewModelEventState.OnCallWhatsApp
+import com.app.comu_carona.feature.rideinprogressDetails.ui.RideInProgressDetailsViewModelEventState.OnCancelMyRide
+import com.app.comu_carona.feature.rideinprogressDetails.ui.RideInProgressDetailsViewModelEventState.OnDismissBottomSheet
+import com.app.comu_carona.feature.rideinprogressDetails.ui.RideInProgressDetailsViewModelEventState.OnOpenBottomSheet
+import com.app.comu_carona.feature.rideinprogressDetails.ui.RideInProgressDetailsViewModelEventState.OnOpenCancelBottomSheet
+import com.app.comu_carona.feature.rideinprogressDetails.ui.RideInProgressDetailsViewModelEventState.OnOpenShare
 import com.app.comu_carona.theme.Error
 import com.app.comu_carona.theme.SoftBlack
-import com.app.comu_carona.theme.TextFieldColor
 import com.app.comu_carona.theme.TextFieldLightColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyRideInProgressDetailsScreen(
-    uiState: MyRideInProgressDetailsViewModelUiState.HasCarRideDetails,
-    onEvent: (MyRideInProgressDetailsViewModelEventState) -> Unit,
+fun RideInProgressDetailsScreen(
+    uiState: RideInProgressDetailsViewModelUiState.HasCarRideDetails,
+    onEvent: (RideInProgressDetailsViewModelEventState) -> Unit,
     snackbarHostState: SnackbarHostState
 ) {
     Scaffold(
@@ -91,7 +90,7 @@ fun MyRideInProgressDetailsScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     CCButtonBack(onClick = {
-                        onEvent(MyRideInProgressDetailsViewModelEventState.OnBack)
+                        onEvent(OnBack)
                     })
 
                     IconButton(
@@ -146,7 +145,7 @@ fun MyRideInProgressDetailsScreen(
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Text(
-                    text = stringResource(R.string.my_ride_in_progress_details_reservations_title),
+                    text = stringResource(R.string.ride_in_progress_details_reservations_title),
                     style = MaterialTheme.typography.titleSmall,
                     color = SoftBlack,
                     fontWeight = Bold,
@@ -155,13 +154,18 @@ fun MyRideInProgressDetailsScreen(
 
                 if(uiState.carRideDetailsResponse?.reservations.isNullOrEmpty()) {
                     Text(
-                        text = stringResource(R.string.my_ride_in_progress_details_reservations_empty_title),
+                        text = stringResource(R.string.ride_in_progress_details_reservations_empty_title),
                         style = MaterialTheme.typography.bodySmall,
                         color = TextFieldLightColor,
                         modifier = Modifier.fillMaxWidth().padding(bottom = 25.dp),
                     )
                 } else {
-                    LazyColumn {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .background(White)
+                    ) {
                         items(checkNotNull(uiState.carRideDetailsResponse?.reservations)) { reservation ->
                             UserSelectionBox(
                                 riderPhotoUrl = reservation.photoUrl,
@@ -187,7 +191,7 @@ fun MyRideInProgressDetailsScreen(
 
                 CCButton(
                     Modifier.padding(bottom = 20.dp),
-                    title = stringResource(R.string.my_ride_in_progress_details_cancel_button_title),
+                    title = stringResource(R.string.ride_in_progress_details_cancel_button_title),
                     isLoading = uiState.isLoadingReservation,
                     isSuccess = uiState.isSuccessReservation,
                     isEnable = uiState.isEnableButton,
@@ -228,10 +232,10 @@ fun MyRideInProgressDetailsScreen(
             containerColor = White,
         ) {
             CancelBottomSheet(
-                title = stringResource(R.string.my_ride_in_progress_details_cancel_bottom_sheet_title),
-                description = stringResource(R.string.my_ride_in_progress_details_cancel_bottom_sheet_message),
-                goBackButtonTitle = stringResource(R.string.my_ride_in_progress_details_cancel_bottom_sheet_cancel_button_title),
-                confirmButtonTitle = stringResource(R.string.my_ride_in_progress_details_cancel_bottom_sheet_confirm_button_title),
+                title = stringResource(R.string.ride_in_progress_details_cancel_bottom_sheet_title),
+                description = stringResource(R.string.ride_in_progress_details_cancel_bottom_sheet_message),
+                goBackButtonTitle = stringResource(R.string.ride_in_progress_details_cancel_bottom_sheet_cancel_button_title),
+                confirmButtonTitle = stringResource(R.string.ride_in_progress_details_cancel_bottom_sheet_confirm_button_title),
                 onDismissBottomSheet = { onEvent(OnDismissBottomSheet) },
                 onConfirmCancel = { onEvent(OnCancelMyRide) }
             )
@@ -239,100 +243,21 @@ fun MyRideInProgressDetailsScreen(
     }
 }
 
-@Composable
-fun CancelBottomSheet(
-    title: String,
-    description: String,
-    goBackButtonTitle: String,
-    confirmButtonTitle: String,
-    onDismissBottomSheet: () -> Unit = {},
-    onConfirmCancel: () -> Unit = {}
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(White)
-            .padding(20.dp)
-    ) {
-        Text(
-            text = title,
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleLarge,
-            color = SoftBlack,
-            modifier = Modifier.fillMaxWidth(),
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Text(
-            text = description,
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodySmall,
-            color = TextFieldColor,
-            modifier = Modifier.fillMaxWidth(),
-        )
-
-        Spacer(modifier = Modifier.height(25.dp))
-
-        CCButton(
-            title = goBackButtonTitle,
-            onButtonListener = onDismissBottomSheet
-        )
-
-        CCButton(
-            title = confirmButtonTitle,
-            titleColor = Error,
-            containerColor = Transparent,
-            onButtonListener = onConfirmCancel
-        )
-    }
-}
-
 @Preview
 @Composable
-fun CancelBottomSheetPreview() {
-    CancelBottomSheet(
-        title = "Deseja cancelar a carona?",
-        description = "Ao cancelar a carona, você perderá a reserva e não poderá mais participar da carona.",
-        goBackButtonTitle = "Voltar",
-        confirmButtonTitle = "Cancelar",
-        onDismissBottomSheet = {},
-        onConfirmCancel = {}
-    )
-}
-
-@Preview
-@Composable
-fun UserDetailsBottomSheetPreview() {
-    UserDetailsBottomSheet(
-        data = BottomSheetCarRideUser(
-            bottomSheetRiderPlate = "ABC-1234",
-            bottomSheetRiderUsername = "John Doe",
-            bottomSheetRiderDescription = "Lorem ipsum dolor sit amet",
-            bottomSheetRiderPhoto = "",
-            bottomSheetCarRiderDescription = "Lorem ipsum dolor sit amet",
-            bottomSheetRiderPhoneNumber = "123456789"
-        ),
-        onClickWhatsapp = {},
-        onClickPhone = {}
-    )
-}
-
-@Preview
-@Composable
-fun CarRideDetailsScreenPreview() {
-    MyRideInProgressDetailsScreen(
-        uiState = MyRideInProgressDetailsViewModelUiState.HasCarRideDetails(
+fun RideInProgressDetailsScreenPreview() {
+    RideInProgressDetailsScreen(
+        uiState = RideInProgressDetailsViewModelUiState.HasCarRideDetails(
             carRideDetailsResponse = null,
-            snackbarType = SnackbarCustomType.SUCCESS,
-            showSnackBar = false,
+            isLoadingReservation = false,
+            isSuccessReservation = false,
+            isEnableButton = true,
             showBottomSheet = false,
             showCancelBottomSheet = false,
-            isSuccessReservation = false,
             isLoading = false,
             isError = false,
-            isLoadingReservation = false,
-            isEnableButton = true
+            showSnackBar = false,
+            snackbarType = ERROR
         ),
         onEvent = {},
         snackbarHostState = SnackbarHostState()

@@ -30,7 +30,9 @@ import com.app.comu_carona.components.chip.CCChip
 import com.app.comu_carona.components.contenterror.CCErrorContent
 import com.app.comu_carona.components.horizontalline.HorizontalLine
 import com.app.comu_carona.feature.home.steps.rideinprogress.data.models.RideInProgressFilterOptions
+import com.app.comu_carona.feature.home.steps.rideinprogress.ui.RideInProgressViewModelEventState.OnNavigateTo
 import com.app.comu_carona.feature.home.steps.rideinprogress.ui.RideInProgressViewModelEventState.OnSelectFilter
+import com.app.comu_carona.routes.Routes
 import com.app.comu_carona.theme.SoftBlack
 import com.app.comu_carona.theme.TextFieldLineColor
 
@@ -99,7 +101,15 @@ fun RideInProgressScreen(
                             riderPhotoUrl = items.riderInformation.photoUrl,
                             riderUserName = items.riderInformation.username,
                             riderDescription = "Participa de alvo",
-                            status = items.states.map { RideInProgressFilterOptions.fromValue(it) }
+                            status = items.states.map { RideInProgressFilterOptions.fromValue(it) },
+                            onClick = {
+                                onEvent(
+                                    OnNavigateTo(
+                                        Routes.RideInProgressDetails.route,
+                                        items.uuid
+                                    )
+                                )
+                            }
                         )
                     }
                 }

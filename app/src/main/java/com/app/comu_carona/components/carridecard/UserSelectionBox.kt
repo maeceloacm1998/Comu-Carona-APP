@@ -44,6 +44,7 @@ fun UserSelectionBox(
     riderPhotoUrl: String,
     riderUserName: String,
     riderDescription: String,
+    showCar: Boolean = true,
     showArrow: Boolean = true,
 ) {
     Card(
@@ -58,14 +59,16 @@ fun UserSelectionBox(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                modifier = Modifier
-                    .size(30.dp)
-                    .weight(0.1f)
-                    .padding(end = 10.dp),
-                painter = painterResource(R.drawable.ic_car_ride),
-                contentDescription = "Car_Ride_Icon",
-            )
+            if(showCar) {
+                Image(
+                    modifier = Modifier
+                        .size(30.dp)
+                        .weight(0.1f)
+                        .padding(end = 10.dp),
+                    painter = painterResource(R.drawable.ic_car_ride),
+                    contentDescription = "car_Ride_Icon",
+                )
+            }
 
             Row(
                 modifier = Modifier
