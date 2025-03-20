@@ -96,7 +96,7 @@
     <string name="ride_in_progress_details_complete_title">Sua Reserva foi cancelada!</string>
     <string name="ride_in_progress_details_complete_description">Que pena que você cancelou a reserva, mas sempre que precisar, volte! 😁🚗</string>
     <string name="ride_in_progress_details_complete_button_title">Ir para a home</string>
-    <string name="ride_in_progress_details_reservations_title">Passageiros</string>
+    <string name="ride_in_progress_details_reservations_title">Quem vai com você!</string>
     <string name="ride_in_progress_details_reservations_empty_title">Nenhum passageiro reservou a carona 😔</string>
 
     <string name="generic_connection_error">Ocorreu um erro de conexão.\nPor favor, tente novamente.</string>

@@ -41,7 +41,7 @@ fun BottomNavBar(
         ),
         BottomNavItem(
             "Perfil",
-            Routes.RegisterAccount.route,
+            Routes.Profile.route,
             painterResource(id = R.drawable.ic_profile)
         )
     )

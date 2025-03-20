@@ -16,7 +16,9 @@ import com.app.comu_carona.feature.home.bottomnavigation.BottomNavBar
 import com.app.comu_carona.feature.home.steps.initial.ui.InitialRoute
 import com.app.comu_carona.feature.home.HomeViewModelEventState.OnNavigateTo
 import com.app.comu_carona.feature.home.steps.myrideinprogress.ui.MyRideInProgressRoute
+import com.app.comu_carona.feature.home.steps.profile.ui.ProfileRoute
 import com.app.comu_carona.feature.home.steps.rideinprogress.ui.RideInProgressRoute
+import com.app.comu_carona.routes.Routes
 import com.app.comu_carona.routes.Routes.Initial
 import com.app.comu_carona.routes.Routes.MyRideInProgress
 import com.app.comu_carona.routes.Routes.RideInProgress
@@ -76,6 +78,12 @@ fun HomeRoute(
 
                 MyRideInProgress.route -> {
                     MyRideInProgressRoute(
+                        navController = navController
+                    )
+                }
+
+                Routes.Profile.route -> {
+                    ProfileRoute(
                         navController = navController
                     )
                 }
