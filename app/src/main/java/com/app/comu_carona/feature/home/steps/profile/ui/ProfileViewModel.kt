@@ -7,7 +7,7 @@ import com.app.comu_carona.commons.usecase.LogoutUseCase
 import com.app.comu_carona.feature.home.steps.profile.domain.GetProfileUseCase
 import com.app.comu_carona.feature.home.steps.profile.ui.ProfileViewModelEventState.OnLoadProfile
 import com.app.comu_carona.feature.home.steps.profile.ui.ProfileViewModelEventState.OnLogout
-import com.app.comu_carona.feature.home.steps.profile.ui.ProfileViewModelEventState.OnNavigateTo
+import com.app.comu_carona.feature.home.steps.profile.ui.ProfileViewModelEventState.OnNavigateToProfileDetails
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountRequest
 import com.app.comu_carona.routes.Routes
 import com.app.comu_carona.service.retrofit.NetworkingHttpState
@@ -44,23 +44,31 @@ class ProfileViewModel(
         when (event) {
             is OnLoadProfile -> onFetchProfile()
             is OnLogout -> handleLogout()
-            is OnNavigateTo -> onNavigateToProfileDetails(
-                route = event.route,
-                params = event.params
-            )
+            is OnNavigateToProfileDetails -> onNavigateToProfileDetails()
         }
     }
 
-    private fun onNavigateToProfileDetails(route: String, params: String) {
+    private fun onNavigateToProfileDetails() {
+        val profileInformation = checkNotNull(viewModelState.value.profileInformation)
+        val route = Routes.ProfileDetails.route
+        val routeWithId = route.apply {
+            replace("{username}", profileInformation.fullName)
+            replace("{birthDate}", profileInformation.birthDate)
+            replace("{photoUrl}", profileInformation.photoUrl)
+        }
 
+        navController.navigate(routeWithId)
     }
 
     private fun onFetchProfile() {
+        onUpdateLoading(true)
+
         viewModelScope.launch {
             val result = getProfileUseCase()
 
             result.fold(
                 onSuccess = { profileInformation ->
+                    onUpdateLoading(false)
                     onUpdateProfile(profileInformation)
                 },
                 onFailure = { throwable ->
@@ -69,6 +77,11 @@ class ProfileViewModel(
                     when (errorCode) {
                         NetworkingHttpState.UNAUTHORIZED.code -> {
                             handleLogout()
+                        }
+
+                        else -> {
+                            onUpdateLoading(false)
+                            onUpdateError(true)
                         }
                     }
                 }
@@ -87,4 +100,11 @@ class ProfileViewModel(
         viewModelState.update { it.copy(profileInformation = userInformation) }
     }
 
+    private fun onUpdateLoading(isLoading: Boolean) {
+        viewModelState.update { it.copy(isLoading = isLoading) }
+    }
+
+    private fun onUpdateError(isError: Boolean) {
+        viewModelState.update { it.copy(isError = isError) }
+    }
 }

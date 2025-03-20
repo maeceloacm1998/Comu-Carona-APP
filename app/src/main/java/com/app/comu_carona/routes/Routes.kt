@@ -7,11 +7,12 @@ sealed class Routes(val route: String) {
     data object Home : Routes("home")
     data object Initial : Routes("initial")
     data object RideInProgress : Routes("ride_in_progress")
-    data object MyRideInProgress : Routes("my_ride_in_progress")
-    data object Profile : Routes("profile")
-    data object MyRideInProgressDetails : Routes("my_ride_in_progress_details/{id}")
-    data object CarRideDetails : Routes("car_ride_details/{id}")
     data object RideInProgressDetails : Routes("ride_in_progress_details/{id}")
+    data object MyRideInProgress : Routes("my_ride_in_progress")
+    data object MyRideInProgressDetails : Routes("my_ride_in_progress_details/{id}")
+    data object Profile : Routes("profile")
+    data object ProfileDetails : Routes("profile_details/{username}/{birthDate}/{photoUrl}")
+    data object CarRideDetails : Routes("car_ride_details/{id}")
 }
 
 fun Routes.withArgs(vararg args: String): String {

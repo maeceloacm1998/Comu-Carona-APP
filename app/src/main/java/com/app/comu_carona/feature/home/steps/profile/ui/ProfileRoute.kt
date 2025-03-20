@@ -32,12 +32,12 @@ fun ProfileRoute(
     uiState: ProfileViewModelUiState,
     onEvent: (ProfileViewModelEventState) -> Unit
 ) {
-    check(uiState is ProfileViewModelUiState.HasProfile)
-
     CCLoadingContent(
-        isLoading = false,
+        isLoading = uiState.isLoading,
         isError = uiState.isError,
-        loadingContent = {},
+        loadingContent = {
+            ProfileScreenLoading()
+        },
         errorContent = {
             CCErrorContentRetry(
                 title = stringResource(R.string.generic_connection_error),
@@ -47,6 +47,8 @@ fun ProfileRoute(
             )
         },
         content = {
+            check(uiState is ProfileViewModelUiState.HasProfile)
+
             ProfileScreen(
                 uiState = uiState,
                 onEvent = onEvent

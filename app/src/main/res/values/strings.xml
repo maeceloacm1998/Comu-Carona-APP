@@ -99,5 +99,11 @@
     <string name="ride_in_progress_details_reservations_title">Quem vai com você!</string>
     <string name="ride_in_progress_details_reservations_empty_title">Nenhum passageiro reservou a carona 😔</string>
 
+    <string name="profile_title">Perfil</string>
+    <string name="profile_information_title">Dados pessoais</string>
+    <string name="profile_information_description">Faz alterações nos seus dados pessoais</string>
+    <string name="profile_exit_app_title">Sair do Aplicativo</string>
+    <string name="profile_exit_app_description">Saindo com segurança do aplicativo</string>
+
     <string name="generic_connection_error">Ocorreu um erro de conexão.\nPor favor, tente novamente.</string>
 </resources>

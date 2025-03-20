@@ -48,6 +48,13 @@ val Typography = Typography(
         lineHeight = 20.sp,
         letterSpacing = 0.sp
     ),
+    labelSmall = TextStyle(
+        fontFamily = UrbanistFontFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.sp
+    ),
     displaySmall = TextStyle(
         fontFamily = UrbanistFontFamily,
         fontWeight = FontWeight.Bold,
