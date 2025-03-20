@@ -3,6 +3,7 @@ package com.app.comu_carona.feature.home.steps.profile.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.app.comu_carona.commons.extensions.encodeParameter
 import com.app.comu_carona.commons.usecase.LogoutUseCase
 import com.app.comu_carona.feature.home.steps.profile.domain.GetProfileUseCase
 import com.app.comu_carona.feature.home.steps.profile.ui.ProfileViewModelEventState.OnLoadProfile
@@ -51,11 +52,11 @@ class ProfileViewModel(
     private fun onNavigateToProfileDetails() {
         val profileInformation = checkNotNull(viewModelState.value.profileInformation)
         val route = Routes.ProfileDetails.route
-        val routeWithId = route.apply {
-            replace("{username}", profileInformation.fullName)
-            replace("{birthDate}", profileInformation.birthDate)
-            replace("{photoUrl}", profileInformation.photoUrl)
-        }
+        val routeWithId = route
+            .replace("{username}", profileInformation.fullName.encodeParameter())
+            .replace("{phoneNumber}", profileInformation.phoneNumber.encodeParameter())
+            .replace("{birthDate}", profileInformation.birthDate.encodeParameter())
+            .replace("{photoUrl}", profileInformation.photoUrl.encodeParameter())
 
         navController.navigate(routeWithId)
     }

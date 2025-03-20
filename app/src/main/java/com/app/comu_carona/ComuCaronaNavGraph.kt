@@ -13,6 +13,7 @@ import com.app.comu_carona.feature.checkcode.ui.CheckCodeRoute
 import com.app.comu_carona.feature.createcarride.ui.CreateCarRideRoute
 import com.app.comu_carona.feature.home.HomeRoute
 import com.app.comu_carona.feature.myrideinprogressdetails.ui.MyRideInProgressDetailsRoute
+import com.app.comu_carona.feature.profiledetails.ProfileDetailsRoute
 import com.app.comu_carona.feature.registeraccount.ui.RegisterAccountRoute
 import com.app.comu_carona.feature.rideinprogressDetails.ui.RideInProgressDetailsRoute
 import com.app.comu_carona.routes.Routes
@@ -77,6 +78,21 @@ fun ComuCaronaNavGraph(
             arguments = listOf(navArgument("id") { type = NavType.StringType })
         ) { backStackEntry ->
             RideInProgressDetailsRoute(
+                navController = navController,
+                backStackEntry = backStackEntry
+            )
+        }
+
+        composable(
+            route = Routes.ProfileDetails.route,
+            arguments = listOf(
+                navArgument("username") { type = NavType.StringType },
+                navArgument("birthDate") { type = NavType.StringType },
+                navArgument("photoUrl") { type = NavType.StringType },
+                navArgument("phoneNumber") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            ProfileDetailsRoute(
                 navController = navController,
                 backStackEntry = backStackEntry
             )
