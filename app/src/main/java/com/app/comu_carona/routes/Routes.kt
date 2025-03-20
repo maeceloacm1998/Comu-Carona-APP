@@ -11,7 +11,7 @@ sealed class Routes(val route: String) {
     data object MyRideInProgress : Routes("my_ride_in_progress")
     data object MyRideInProgressDetails : Routes("my_ride_in_progress_details/{id}")
     data object Profile : Routes("profile")
-    data object ProfileDetails : Routes("profile_details/{username}/{birthDate}/{phoneNumber}/{photoUrl}")
+    data object ProfileDetails : Routes("profile_details/{username}/{birthDate}/{phoneNumber}")
     data object CarRideDetails : Routes("car_ride_details/{id}")
 }
 

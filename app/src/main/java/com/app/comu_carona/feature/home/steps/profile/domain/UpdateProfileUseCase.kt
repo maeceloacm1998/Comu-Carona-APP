@@ -6,19 +6,19 @@ import org.koin.core.annotation.Factory
 
 @Factory
 class UpdateProfileUseCase(
-    private val profileRepository: ProfileRepository
+    private val profileRepository: ProfileRepository,
 ) {
     suspend operator fun invoke(
         userName: String,
         birthDate: String,
         phoneNumber: String
-    ) {
+    ): Result<RegisterAccountRequest> {
         val newRegisterUpdate = RegisterAccountRequest(
             fullName = userName,
             birthDate = birthDate,
             phoneNumber = phoneNumber
         )
 
-        profileRepository.updateProfile(newRegisterUpdate)
+        return profileRepository.updateProfile(newRegisterUpdate)
     }
 }

@@ -6,7 +6,7 @@ import androidx.navigation.NavController
 import com.app.comu_carona.commons.usecase.LogoutUseCase
 import com.app.comu_carona.feature.home.steps.initial.data.models.AvailableCarRide
 import com.app.comu_carona.feature.home.steps.initial.domain.AvailableCarRidesUseCase
-import com.app.comu_carona.feature.home.steps.initial.domain.GetUserInformation
+import com.app.comu_carona.feature.home.steps.initial.domain.GetUserInformationUseCase
 import com.app.comu_carona.feature.home.steps.initial.ui.InitialViewModelEventState.OnLoadAvailableCarRide
 import com.app.comu_carona.feature.home.steps.initial.ui.InitialViewModelEventState.OnNavigateTo
 import com.app.comu_carona.routes.Routes
@@ -26,7 +26,7 @@ class InitialViewModel(
     private val availableCarRidesUseCase: AvailableCarRidesUseCase,
     private val navController: NavController,
     private val logoutUseCase: LogoutUseCase,
-    private val getUserInformation: GetUserInformation
+    private val getUserInformationUseCase: GetUserInformationUseCase
 ) : ViewModel() {
     private val viewModelState = MutableStateFlow(InitialViewModelState())
 
@@ -52,7 +52,7 @@ class InitialViewModel(
 
     private fun onLoadUserInformation() {
         viewModelScope.launch {
-            val result = getUserInformation()
+            val result = getUserInformationUseCase()
 
             result.fold(
                 onSuccess = { userInformation ->

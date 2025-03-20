@@ -56,7 +56,6 @@ class ProfileViewModel(
             .replace("{username}", profileInformation.fullName.encodeParameter())
             .replace("{phoneNumber}", profileInformation.phoneNumber.encodeParameter())
             .replace("{birthDate}", profileInformation.birthDate.encodeParameter())
-            .replace("{photoUrl}", profileInformation.photoUrl.encodeParameter())
 
         navController.navigate(routeWithId)
     }

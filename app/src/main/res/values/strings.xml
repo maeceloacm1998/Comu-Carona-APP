@@ -105,5 +105,7 @@
     <string name="profile_exit_app_title">Sair do Aplicativo</string>
     <string name="profile_exit_app_description">Saindo com segurança do aplicativo</string>
 
+    <string name="profile_button_title">Atualizar perfil</string>
+
     <string name="generic_connection_error">Ocorreu um erro de conexão.\nPor favor, tente novamente.</string>
 </resources>

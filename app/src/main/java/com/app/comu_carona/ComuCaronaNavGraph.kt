@@ -88,7 +88,6 @@ fun ComuCaronaNavGraph(
             arguments = listOf(
                 navArgument("username") { type = NavType.StringType },
                 navArgument("birthDate") { type = NavType.StringType },
-                navArgument("photoUrl") { type = NavType.StringType },
                 navArgument("phoneNumber") { type = NavType.StringType }
             )
         ) { backStackEntry ->

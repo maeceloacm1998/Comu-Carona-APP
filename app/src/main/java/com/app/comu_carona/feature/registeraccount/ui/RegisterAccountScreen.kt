@@ -37,28 +37,24 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color.Companion.White
-import androidx.compose.ui.layout.ContentScale.Companion.FillBounds
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
 import com.app.comu_carona.R
 import com.app.comu_carona.components.button.CCButton
 import com.app.comu_carona.components.button.CCButtonBack
 import com.app.comu_carona.components.permissions.RequestGalleryPermission
-import com.app.comu_carona.components.shimmerimage.CCShimmerImage
+import com.app.comu_carona.components.photoselect.PhotoUriComponent
 import com.app.comu_carona.components.textfield.CCTextField
 import com.app.comu_carona.feature.registeraccount.ui.RegisterAccountViewModelEventState.*
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountSteps.BIRTH_DATE
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountSteps.FULL_NAME
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountSteps.PHONE_NUMBER
 import com.app.comu_carona.feature.registeraccount.data.models.RegisterAccountSteps.PHOTO
-import com.app.comu_carona.theme.GrayLight
 import com.app.comu_carona.theme.SoftBlack
 import com.app.comu_carona.theme.TextFieldColor
-import com.app.comu_carona.theme.TextFieldLineColor
 import com.app.comu_carona.utils.StringUtils.BIRTH_DATE_LENGTH
 import com.app.comu_carona.utils.StringUtils.FULL_NAME_LENGTH
 import com.app.comu_carona.utils.StringUtils.PHONE_NUMBER_LENGTH
@@ -327,8 +323,8 @@ fun StageOfPhotoScreen(
                 .fillMaxWidth(),
             horizontalAlignment = CenterHorizontally
         ) {
-            PhotoComponent(
-                uiState = uiState,
+            PhotoUriComponent(
+                photoUri = uiState.photoUri,
                 onPhotoSelected = { uri ->
                     if (uri != null) {
                         event(OnOpenPhoto(uri))
@@ -349,73 +345,6 @@ fun StageOfPhotoScreen(
                 event(OnNextStep(PHOTO))
             }
         )
-    }
-}
-
-@Composable
-fun PhotoComponent(
-    uiState: RegisterAccountViewModelUiState.Register,
-    onPhotoSelected: (Uri?) -> Unit
-) {
-    var photoUri by remember { mutableStateOf<Uri?>(null) }
-
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            photoUri = result.data?.data
-            onPhotoSelected(photoUri)
-        }
-    }
-
-    Column(
-        modifier = Modifier
-            .size(300.dp)
-            .background(GrayLight, shape = RoundedCornerShape(500.dp))
-            .clickable {
-                val intent = Intent(Intent.ACTION_PICK).apply {
-                    type = "image/*"
-                }
-                launcher.launch(intent)
-            }
-            .border(1.dp, TextFieldLineColor, shape = RoundedCornerShape(500.dp)),
-        verticalArrangement = Center,
-        horizontalAlignment = CenterHorizontally
-    ) {
-        AnimatedVisibility(
-            uiState.photoUri != Uri.EMPTY
-        ) {
-            Image(
-                painter = rememberAsyncImagePainter(model = uiState.photoUri),
-                contentScale = FillBounds,
-                contentDescription = null,
-                modifier = Modifier
-                    .size(300.dp)
-                    .clip(CircleShape)
-            )
-        }
-
-        AnimatedVisibility(
-            uiState.photoUri == Uri.EMPTY,
-        ) {
-            Column(
-                verticalArrangement = Center,
-                horizontalAlignment = CenterHorizontally
-            ) {
-                Icon(
-                    modifier = Modifier.size(70.dp),
-                    imageVector = Icons.TwoTone.Person,
-                    contentDescription = null,
-                    tint = TextFieldColor
-                )
-
-                Text(
-                    text = stringResource(id = R.string.register_account_stage_of_photo_circular_button_title),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = TextFieldColor
-                )
-            }
-        }
     }
 }
 

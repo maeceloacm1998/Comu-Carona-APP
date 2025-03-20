@@ -46,7 +46,7 @@ fun RequestGalleryPermission(
 
     Column {
         if (permissionState.status.isGranted) {
-            Text("Permission Granted")
+            Text("Adicione uma foto")
         } else {
             if (permissionState.status.shouldShowRationale) {
                 Text("Permission is required to access the gallery. Please grant the permission.")
