@@ -1,9 +1,7 @@
 # Comu Carona
 > O Comu Carona é um aplicativo de carona desenvolvido para o grupo cristão chamado Alvo da Mocidade. Nesse aplicativo é possível cadastrar uma carona para ser disponibilizada para outros participantes dessa comunidade cristã.
 
-
-https://github.com/user-attachments/assets/9609ef76-6d56-4b6d-92b0-8b1ab8b0676c
-
+https://github.com/user-attachments/assets/0598c44e-4db5-4ff3-9d30-49f682beb7c0
 
 ## Tecnologias Utilizadas
 
